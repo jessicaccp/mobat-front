@@ -125,7 +125,7 @@ export default function Form() {
             id="submit"
             className="border-0 rounded-md w-1/3 bg-white p-2"
             onClick={handleSubmitClick}
-            type="submit"
+            type="button"
           >
             Visualizar
           </button>
