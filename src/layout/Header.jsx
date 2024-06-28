@@ -1,4 +1,5 @@
-export default function Header({ title }) {
+export default function Header() {
+  const title = "MoBAt";
   return (
     <header className="w-screen bg-slate-300">
       <div className="container flex flex-col mx-auto px-4 py-2">
