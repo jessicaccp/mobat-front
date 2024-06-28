@@ -68,8 +68,6 @@ export default function Graphic({ visualization, period, ip, numIps }) {
       });
   }, []);
 
-  console.log(data);
-
   const allowedColumns = [
     "abuseipdb_is_whitelisted",
     "abuseipdb_confidence_score",
@@ -97,24 +95,90 @@ export default function Graphic({ visualization, period, ip, numIps }) {
     "score_average_Mobat",
   ];
 
-  // if (file) {
-  //   const meanValues = {
-  //     abuseipdb_confidence_score: mean(file["abuseipdb_confidence_score"]),
-  //     abuseipdb_total_reports: mean(file["abuseipdb_total_reports"]),
-  //     abuseipdb_num_distinct_users: mean(
-  //       period["abuseipdb_num_distinct_users"]
-  //     ),
-  //     virustotal_reputation: mean(file["virustotal_reputation"]),
-  //     harmless: mean(file["harmless"]),
-  //     malicious: mean(file["malicious"]),
-  //     suspicious: mean(file["suspicious"]),
-  //     undetected: mean(file["undetected"]),
-  //     IBM_score: mean(file["IBM_score"]),
-  //     "IBM_average history Score": mean(file["IBM_average history Score"]),
-  //     "IBM_most common score": mean(file["IBM_most common score"]),
-  //     score_average_Mobat: mean(file["score_average_Mobat"]),
-  //   };
-  // }
+  // quantidade, soma, média
+  let meanValues = {
+    abuseipdb_confidence_score: { num: 0, sum: 0, mean: null },
+    abuseipdb_total_reports: { num: 0, sum: 0, mean: null },
+    abuseipdb_num_distinct_users: { num: 0, sum: 0, mean: null },
+    virustotal_reputation: { num: 0, sum: 0, mean: null },
+    harmless: { num: 0, sum: 0, mean: null },
+    malicious: { num: 0, sum: 0, mean: null },
+    suspicious: { num: 0, sum: 0, mean: null },
+    undetected: { num: 0, sum: 0, mean: null },
+    IBM_score: { num: 0, sum: 0, mean: null },
+    IBM_average_history_Score: { num: 0, sum: 0, mean: null },
+    IBM_most_common_score: { num: 0, sum: 0, mean: null },
+    score_average_Mobat: { num: 0, sum: 0, mean: null },
+  };
+
+  if (data) {
+    data.forEach((row) => {
+      if (row.abuseipdb_confidence_score) {
+        meanValues.abuseipdb_confidence_score.num += 1;
+        meanValues.abuseipdb_confidence_score.sum += Number(
+          row.abuseipdb_confidence_score
+        );
+      }
+      if (row.abuseipdb_total_reports) {
+        meanValues.abuseipdb_total_reports.num += 1;
+        meanValues.abuseipdb_total_reports.sum += Number(
+          row.abuseipdb_total_reports
+        );
+      }
+      if (row.abuseipdb_num_distinct_users) {
+        meanValues.abuseipdb_num_distinct_users.num += 1;
+        meanValues.abuseipdb_num_distinct_users.sum += Number(
+          row.abuseipdb_num_distinct_users
+        );
+      }
+      if (row.virustotal_reputation) {
+        meanValues.virustotal_reputation.num += 1;
+        meanValues.virustotal_reputation.sum += Number(
+          row.virustotal_reputation
+        );
+      }
+      if (row.harmless) {
+        meanValues.harmless.num += 1;
+        meanValues.harmless.sum += Number(row.harmless);
+      }
+      if (row.malicious) {
+        meanValues.malicious.num += 1;
+        meanValues.malicious.sum += Number(row.malicious);
+      }
+      if (row.suspicious) {
+        meanValues.suspicious.num += 1;
+        meanValues.suspicious.sum += Number(row.suspicious);
+      }
+      if (row.undetected) {
+        meanValues.undetected.num += 1;
+        meanValues.undetected.sum += Number(row.undetected);
+      }
+      if (row.IBM_score) {
+        meanValues.IBM_score.num += 1;
+        meanValues.IBM_score.sum += Number(row.IBM_score);
+      }
+      if (row["IBM_average history Score"]) {
+        meanValues.IBM_average_history_Score.num += 1;
+        meanValues.IBM_average_history_Score.sum += Number(
+          row["IBM_average history Score"]
+        );
+      }
+      if (row["IBM_most common score"]) {
+        meanValues.IBM_most_common_score.num += 1;
+        meanValues.IBM_most_common_score.sum += Number(
+          row["IBM_most common score"]
+        );
+      }
+      if (row.score_average_Mobat) {
+        meanValues.score_average_Mobat.num += 1;
+        meanValues.score_average_Mobat.sum += Number(row.score_average_Mobat);
+      }
+    });
+
+    Object.keys(meanValues).forEach((key) => {
+      meanValues[key].mean = meanValues[key].sum / meanValues[key].num;
+    });
+  }
 
   return (
     <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-slate-100">
