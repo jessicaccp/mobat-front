@@ -1,13 +1,14 @@
-import Header from "./layout/Header";
-import Main from "./layout/Main";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./routes/Home";
+import Error from "./routes/Error";
 
 export default function App() {
-  const title = "MoBAt";
-
   return (
-    <>
-      <Header title={title} />
-      <Main />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<Error />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
