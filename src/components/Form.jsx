@@ -33,6 +33,9 @@ export default function Form({
 
   const [visualization, setVisualization] = useState(null);
   function handleSelectVisualizationChange(event) {
+    setPeriod(null);
+    setIp(null);
+    setNumIps(null);
     setVisualization(event.target.value);
   }
 
@@ -58,9 +61,22 @@ export default function Form({
     formSelectNumIps(numIps);
   }
 
+  function handleResetClick(event) {
+    setVisualization(null);
+    formSelectVisualization(null);
+    document.getElementById("select-visualization").value = options[0];
+    setPeriod(null);
+    formSelectPeriod(null);
+    setIp(null);
+    formSelectIp(null);
+    setNumIps(null);
+    formSelectNumIps(null);
+  }
+
   return (
     <div className="w-full lg:w-1/3 lg:h-full p-4 bg-slate-100 gap-4 flex items-center flex-col justify-center">
       <form className="flex flex-col gap-4 w-full items-center">
+        {/* always shows */}
         <select
           name="select-visualization"
           id="select-visualization"
@@ -80,69 +96,88 @@ export default function Form({
           ))}
         </select>
 
-        <select
-          id="select-period"
-          name="select-period"
-          className="border-0 rounded-md w-full"
-          defaultValue={periodsList[0]}
-          onChange={handleSelectPeriodChange}
-        >
-          {periodsList.map((period) => (
-            <option
-              key={period}
-              value={period}
-              disabled={period === periodsList[0]}
+        {/* shows when visualization is not null */}
+        {visualization === null ? (
+          ""
+        ) : (
+          <select
+            id="select-period"
+            name="select-period"
+            className="border-0 rounded-md w-full"
+            defaultValue={periodsList[0]}
+            onChange={handleSelectPeriodChange}
+          >
+            {periodsList.map((period) => (
+              <option
+                key={period}
+                value={period}
+                disabled={period === periodsList[0]}
+              >
+                {period}
+              </option>
+            ))}
+          </select>
+        )}
+
+        {/* shows when visualization === Gráficos de Comportamento */}
+        {visualization === "Gráficos de Comportamento" ? (
+          <select
+            id="select-ip"
+            name="select-ip"
+            className="border-0 rounded-md w-full"
+            onChange={handleSelectIpChange}
+            defaultValue={ipsList[0]}
+          >
+            {ipsList.map((ip) => (
+              <option key={ip} value={ip} disabled={ip === ipsList[0]}>
+                {ip}
+              </option>
+            ))}
+          </select>
+        ) : (
+          ""
+        )}
+
+        {visualization === "Score Average Mobat dos IPs com maior variação" ? (
+          <input
+            id="select-num-ips"
+            name="select-num-ips"
+            type="number"
+            className="border-0 rounded-md w-full"
+            placeholder="Quantidade de IPs a visualizar"
+            min="1"
+            max="10"
+            onChange={handleSelectNumIpsChange}
+            required={
+              visualization === "Score Average Mobat dos IPs com maior variação"
+            }
+          />
+        ) : (
+          ""
+        )}
+
+        {!visualization ? (
+          ""
+        ) : (
+          <div className="flex w-full justify-center gap-4">
+            <button
+              id="submit"
+              className="border-0 rounded-md w-1/3 bg-white p-2"
+              onClick={handleButtonClick}
+              type="button"
             >
-              {period}
-            </option>
-          ))}
-        </select>
+              Visualizar
+            </button>
 
-        <select
-          id="select-ip"
-          name="select-ip"
-          className="border-0 rounded-md w-full"
-          onChange={handleSelectIpChange}
-          defaultValue={ipsList[0]}
-        >
-          {ipsList.map((ip) => (
-            <option key={ip} value={ip} disabled={ip === ipsList[0]}>
-              {ip}
-            </option>
-          ))}
-        </select>
-
-        <input
-          id="select-num-ips"
-          name="select-num-ips"
-          type="number"
-          className="border-0 rounded-md w-full"
-          placeholder="Quantidade de IPs a visualizar"
-          min="1"
-          max="10"
-          onChange={handleSelectNumIpsChange}
-          required={
-            visualization === "Score Average Mobat dos IPs com maior variação"
-          }
-        />
-
-        <div className="flex w-full justify-center gap-4">
-          <button
-            id="submit"
-            className="border-0 rounded-md w-1/3 bg-white p-2"
-            onClick={handleButtonClick}
-            type="button"
-          >
-            Visualizar
-          </button>
-
-          <button
-            className="border-0 rounded-md w-1/3 bg-white p-2"
-            type="reset"
-          >
-            Apagar
-          </button>
-        </div>
+            <button
+              className="border-0 rounded-md w-1/3 bg-white p-2"
+              type="reset"
+              onClick={handleResetClick}
+            >
+              Apagar
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );
