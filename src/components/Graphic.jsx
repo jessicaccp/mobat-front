@@ -1,45 +1,8 @@
-// mean values
-// 'abuseipdb_confidence_score': df1['abuseipdb_confidence_score'].mean(),
-//     'abuseipdb_total_reports': df1['abuseipdb_total_reports'].mean(),
-//     'abuseipdb_num_distinct_users': df1['abuseipdb_num_distinct_users'].mean(),
-//     'virustotal_reputation': df1['virustotal_reputation'].mean(),
-//     'harmless': df1['harmless'].mean(),
-//     'malicious': df1['malicious'].mean(),
-//     'suspicious': df1['suspicious'].mean(),
-//     'undetected': df1['undetected'].mean(),
-//     'IBM_score': df1['IBM_score'].mean(),
-//     'IBM_average history Score': df1['IBM_average history Score'].mean(),
-//     'IBM_most common score': df1['IBM_most common score'].mean(),
-//     'score_average_Mobat': df1['score_average_Mobat'].mean()
+import { mean } from "mathjs";
+import { useEffect, useState } from "react";
+import * as XLSX from "xlsx";
 
 // df_selected = trimestre escolhido
-
-// allowed_columns = [
-//   'abuseipdb_is_whitelisted',
-//   'abuseipdb_confidence_score',
-//   'abuseipdb_country_code',
-//   'abuseipdb_isp',
-//   'abuseipdb_domain',
-//   'abuseipdb_total_reports',
-//   'abuseipdb_num_distinct_users',
-//   'abuseipdb_last_reported_at',
-//   'virustotal_reputation',
-//   "virustotal_regional_internet_registry",
-//   'virustotal_as_owner',
-//   'harmless',
-//   'malicious',
-//   'suspicious',
-//   'undetected',
-//   'IBM_score',
-//   'IBM_average history Score',
-//   'IBM_most common score',
-//   'virustotal_asn',
-//   'SHODAN_asn',
-//   'SHODAN_isp',
-//   'ALIENVAULT_reputation',
-//   'ALIENVAULT_asn',
-//   'score_average_Mobat'
-// ]
 
 // ips = df_selected['IP'].apply(extract_ip).unique()
 
@@ -90,14 +53,72 @@
 // Gráfico de Dispersão: Mostra um gráfico de dispersão de todas as características dos IPs. Caso não queira mais visualizar, é possível voltar ao Menu Principal.
 
 export default function Graphic({ visualization, period, ip, numIps }) {
-  console.log("visualization:", visualization);
-  console.log("period:", period);
-  console.log("ip:", ip);
-  console.log("numIps:", numIps);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch("./PrimeiroSemestre.xlsx")
+      .then((response) => response.arrayBuffer())
+      .then((data) => {
+        let workbook = XLSX.read(new Uint8Array(data), {
+          type: "array",
+        });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const sheetData = XLSX.utils.sheet_to_json(sheet);
+        setData(sheetData);
+      });
+  }, []);
+
+  console.log(data);
+
+  const allowedColumns = [
+    "abuseipdb_is_whitelisted",
+    "abuseipdb_confidence_score",
+    "abuseipdb_country_code",
+    "abuseipdb_isp",
+    "abuseipdb_domain",
+    "abuseipdb_total_reports",
+    "abuseipdb_num_distinct_users",
+    "abuseipdb_last_reported_at",
+    "virustotal_reputation",
+    "virustotal_regional_internet_registry",
+    "virustotal_as_owner",
+    "harmless",
+    "malicious",
+    "suspicious",
+    "undetected",
+    "IBM_score",
+    "IBM_average history Score",
+    "IBM_most common score",
+    "virustotal_asn",
+    "SHODAN_asn",
+    "SHODAN_isp",
+    "ALIENVAULT_reputation",
+    "ALIENVAULT_asn",
+    "score_average_Mobat",
+  ];
+
+  // if (file) {
+  //   const meanValues = {
+  //     abuseipdb_confidence_score: mean(file["abuseipdb_confidence_score"]),
+  //     abuseipdb_total_reports: mean(file["abuseipdb_total_reports"]),
+  //     abuseipdb_num_distinct_users: mean(
+  //       period["abuseipdb_num_distinct_users"]
+  //     ),
+  //     virustotal_reputation: mean(file["virustotal_reputation"]),
+  //     harmless: mean(file["harmless"]),
+  //     malicious: mean(file["malicious"]),
+  //     suspicious: mean(file["suspicious"]),
+  //     undetected: mean(file["undetected"]),
+  //     IBM_score: mean(file["IBM_score"]),
+  //     "IBM_average history Score": mean(file["IBM_average history Score"]),
+  //     "IBM_most common score": mean(file["IBM_most common score"]),
+  //     score_average_Mobat: mean(file["score_average_Mobat"]),
+  //   };
+  // }
 
   return (
     <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-slate-100">
-      <div>Graphic</div>
+      <div>Gráfico</div>
     </div>
   );
 }
