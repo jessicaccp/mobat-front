@@ -6,7 +6,7 @@ export default function Main({ page }) {
   if (page === "Error")
     return (
       <main className="container flex flex-col lg:flex-row p-4 gap-4 flex-grow">
-        <h2>Page not found</h2>
+        <h2>Página não encontrada</h2>
       </main>
     );
 
