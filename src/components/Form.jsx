@@ -1,16 +1,13 @@
-// selecionar período
-// selecionar ip
-// form-select w-full select-none border-0 rounded-md
-// escolher numero de ips
-
 import { useState } from "react";
-export default function Form() {
-  const [option, setOption] = useState("");
-  const [period, setPeriod] = useState("");
-  const [ip, setIp] = useState("");
-  const [numIps, setNumIps] = useState(0);
 
-  const ipsList = ["Escolha um IP", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+export default function Form({
+  formSelectVisualization,
+  formSelectPeriod,
+  formSelectIp,
+  formSelectNumIps,
+}) {
+  const ipsList = ["Escolha um IP", 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
   const periodsList = [
     "Selecione o período a ser analisado",
     "jan-mar/2023",
@@ -34,24 +31,31 @@ export default function Form() {
     "Upload da Tabela dos IPs do período",
   ];
 
+  const [visualization, setVisualization] = useState(null);
   function handleSelectVisualizationChange(event) {
-    setOption(event.target.value);
+    setVisualization(event.target.value);
   }
 
+  const [period, setPeriod] = useState(null);
   function handleSelectPeriodChange(event) {
     setPeriod(event.target.value);
   }
 
+  const [ip, setIp] = useState(null);
   function handleSelectIpChange(event) {
     setIp(event.target.value);
   }
 
-  function handleSelectNumIpsSubmit(event) {
+  const [numIps, setNumIps] = useState(null);
+  function handleSelectNumIpsChange(event) {
     setNumIps(event.target.value);
   }
 
-  function handleSubmitClick(event) {
-    setNumIps(event.target.value);
+  function handleButtonClick(event) {
+    formSelectVisualization(visualization);
+    formSelectPeriod(period);
+    formSelectIp(ip);
+    formSelectNumIps(numIps);
   }
 
   return (
@@ -116,15 +120,17 @@ export default function Form() {
           placeholder="Quantidade de IPs a visualizar"
           min="1"
           max="10"
-          required={option === "Score Average Mobat dos IPs com maior variação"}
-          onSubmit={handleSelectNumIpsSubmit}
+          onChange={handleSelectNumIpsChange}
+          required={
+            visualization === "Score Average Mobat dos IPs com maior variação"
+          }
         />
 
         <div className="flex w-full justify-center gap-4">
           <button
             id="submit"
             className="border-0 rounded-md w-1/3 bg-white p-2"
-            onClick={handleSubmitClick}
+            onClick={handleButtonClick}
             type="button"
           >
             Visualizar

@@ -89,10 +89,15 @@
 // plot_dispersion_ip_reports(df_selected, treat_all_as_string=True)
 // Gráfico de Dispersão: Mostra um gráfico de dispersão de todas as características dos IPs. Caso não queira mais visualizar, é possível voltar ao Menu Principal.
 
-export default function Graphic() {
+export default function Graphic({ visualization, period, ip, numIps }) {
+  console.log("visualization:", visualization);
+  console.log("period:", period);
+  console.log("ip:", ip);
+  console.log("numIps:", numIps);
+
   return (
     <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-slate-100">
-      Graphic
+      <div>Graphic</div>
     </div>
   );
 }
