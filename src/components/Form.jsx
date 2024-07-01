@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { featuresList, periodsList, ipsList } from "../data";
 
 export default function Form({
   formSelectVisualization,
@@ -6,30 +7,9 @@ export default function Form({
   formSelectIp,
   formSelectNumIps,
 }) {
-  const ipsList = ["Escolha um IP", 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-  const periodsList = [
-    "Selecione o período a ser analisado",
-    "jan-mar/2023",
-    "abr-jun/2023",
-    "jul-set/2023",
-    "out-dez/2023",
-  ];
-
-  const options = [
-    "Selecionar visualização",
-    "Clusters",
-    "Gráfico de Dispersão",
-    "Gráficos de Comportamento",
-    "HeatMap de Ocorrência dos IPs nos países",
-    "Importâncias para Machine Learning",
-    "Mapeamento das features",
-    "Reputação por País",
-    "Score Average Mobat dos IPs com maior variação",
-    "Seleção de Características",
-    "Tabela de Acurácia e Tempo de Treinamento dos Modelos",
-    "Upload da Tabela dos IPs do período",
-  ];
+  const ipMessage = "Escolha um IP";
+  const periodMessage = "Selecione o período a ser analisado";
+  const optionMessage = "Selecionar visualização";
 
   const [visualization, setVisualization] = useState(null);
   function handleSelectVisualizationChange(event) {
@@ -64,7 +44,7 @@ export default function Form({
   function handleResetClick(event) {
     setVisualization(null);
     formSelectVisualization(null);
-    document.getElementById("select-visualization").value = options[0];
+    document.getElementById("select-visualization").value = featuresList[0];
     setPeriod(null);
     formSelectPeriod(null);
     setIp(null);
@@ -82,14 +62,14 @@ export default function Form({
           id="select-visualization"
           className="form-select w-full select-none border-0 rounded-md"
           onChange={handleSelectVisualizationChange}
-          defaultValue={options[0]}
+          defaultValue={optionMessage}
         >
-          {options.map((option) => (
+          {[optionMessage, ...featuresList].map((option) => (
             <option
               key={option}
               value={option}
               className="py-1"
-              disabled={option === options[0]}
+              disabled={option === optionMessage}
             >
               {option}
             </option>
@@ -104,14 +84,14 @@ export default function Form({
             id="select-period"
             name="select-period"
             className="border-0 rounded-md w-full"
-            defaultValue={periodsList[0]}
+            defaultValue={periodMessage}
             onChange={handleSelectPeriodChange}
           >
-            {periodsList.map((period) => (
+            {[periodMessage, ...periodsList].map((period) => (
               <option
                 key={period}
                 value={period}
-                disabled={period === periodsList[0]}
+                disabled={period === periodMessage}
               >
                 {period}
               </option>
@@ -126,10 +106,10 @@ export default function Form({
             name="select-ip"
             className="border-0 rounded-md w-full"
             onChange={handleSelectIpChange}
-            defaultValue={ipsList[0]}
+            defaultValue={ipMessage}
           >
-            {ipsList.map((ip) => (
-              <option key={ip} value={ip} disabled={ip === ipsList[0]}>
+            {[ipMessage, ...ipsList].map((ip) => (
+              <option key={ip} value={ip} disabled={ip === ipMessage}>
                 {ip}
               </option>
             ))}

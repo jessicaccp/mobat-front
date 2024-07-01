@@ -1,6 +1,7 @@
 import { mean } from "mathjs";
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
+import { allowedColumns } from "../data";
 
 // df_selected = trimestre escolhido
 
@@ -67,33 +68,6 @@ export default function Graphic({ visualization, period, ip, numIps }) {
         setData(sheetData);
       });
   }, []);
-
-  const allowedColumns = [
-    "abuseipdb_is_whitelisted",
-    "abuseipdb_confidence_score",
-    "abuseipdb_country_code",
-    "abuseipdb_isp",
-    "abuseipdb_domain",
-    "abuseipdb_total_reports",
-    "abuseipdb_num_distinct_users",
-    "abuseipdb_last_reported_at",
-    "virustotal_reputation",
-    "virustotal_regional_internet_registry",
-    "virustotal_as_owner",
-    "harmless",
-    "malicious",
-    "suspicious",
-    "undetected",
-    "IBM_score",
-    "IBM_average history Score",
-    "IBM_most common score",
-    "virustotal_asn",
-    "SHODAN_asn",
-    "SHODAN_isp",
-    "ALIENVAULT_reputation",
-    "ALIENVAULT_asn",
-    "score_average_Mobat",
-  ];
 
   // quantidade, soma, média
   let meanValues = {
