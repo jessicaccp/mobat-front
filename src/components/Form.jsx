@@ -1,50 +1,47 @@
 import { useState } from "react";
-import { featuresList, periodsList, ipsList } from "../data";
+import Select from "./Select";
 
 export default function Form({
-  formSelectVisualization,
+  formSelectFeature,
   formSelectPeriod,
   formSelectIp,
   formSelectNumIps,
 }) {
-  const ipMessage = "Escolha um IP";
-  const periodMessage = "Selecione o período a ser analisado";
-  const optionMessage = "Selecionar visualização";
-
-  const [visualization, setVisualization] = useState(null);
-  function handleSelectVisualizationChange(event) {
+  const [feature, setFeature] = useState(null);
+  function childSetFeature(feature) {
     setPeriod(null);
     setIp(null);
     setNumIps(null);
-    setVisualization(event.target.value);
+    setFeature(feature);
   }
 
   const [period, setPeriod] = useState(null);
-  function handleSelectPeriodChange(event) {
-    setPeriod(event.target.value);
+  function childSetPeriod(period) {
+    setPeriod(period);
   }
 
   const [ip, setIp] = useState(null);
-  function handleSelectIpChange(event) {
-    setIp(event.target.value);
+  function childSetIp(ip) {
+    setIp(ip);
   }
 
   const [numIps, setNumIps] = useState(null);
-  function handleSelectNumIpsChange(event) {
+  function handleNumIpsChange(event) {
     setNumIps(event.target.value);
   }
 
   function handleButtonClick(event) {
-    formSelectVisualization(visualization);
+    formSelectFeature(feature);
     formSelectPeriod(period);
     formSelectIp(ip);
     formSelectNumIps(numIps);
   }
 
   function handleResetClick(event) {
-    setVisualization(null);
-    formSelectVisualization(null);
-    document.getElementById("select-visualization").value = featuresList[0];
+    setFeature(null);
+    formSelectFeature(null);
+    document.getElementById("select-feature").value =
+      "Selecionar funcionalidade";
     setPeriod(null);
     formSelectPeriod(null);
     setIp(null);
@@ -56,89 +53,31 @@ export default function Form({
   return (
     <div className="w-full lg:w-1/3 lg:h-full p-4 bg-slate-100 gap-4 flex items-center flex-col justify-center">
       <form className="flex flex-col gap-4 w-full items-center">
-        {/* always shows */}
-        <select
-          name="select-visualization"
-          id="select-visualization"
-          className="form-select w-full select-none border-0 rounded-md"
-          onChange={handleSelectVisualizationChange}
-          defaultValue={optionMessage}
-        >
-          {[optionMessage, ...featuresList].map((option) => (
-            <option
-              key={option}
-              value={option}
-              className="py-1"
-              disabled={option === optionMessage}
-            >
-              {option}
-            </option>
-          ))}
-        </select>
+        <Select name="feature" childSelect={childSetFeature} />
 
-        {/* shows when visualization is not null */}
-        {visualization === null ? (
-          ""
-        ) : (
-          <select
-            id="select-period"
-            name="select-period"
-            className="border-0 rounded-md w-full"
-            defaultValue={periodMessage}
-            onChange={handleSelectPeriodChange}
-          >
-            {[periodMessage, ...periodsList].map((period) => (
-              <option
-                key={period}
-                value={period}
-                disabled={period === periodMessage}
-              >
-                {period}
-              </option>
-            ))}
-          </select>
-        )}
+        {feature ? <Select name="period" childSelect={childSetPeriod} /> : null}
 
-        {/* shows when visualization === Gráficos de Comportamento */}
-        {visualization === "Gráficos de Comportamento" ? (
-          <select
-            id="select-ip"
-            name="select-ip"
-            className="border-0 rounded-md w-full"
-            onChange={handleSelectIpChange}
-            defaultValue={ipMessage}
-          >
-            {[ipMessage, ...ipsList].map((ip) => (
-              <option key={ip} value={ip} disabled={ip === ipMessage}>
-                {ip}
-              </option>
-            ))}
-          </select>
-        ) : (
-          ""
-        )}
+        {feature === "Gráficos de Comportamento" ? (
+          <Select name="ip" childSelect={childSetIp} />
+        ) : null}
 
-        {visualization === "Score Average Mobat dos IPs com maior variação" ? (
+        {feature === "Score Average Mobat dos IPs com maior variação" ? (
           <input
-            id="select-num-ips"
-            name="select-num-ips"
+            id="input-num-ips"
+            name="input-num-ips"
             type="number"
             className="border-0 rounded-md w-full"
             placeholder="Quantidade de IPs a visualizar"
             min="1"
             max="10"
-            onChange={handleSelectNumIpsChange}
+            onChange={handleNumIpsChange}
             required={
-              visualization === "Score Average Mobat dos IPs com maior variação"
+              feature === "Score Average Mobat dos IPs com maior variação"
             }
           />
-        ) : (
-          ""
-        )}
+        ) : null}
 
-        {!visualization ? (
-          ""
-        ) : (
+        {feature ? (
           <div className="flex w-full justify-center gap-4">
             <button
               id="submit"
@@ -157,7 +96,7 @@ export default function Form({
               Apagar
             </button>
           </div>
-        )}
+        ) : null}
       </form>
     </div>
   );

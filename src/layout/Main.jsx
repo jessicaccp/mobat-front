@@ -10,9 +10,9 @@ export default function Main({ page }) {
       </main>
     );
 
-  const [visualization, setVisualization] = useState(null);
-  function formSelectVisualization(visualization) {
-    setVisualization(visualization);
+  const [feature, setFeature] = useState(null);
+  function formSelectFeature(feature) {
+    setFeature(feature);
   }
 
   const [period, setPeriod] = useState(null);
@@ -33,17 +33,12 @@ export default function Main({ page }) {
   return (
     <main className="container flex items-center flex-col lg:flex-row justify-center p-4 gap-4 flex-grow">
       <Form
-        formSelectVisualization={formSelectVisualization}
+        formSelectFeature={formSelectFeature}
         formSelectPeriod={formSelectPeriod}
         formSelectIp={formSelectIp}
         formSelectNumIps={formSelectNumIps}
       />
-      <Graphic
-        visualization={visualization}
-        period={period}
-        ip={ip}
-        numIps={numIps}
-      />
+      <Graphic feature={feature} period={period} ip={ip} numIps={numIps} />
     </main>
   );
 }

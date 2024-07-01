@@ -1,13 +1,13 @@
-export const ipsList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+export const ipList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export const periodsList = [
+export const periodList = [
   "jan-mar/2023",
   "abr-jun/2023",
   "jul-set/2023",
   "out-dez/2023",
 ];
 
-export const featuresList = [
+export const featureList = [
   "Clusters",
   "Gráfico de Dispersão",
   "Gráficos de Comportamento",
@@ -21,7 +21,7 @@ export const featuresList = [
   "Upload da Tabela dos IPs do período",
 ];
 
-export const countries = {
+export const countryList = {
   US: "Estados Unidos",
   CN: "China",
   SG: "Singapura",
