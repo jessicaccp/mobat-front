@@ -1,8 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Form from "../components/Form";
 import Graphic from "../components/Graphic";
 
+/**
+ * Renders the main content of the page.
+ * @param {string} page The type of page, "Home" or "Error".
+ * @returns  {ReactNode}
+ */
 export default function Main({ page }) {
+  // If the page is "Error", renders an error message.
   if (page === "Error")
     return (
       <main className="container flex flex-col lg:flex-row p-4 gap-4 flex-grow">
@@ -10,22 +16,21 @@ export default function Main({ page }) {
       </main>
     );
 
+  // Else, renders the form and the graphic, sharing the inputs' states through functions via props.
   const [feature, setFeature] = useState(null);
+  const [period, setPeriod] = useState(null);
+  const [ip, setIp] = useState(null);
+  const [numIps, setNumIps] = useState(null);
+
   function formSelectFeature(feature) {
     setFeature(feature);
   }
-
-  const [period, setPeriod] = useState(null);
   function formSelectPeriod(period) {
     setPeriod(period);
   }
-
-  const [ip, setIp] = useState(null);
   function formSelectIp(ip) {
     setIp(ip);
   }
-
-  const [numIps, setNumIps] = useState(null);
   function formSelectNumIps(numIps) {
     setNumIps(numIps);
   }
