@@ -1,4 +1,6 @@
-export default function Dispersao() {
+// Gráfico de Dispersão: Mostra um gráfico de dispersão de todas as características dos IPs. Caso não queira mais visualizar, é possível voltar ao Menu Principal.
+// inputs: feature do eixo x, feature do eixo y
+export default function Dispersao({ featureX, featureY }) {
   const allowedColumns = [
     "abuseipdb_is_whitelisted",
     "abuseipdb_confidence_score",
