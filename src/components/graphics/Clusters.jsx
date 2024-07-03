@@ -16,5 +16,5 @@ export default function Clusters({ feature, numClusters }) {
     "ALIENVAULT_reputation",
     "score_average_Mobat",
   ];
-  return <></>;
+  return <>Clusters</>;
 }

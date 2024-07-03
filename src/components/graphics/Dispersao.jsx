@@ -17,5 +17,5 @@ export default function Dispersao({ featureX, featureY }) {
     "ALIENVAULT_reputation",
     "score_average_Mobat",
   ];
-  return <></>;
+  return <>Dispersão</>;
 }

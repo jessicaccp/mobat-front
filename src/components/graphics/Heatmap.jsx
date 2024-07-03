@@ -5,5 +5,5 @@ import { countryList } from "../../data";
 // geographic heatmap
 // recebe dados da planilha, agrupa por país e conta a quantidade de ocorrências
 export default function Heatmap({ data }) {
-  return <></>;
+  return <>Heatmap</>;
 }
