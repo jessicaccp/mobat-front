@@ -24,7 +24,7 @@ import Upload from "./graphics/Upload";
  * @param {function} numIps Function to share the numIps state with Form through Main.
  * @returns {ReactNode}
  */
-export default function Graphic({ feature, period, ip, numIps }) {
+export default function Graphic({ feature, period, ip, numIps, chartType }) {
   // Null state of meanValues
   const nullMeanValues = {
     abuseipdb_confidence_score: { num: 0, sum: 0, mean: null },
@@ -175,7 +175,7 @@ export default function Graphic({ feature, period, ip, numIps }) {
       case "Clusters":
         return <Clusters />;
       case "Gráficos de Comportamento":
-        return <Comportamento />;
+        return <Comportamento ip={ip} chartType={chartType} />;
       case "Gráfico de Dispersão":
         return <Dispersao />;
       case "HeatMap de Ocorrência dos IPs nos países":

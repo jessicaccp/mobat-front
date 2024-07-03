@@ -4,6 +4,7 @@ import {
   ipList,
   countryList,
   allowedColumns,
+  comportamentoChartType,
 } from "../data";
 
 export default function Select({ name, childSet }) {
@@ -12,6 +13,7 @@ export default function Select({ name, childSet }) {
     period: "período",
     ip: "IP",
     country: "país",
+    chartType: "tipo de gráfico",
   };
 
   const listList = {
@@ -19,6 +21,7 @@ export default function Select({ name, childSet }) {
     period: periodList,
     ip: ipList,
     country: countryList,
+    chartType: comportamentoChartType,
   };
 
   const title = `Selecionar ${nameList[name]}`;

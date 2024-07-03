@@ -21,6 +21,7 @@ export default function Main({ page }) {
   const [period, setPeriod] = useState(null);
   const [ip, setIp] = useState(null);
   const [numIps, setNumIps] = useState(null);
+  const [chartType, setChartType] = useState(null);
 
   function formSelectFeature(feature) {
     setFeature(feature);
@@ -34,6 +35,9 @@ export default function Main({ page }) {
   function formSelectNumIps(numIps) {
     setNumIps(numIps);
   }
+  function formSelectChartType(chartType) {
+    setChartType(chartType);
+  }
 
   return (
     <main className="container flex items-center flex-col lg:flex-row justify-center p-4 gap-4 flex-grow">
@@ -42,8 +46,15 @@ export default function Main({ page }) {
         formSelectPeriod={formSelectPeriod}
         formSelectIp={formSelectIp}
         formSelectNumIps={formSelectNumIps}
+        formSelectChartType={formSelectChartType}
       />
-      <Graphic feature={feature} period={period} ip={ip} numIps={numIps} />
+      <Graphic
+        feature={feature}
+        period={period}
+        ip={ip}
+        numIps={numIps}
+        chartType={chartType}
+      />
     </main>
   );
 }

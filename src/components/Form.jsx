@@ -14,18 +14,21 @@ export default function Form({
   formSelectPeriod,
   formSelectIp,
   formSelectNumIps,
+  formSelectChartType,
 }) {
   // States
   const [feature, setFeature] = useState(null);
   const [period, setPeriod] = useState(null);
   const [ip, setIp] = useState(null);
   const [numIps, setNumIps] = useState(null);
+  const [chartType, setChartType] = useState(null);
 
   // Functions that will be passed to the children components to set the variables states
   function childSetFeature(feature) {
     setPeriod(null);
     setIp(null);
     setNumIps(null);
+    setChartType(null);
     setFeature(feature);
   }
 
@@ -35,6 +38,10 @@ export default function Form({
 
   function childSetIp(ip) {
     setIp(ip);
+  }
+
+  function childSetChartType(chartType) {
+    setChartType(chartType);
   }
 
   // Handlers
@@ -54,6 +61,7 @@ export default function Form({
     formSelectPeriod(period);
     formSelectIp(ip);
     formSelectNumIps(numIps);
+    formSelectChartType(chartType);
   }
 
   /**
@@ -70,6 +78,8 @@ export default function Form({
     formSelectIp(null);
     setNumIps(null);
     formSelectNumIps(null);
+    setChartType(null);
+    formSelectChartType(null);
   }
 
   // Select "feature" always shows
@@ -85,7 +95,10 @@ export default function Form({
         {feature ? <Select name="period" childSet={childSetPeriod} /> : null}
 
         {feature === "Gráficos de Comportamento" ? (
-          <Select name="ip" childSet={childSetIp} />
+          <>
+            <Select name="ip" childSet={childSetIp} />
+            <Select name="chartType" childSet={childSetChartType} />
+          </>
         ) : null}
 
         {feature === "Score Average Mobat dos IPs com maior variação" ? (

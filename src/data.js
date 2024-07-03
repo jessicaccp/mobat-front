@@ -97,3 +97,13 @@ export const allowedColumns = [
   "ALIENVAULT_asn",
   "score_average_Mobat",
 ];
+
+export const comportamentoChartType = [
+  "location",
+  "reports",
+  "score_average",
+  "last_report",
+  "time_period",
+  "ibm_scores",
+  "virustotal_stats",
+];
