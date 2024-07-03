@@ -10,41 +10,18 @@ import Select from "./Select";
  * @returns {ReactNode}
  */
 export default function Form({
-  formSelectFeature,
-  formSelectPeriod,
-  formSelectIp,
-  formSelectNumIps,
-  formSelectChartType,
+  feature,
+  setFeature,
+  period,
+  setPeriod,
+  ip,
+  setIp,
+  numIps,
+  setNumIps,
+  chartType,
+  setChartType,
   ipList,
 }) {
-  // States
-  const [feature, setFeature] = useState(null);
-  const [period, setPeriod] = useState(null);
-  const [ip, setIp] = useState(null);
-  const [numIps, setNumIps] = useState(null);
-  const [chartType, setChartType] = useState(null);
-
-  // Functions that will be passed to the children components to set the variables states
-  function childSetFeature(feature) {
-    setPeriod(null);
-    setIp(null);
-    setNumIps(null);
-    setChartType(null);
-    setFeature(feature);
-  }
-
-  function childSetPeriod(period) {
-    setPeriod(period);
-  }
-
-  function childSetIp(ip) {
-    setIp(ip);
-  }
-
-  function childSetChartType(chartType) {
-    setChartType(chartType);
-  }
-
   // Handlers
   /**
    * Sets the number of IPs to be shown in the graphic.
@@ -55,32 +32,16 @@ export default function Form({
   }
 
   /**
-   * Submits the form. Shares the variables states through the props functions.
-   */
-  function handleButtonClick(event) {
-    formSelectFeature(feature);
-    formSelectPeriod(period);
-    formSelectIp(ip);
-    formSelectNumIps(numIps);
-    formSelectChartType(chartType);
-  }
-
-  /**
    * Resets the form. Sets all states to null and the select to the default value.
    */
   function handleResetClick(event) {
     setFeature(null);
-    formSelectFeature(null);
     document.getElementById("select-feature").value =
       "Selecionar funcionalidade";
     setPeriod(null);
-    formSelectPeriod(null);
     setIp(null);
-    formSelectIp(null);
     setNumIps(null);
-    formSelectNumIps(null);
     setChartType(null);
-    formSelectChartType(null);
   }
 
   // Select "feature" always shows
@@ -91,14 +52,14 @@ export default function Form({
   return (
     <div className="w-full lg:w-1/3 lg:h-full p-4 bg-slate-100 gap-4 flex items-center flex-col justify-center">
       <form className="flex flex-col gap-4 w-full items-center">
-        <Select name="feature" childSet={childSetFeature} />
+        <Select name="feature" set={setFeature} />
 
-        {feature ? <Select name="period" childSet={childSetPeriod} /> : null}
+        {feature ? <Select name="period" set={setPeriod} /> : null}
 
         {feature === "Gráficos de Comportamento" ? (
           <>
-            <Select name="ip" childSet={childSetIp} ipList={ipList} />
-            <Select name="chartType" childSet={childSetChartType} />
+            <Select name="ip" set={setIp} ipList={ipList} />
+            <Select name="chartType" set={setChartType} />
           </>
         ) : null}
 
@@ -123,7 +84,7 @@ export default function Form({
             <button
               id="submit"
               className="border-0 rounded-md w-1/3 bg-white p-2"
-              onClick={handleButtonClick}
+              // onClick={handleButtonClick}
               type="button"
             >
               Visualizar

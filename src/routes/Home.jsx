@@ -1,3 +1,5 @@
+import { useState } from "react";
+import Form from "../components/Form";
 import Graphic from "../components/Graphic";
 import Header from "../components/Header";
 
@@ -11,36 +13,23 @@ export default function Home() {
   const [ip, setIp] = useState(null);
   const [numIps, setNumIps] = useState(null);
   const [chartType, setChartType] = useState(null);
-  const [ipList, setIpList] = useState([]);
+  const [ipList, setIpList] = useState(null);
 
-  function formSelectFeature(feature) {
-    setFeature(feature);
-  }
-  function formSelectPeriod(period) {
-    setPeriod(period);
-  }
-  function formSelectIp(ip) {
-    setIp(ip);
-  }
-  function formSelectNumIps(numIps) {
-    setNumIps(numIps);
-  }
-  function formSelectChartType(chartType) {
-    setChartType(chartType);
-  }
-  function formIpList(ipList) {
-    setIpList(ipList);
-  }
   return (
     <>
       <Header />
       <main className="container flex items-center flex-col lg:flex-row justify-center p-4 gap-4 flex-grow">
         <Form
-          formSelectFeature={formSelectFeature}
-          formSelectPeriod={formSelectPeriod}
-          formSelectIp={formSelectIp}
-          formSelectNumIps={formSelectNumIps}
-          formSelectChartType={formSelectChartType}
+          feature={feature}
+          setFeature={setFeature}
+          period={period}
+          setPeriod={setPeriod}
+          ip={ip}
+          setIp={setIp}
+          numIps={numIps}
+          setNumIps={setNumIps}
+          chartType={chartType}
+          setChartType={setChartType}
           ipList={ipList}
         />
         <Graphic
@@ -49,7 +38,7 @@ export default function Home() {
           ip={ip}
           numIps={numIps}
           chartType={chartType}
-          formIpList={formIpList}
+          setIpList={setIpList}
         />
       </main>
     </>

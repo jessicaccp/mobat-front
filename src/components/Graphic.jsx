@@ -30,7 +30,7 @@ export default function Graphic({
   ip,
   numIps,
   chartType,
-  formIpList,
+  setIpList,
 }) {
   // Null state of meanValues
   const nullMeanValues = {
@@ -93,7 +93,7 @@ export default function Graphic({
         setData(sheetData);
 
         // Gets a list of unique IPs from the data
-        formIpList([
+        setIpList([
           ...new Set(
             sheetData.map((item) => {
               const str = String(item.IP).split(" ")[0];
@@ -190,12 +190,6 @@ export default function Graphic({
       });
     }
   }, [data]);
-
-  // useEffect(() => {
-  //   if (data) {
-  //     setIpList([...new Set(data.map((item) => item.IP))]);
-  //   }
-  // }, [data]);
 
   const graphic = (feature) => {
     switch (feature) {

@@ -6,7 +6,7 @@ import {
   comportamentoChartType,
 } from "../data";
 
-export default function Select({ name, childSet, ipList }) {
+export default function Select({ name, set, ipList }) {
   const nameList = {
     feature: "funcionalidade",
     period: "período",
@@ -26,7 +26,7 @@ export default function Select({ name, childSet, ipList }) {
   const title = `Selecionar ${nameList[name]}`;
 
   function handleChange(event) {
-    childSet(event.target.value);
+    set(event.target.value);
   }
 
   return (
