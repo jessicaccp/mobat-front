@@ -15,6 +15,7 @@ export default function Form({
   formSelectIp,
   formSelectNumIps,
   formSelectChartType,
+  ipList,
 }) {
   // States
   const [feature, setFeature] = useState(null);
@@ -96,7 +97,7 @@ export default function Form({
 
         {feature === "Gráficos de Comportamento" ? (
           <>
-            <Select name="ip" childSet={childSetIp} />
+            <Select name="ip" childSet={childSetIp} ipList={ipList} />
             <Select name="chartType" childSet={childSetChartType} />
           </>
         ) : null}

@@ -22,6 +22,7 @@ export default function Main({ page }) {
   const [ip, setIp] = useState(null);
   const [numIps, setNumIps] = useState(null);
   const [chartType, setChartType] = useState(null);
+  const [ipList, setIpList] = useState([]);
 
   function formSelectFeature(feature) {
     setFeature(feature);
@@ -38,6 +39,11 @@ export default function Main({ page }) {
   function formSelectChartType(chartType) {
     setChartType(chartType);
   }
+  function formIpList(ipList) {
+    setIpList(ipList);
+  }
+
+  console.log(ipList);
 
   return (
     <main className="container flex items-center flex-col lg:flex-row justify-center p-4 gap-4 flex-grow">
@@ -47,6 +53,7 @@ export default function Main({ page }) {
         formSelectIp={formSelectIp}
         formSelectNumIps={formSelectNumIps}
         formSelectChartType={formSelectChartType}
+        ipList={ipList}
       />
       <Graphic
         feature={feature}
@@ -54,6 +61,7 @@ export default function Main({ page }) {
         ip={ip}
         numIps={numIps}
         chartType={chartType}
+        formIpList={formIpList}
       />
     </main>
   );

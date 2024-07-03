@@ -24,7 +24,14 @@ import Upload from "./graphics/Upload";
  * @param {function} numIps Function to share the numIps state with Form through Main.
  * @returns {ReactNode}
  */
-export default function Graphic({ feature, period, ip, numIps, chartType }) {
+export default function Graphic({
+  feature,
+  period,
+  ip,
+  numIps,
+  chartType,
+  formIpList,
+}) {
   // Null state of meanValues
   const nullMeanValues = {
     abuseipdb_confidence_score: { num: 0, sum: 0, mean: null },
@@ -45,6 +52,7 @@ export default function Graphic({ feature, period, ip, numIps, chartType }) {
   const [url, setUrl] = useState(getFileName(period));
   const [meanValues, setMeanValues] = useState(nullMeanValues);
   const [data, setData] = useState([]);
+  // const [ipList, setIpList] = useState([]);
 
   // Updates the url with the filename for the respective period when it changes.
   useEffect(() => {
@@ -83,6 +91,19 @@ export default function Graphic({ feature, period, ip, numIps, chartType }) {
         const sheet = workbook.Sheets[sheetName];
         const sheetData = XLSX.utils.sheet_to_json(sheet);
         setData(sheetData);
+
+        // Gets a list of unique IPs from the data
+        formIpList([
+          ...new Set(
+            sheetData.map((item) => {
+              const str = String(item.IP).split(" ")[0];
+              if (str.charAt(str.length - 1) === "_") {
+                return str.slice(0, str.length - 1);
+              }
+              return str;
+            })
+          ),
+        ]);
       })
       .catch((error) => console.error(error));
     setMeanValues(nullMeanValues);
@@ -170,12 +191,18 @@ export default function Graphic({ feature, period, ip, numIps, chartType }) {
     }
   }, [data]);
 
+  // useEffect(() => {
+  //   if (data) {
+  //     setIpList([...new Set(data.map((item) => item.IP))]);
+  //   }
+  // }, [data]);
+
   const graphic = (feature) => {
     switch (feature) {
       case "Clusters":
         return <Clusters />;
       case "Gráficos de Comportamento":
-        return <Comportamento ip={ip} chartType={chartType} />;
+        return <Comportamento data={data} ip={ip} chartType={chartType} />;
       case "Gráfico de Dispersão":
         return <Dispersao />;
       case "HeatMap de Ocorrência dos IPs nos países":
