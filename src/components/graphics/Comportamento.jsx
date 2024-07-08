@@ -2,28 +2,16 @@
 
 // location: abuseipdb_country_code, abuseipdb_isp, abuseipdb_domain, virustotal_as_owner, virustotal_asn, ALIENVAULT_asn
 export default function Comportamento({ data, ip, chartType }) {
-  const showChartType = (chartType) => {
-    switch (chartType) {
-      case "location":
-        // ip_data: pra cada linha da planilha na coluna 'IP', se for igual ao ip passado
-        console.log(data);
-        return <>Location</>;
-      case "reports":
-        return <>Reports</>;
-      case "score_average":
-        return <>Score Average</>;
-      case "last_report":
-        return <>Last Report</>;
-      case "time_period":
-        return <>Time Period</>;
-      case "ibm_scores":
-        return <>IBM Scores</>;
-      case "virustotal_stats":
-        return <>Virustotal Stats</>;
-      default:
-        return <>Gráficos de Comportamento</>;
-    }
-  };
-
-  return <>{showChartType(chartType)}</>;
+  return (
+    <>
+      {!chartType ? "No chart type selected" : null}
+      {chartType === "location" ? <>Location</> : null}
+      {chartType === "reports" ? <>Reports</> : null}
+      {chartType === "score_average" ? <>Score average</> : null}
+      {chartType === "last_report" ? <>Last report</> : null}
+      {chartType === "time_period" ? <>Time period</> : null}
+      {chartType === "ibm_scores" ? <>IBM scores</> : null}
+      {chartType === "virustotal_stats" ? <>VirusTotal stats</> : null}
+    </>
+  );
 }

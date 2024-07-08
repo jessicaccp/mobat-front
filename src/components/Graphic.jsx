@@ -35,6 +35,12 @@ export default function Graphic({
 }) {
   return (
     <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-gray-100 flex-col">
+      {feature ? <p>{feature}</p> : null}
+      {period ? <p>{period}</p> : null}
+      {ip ? ip : null}
+      {numIps ? numIps : null}
+      {chartType ? chartType : null}
+
       {!feature ? "No feature selected" : null}
       {feature === "Gráficos de comportamento" ? (
         <Comportamento data={data} ip={ip} chartType={chartType} />

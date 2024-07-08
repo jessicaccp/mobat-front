@@ -22,20 +22,28 @@ export default function Form({
   setChartType,
   ipList,
 }) {
+  const periodTitle = "Select period";
+  const periodOptions = ["1st semester", "2nd semester", "3rd semester"];
+
+  const ipTitle = "Select ip";
+
+  const chartTypeTitle = "Select chart type";
+  const chartTypeOptions = [
+    "location",
+    "reports",
+    "score_average",
+    "last_report",
+    "time_period",
+    "ibm_scores",
+    "virustotal_stats",
+  ];
+
   const [formPeriod, setFormPeriod] = useState(null);
   const [formIp, setFormIp] = useState(null);
   const [formChartType, setFormChartType] = useState(null);
   const [formNumIps, setFormNumIps] = useState(null);
 
   // Handlers
-  /**
-   * Sets the number of IPs to be shown in the graphic.
-   * @param {Event} event
-   */
-  function handleNumIpsChange(event) {
-    setFormNumIps(event.target.value);
-  }
-
   function handleSubmitClick(event) {
     setPeriod(formPeriod);
     setIp(formIp);
@@ -49,12 +57,20 @@ export default function Form({
   function handleResetClick(event) {
     setPeriod(null);
     setFormPeriod(null);
+    if (document.getElementById("form-select-period"))
+      document.getElementById("form-select-period").value = periodTitle;
     setIp(null);
     setFormIp(null);
+    if (document.getElementById("form-select-ip"))
+      document.getElementById("form-select-ip").value = ipTitle;
     setNumIps(null);
     setFormNumIps(null);
+    if (document.getElementById("form-input-num-ips"))
+      document.getElementById("form-input-num-ips").value = "";
     setChartType(null);
     setFormChartType(null);
+    if (document.getElementById("form-select-chart-type"))
+      document.getElementById("form-select-chart-type").value = chartTypeTitle;
   }
 
   // Select "feature" always shows
@@ -66,18 +82,54 @@ export default function Form({
     <div className="w-full lg:w-1/3 lg:h-full p-4 bg-gray-100 gap-4 flex items-center flex-col justify-center">
       <form className="flex flex-col gap-4 w-full items-center">
         {feature ? (
-          <select className="border-0 rounded-md w-full">
-            <option>Period</option>
+          <select
+            id="form-select-period"
+            className="border-0 rounded-md w-full"
+            defaultValue={periodTitle}
+            onChange={(event) => setFormPeriod(event.target.value)}
+          >
+            {[periodTitle, ...periodOptions].map((option, key) => (
+              <option
+                key={key}
+                value={option}
+                disabled={option === periodTitle}
+              >
+                {option}
+              </option>
+            ))}
           </select>
         ) : null}
 
         {feature === "Gráficos de comportamento" ? (
           <>
-            <select className="border-0 rounded-md w-full">
-              <option>Ip</option>
+            <select
+              id="form-select-ip"
+              className="border-0 rounded-md w-full"
+              defaultValue={ipTitle}
+              onChange={(event) => setFormIp(event.target.value)}
+            >
+              {[ipTitle].map((option, key) => (
+                <option key={key} value={option} disabled={option === ipTitle}>
+                  {option}
+                </option>
+              ))}
             </select>
-            <select className="border-0 rounded-md w-full">
-              <option>Chart type</option>
+
+            <select
+              id="form-select-chart-type"
+              className="border-0 rounded-md w-full"
+              defaultValue={chartTypeTitle}
+              onChange={(event) => setFormChartType(event.target.value)}
+            >
+              {[chartTypeTitle, ...chartTypeOptions].map((option, key) => (
+                <option
+                  key={key}
+                  value={option}
+                  disabled={option === chartTypeTitle}
+                >
+                  {option}
+                </option>
+              ))}
             </select>
           </>
         ) : null}
@@ -89,14 +141,14 @@ export default function Form({
 
         {feature === "Score average mobat dos ips com maior variação" ? (
           <input
-            id="input-num-ips"
+            id="form-input-num-ips"
             name="input-num-ips"
             type="number"
             className="border-0 rounded-md w-full"
             placeholder="Number of IPs to display"
             min="1"
             max="10"
-            onChange={handleNumIpsChange}
+            onChange={(event) => setFormNumIps(event.target.value)}
             required={
               feature === "Score average mobat dos ips com maior variação"
             }
