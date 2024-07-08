@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Select from "./Select";
 
 /**
  * Renders a form with inputs used to generate the graphic.

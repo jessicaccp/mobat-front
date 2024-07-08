@@ -166,19 +166,21 @@ export default function Home() {
     <>
       <Header setFeature={setFeature} />
       <main className="container flex items-center flex-col lg:flex-row justify-center p-4 gap-4 flex-grow">
-        <Form
-          feature={feature}
-          setFeature={setFeature}
-          period={period}
-          setPeriod={setPeriod}
-          ip={ip}
-          setIp={setIp}
-          numIps={numIps}
-          setNumIps={setNumIps}
-          chartType={chartType}
-          setChartType={setChartType}
-          ipList={ipList}
-        />
+        {feature ? (
+          <Form
+            feature={feature}
+            setFeature={setFeature}
+            period={period}
+            setPeriod={setPeriod}
+            ip={ip}
+            setIp={setIp}
+            numIps={numIps}
+            setNumIps={setNumIps}
+            chartType={chartType}
+            setChartType={setChartType}
+            ipList={ipList}
+          />
+        ) : null}
         <Graphic
           data={data}
           feature={feature}

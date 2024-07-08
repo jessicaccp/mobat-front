@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import { allowedColumns } from "../data";
-import Clusters from "./graphics/Clusters";
-import Comportamento from "./graphics/Comportamento";
-import Dispersao from "./graphics/Dispersao";
-import Heatmap from "./graphics/Heatmap";
-import Importancias from "./graphics/Importancias";
-import Mapeamento from "./graphics/Mapeamento";
-import Reputacao from "./graphics/Reputacao";
-import ScoreAverage from "./graphics/ScoreAverage";
-import Selecao from "./graphics/Selecao";
-import Tabela from "./graphics/Tabela";
-import Upload from "./graphics/Upload";
+import Clusters from "../features/Clusters";
+import Comportamento from "../features/Comportamento";
+import Dispersao from "../features/Dispersao";
+import Heatmap from "../features/Heatmap";
+import Importancias from "../features/Importancias";
+import Mapeamento from "../features/Mapeamento";
+import Reputacao from "../features/Reputacao";
+import ScoreAverage from "../features/ScoreAverage";
+import Selecao from "../features/Selecao";
+import Tabela from "../features/Tabela";
 
 // df_selected = trimestre escolhido
 // ips = df_selected['IP'].apply(extract_ip).unique()
