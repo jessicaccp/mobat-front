@@ -6,6 +6,7 @@ export default function Comportamento({ data, ip, chartType }) {
     switch (chartType) {
       case "location":
         // ip_data: pra cada linha da planilha na coluna 'IP', se for igual ao ip passado
+        console.log(data);
         return <>Location</>;
       case "reports":
         return <>Reports</>;

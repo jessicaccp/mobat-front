@@ -33,38 +33,29 @@ export default function Graphic({
   chartType,
   setIpList,
 }) {
-  function graphic(feature) {
-    switch (feature) {
-      case "Clusters":
-        return <Clusters />;
-      case "Gráficos de Comportamento":
-        return <Comportamento data={data} ip={ip} chartType={chartType} />;
-      case "Gráfico de Dispersão":
-        return <Dispersao />;
-      case "HeatMap de Ocorrência dos IPs nos países":
-        return <Heatmap />;
-      case "Importâncias para Machine Learning":
-        return <Importancias />;
-      case "Mapeamento das features":
-        return <Mapeamento />;
-      case "Reputação por País":
-        return <Reputacao />;
-      case "Score Average Mobat dos IPs com maior variação":
-        return <ScoreAverage />;
-      case "Seleção de Características":
-        return <Selecao />;
-      case "Tabela de Acurácia e Tempo de Treinamento dos Modelos":
-        return <Tabela />;
-      case "Upload da Tabela dos IPs do período":
-        return <Upload />;
-      default:
-        return "Gráfico";
-    }
-  }
-
   return (
-    <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-slate-100 flex-col">
-      <div>{graphic(feature)}</div>
+    <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-gray-100 flex-col">
+      {!feature ? "No feature selected" : null}
+      {feature === "Gráficos de comportamento" ? (
+        <Comportamento data={data} ip={ip} chartType={chartType} />
+      ) : null}
+      {feature === "Mapeamento de features" ? <Mapeamento /> : null}
+      {feature === "Clusters" ? <Clusters /> : null}
+      {feature === "Seleção de características" ? <Selecao /> : null}
+      {feature === "Importâncias para machine learning" ? (
+        <Importancias />
+      ) : null}
+      {feature === "Score average mobat dos ips com maior variação" ? (
+        <ScoreAverage />
+      ) : null}
+      {feature === "Reputação por país" ? <Reputacao /> : null}
+      {feature === "Heatmap de ocorrência dos ips nos países" ? (
+        <Heatmap />
+      ) : null}
+      {feature === "Tabela de acurácia e tempo de treinamento dos modelos" ? (
+        <Tabela />
+      ) : null}
+      {feature === "Gráfico de dispersão" ? <Dispersao /> : null}
     </div>
   );
 }

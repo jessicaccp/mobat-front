@@ -8,13 +8,30 @@ import Header from "../components/Header";
  * @returns {ReactNode}
  */
 export default function Home() {
-  const [data, setData] = useState(null);
-  const [meanValues, setMeanValues] = useState(nullMeanValues);
+  // Null state of meanValues
+  const nullMeanValues = {
+    abuseipdb_confidence_score: { num: 0, sum: 0, mean: null },
+    abuseipdb_total_reports: { num: 0, sum: 0, mean: null },
+    abuseipdb_num_distinct_users: { num: 0, sum: 0, mean: null },
+    virustotal_reputation: { num: 0, sum: 0, mean: null },
+    harmless: { num: 0, sum: 0, mean: null },
+    malicious: { num: 0, sum: 0, mean: null },
+    suspicious: { num: 0, sum: 0, mean: null },
+    undetected: { num: 0, sum: 0, mean: null },
+    IBM_score: { num: 0, sum: 0, mean: null },
+    IBM_average_history_Score: { num: 0, sum: 0, mean: null },
+    IBM_most_common_score: { num: 0, sum: 0, mean: null },
+    score_average_Mobat: { num: 0, sum: 0, mean: null },
+  };
+
   const [feature, setFeature] = useState(null);
   const [period, setPeriod] = useState(null);
   const [ip, setIp] = useState(null);
-  const [numIps, setNumIps] = useState(null);
   const [chartType, setChartType] = useState(null);
+  const [numIps, setNumIps] = useState(null);
+
+  const [data, setData] = useState(null);
+  const [meanValues, setMeanValues] = useState(nullMeanValues);
   const [ipList, setIpList] = useState(null);
 
   // Matches the period with the file name
@@ -62,22 +79,6 @@ export default function Home() {
       setMeanValues(nullMeanValues);
     }
   }, [period]);
-
-  // Null state of meanValues
-  const nullMeanValues = {
-    abuseipdb_confidence_score: { num: 0, sum: 0, mean: null },
-    abuseipdb_total_reports: { num: 0, sum: 0, mean: null },
-    abuseipdb_num_distinct_users: { num: 0, sum: 0, mean: null },
-    virustotal_reputation: { num: 0, sum: 0, mean: null },
-    harmless: { num: 0, sum: 0, mean: null },
-    malicious: { num: 0, sum: 0, mean: null },
-    suspicious: { num: 0, sum: 0, mean: null },
-    undetected: { num: 0, sum: 0, mean: null },
-    IBM_score: { num: 0, sum: 0, mean: null },
-    IBM_average_history_Score: { num: 0, sum: 0, mean: null },
-    IBM_most_common_score: { num: 0, sum: 0, mean: null },
-    score_average_Mobat: { num: 0, sum: 0, mean: null },
-  };
 
   // Calculates the mean values when the data changes. Runs through the data rows twice.
   useEffect(() => {
@@ -163,7 +164,7 @@ export default function Home() {
 
   return (
     <>
-      <Header />
+      <Header setFeature={setFeature} />
       <main className="container flex items-center flex-col lg:flex-row justify-center p-4 gap-4 flex-grow">
         <Form
           feature={feature}
