@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Form from "../components/Form";
 import Graphic from "../components/Graphic";
 import Header from "../components/Header";
+import * as XLSX from "xlsx";
 
 /**
  * Renders the Home page.
@@ -37,11 +38,11 @@ export default function Home() {
   // Matches the period with the file name
   function getFileName(period) {
     switch (period) {
-      case "jan-mar/2023":
+      case "1st semester":
         return "PrimeiroSemestre.xlsx";
-      case "abr-jun/2023":
+      case "2nd semester":
         return "SegundoSemestre.xlsx";
-      case "jul-set/2023":
+      case "3rd semester":
         return "TerceiroSemestre.xlsx";
       default:
         return null;
@@ -79,6 +80,7 @@ export default function Home() {
       setMeanValues(nullMeanValues);
     }
   }, [period]);
+  console.log(data);
 
   // Calculates the mean values when the data changes. Runs through the data rows twice.
   useEffect(() => {
