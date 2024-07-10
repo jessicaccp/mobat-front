@@ -32,7 +32,7 @@ export default function Graphic({
 }) {
   return (
     <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-gray-100 flex-col">
-      {feature ? <p>{feature}</p> : null}
+      {/* {feature ? <p>{feature}</p> : null}
       {period ? <p>{period}</p> : null}
       {ip ? <p>{ip}</p> : null}
       {chartType ? <p>{chartType}</p> : null}
@@ -44,29 +44,64 @@ export default function Graphic({
       {numIps ? <p>{numIps}</p> : null}
       {country ? <p>{country}</p> : null}
       {columnX ? <p>{columnX}</p> : null}
-      {columnY ? <p>{columnY}</p> : null}
+      {columnY ? <p>{columnY}</p> : null} */}
 
       {!feature ? "No feature selected" : null}
+
       {feature === "Gráficos de comportamento" ? (
-        <Comportamento data={data} ip={ip} chartType={chartType} />
+        <Comportamento
+          data={data}
+          period={period}
+          ip={ip}
+          chartType={chartType}
+        />
       ) : null}
-      {feature === "Mapeamento de features" ? <Mapeamento /> : null}
-      {feature === "Clusters" ? <Clusters /> : null}
-      {feature === "Seleção de características" ? <Selecao /> : null}
+
+      {feature === "Mapeamento de features" ? (
+        <Mapeamento data={data} period={period} columnMap={columnMap} />
+      ) : null}
+
+      {feature === "Clusters" ? (
+        <Clusters
+          data={data}
+          period={period}
+          columnCluster={columnCluster}
+          numClusters={numClusters}
+        />
+      ) : null}
+
+      {feature === "Seleção de características" ? (
+        <Selecao data={data} period={period} technique={technique} />
+      ) : null}
+
       {feature === "Importâncias para machine learning" ? (
-        <Importancias />
+        <Importancias data={data} period={period} model={model} />
       ) : null}
+
       {feature === "Score average mobat dos ips com maior variação" ? (
-        <ScoreAverage />
+        <ScoreAverage data={data} period={period} numIps={numIps} />
       ) : null}
-      {feature === "Reputação por país" ? <Reputacao /> : null}
+
+      {feature === "Reputação por país" ? (
+        <Reputacao data={data} period={period} country={country} />
+      ) : null}
+
       {feature === "Heatmap de ocorrência dos ips nos países" ? (
-        <Heatmap />
+        <Heatmap data={data} period={period} />
       ) : null}
+
       {feature === "Tabela de acurácia e tempo de treinamento dos modelos" ? (
-        <Tabela />
+        <Tabela data={data} period={period} />
       ) : null}
-      {feature === "Gráfico de dispersão" ? <Dispersao /> : null}
+
+      {feature === "Gráfico de dispersão" ? (
+        <Dispersao
+          data={data}
+          period={period}
+          columnX={columnX}
+          columnY={columnY}
+        />
+      ) : null}
     </div>
   );
 }
