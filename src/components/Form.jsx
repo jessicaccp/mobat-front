@@ -1,33 +1,32 @@
 import React, { useState } from "react";
 
 /**
- * Renders a form with inputs used to generate the graphic.
- * @param {function} formSelectFeature Function to share the feature state with Graphic through Main.
- * @param {function} formSelectPeriod Function to set the period state with Graphic through Main.
- * @param {function} formSelectIp Function to set the ip state with Graphic through Main.
- * @param {function} formSelectNumIps Function to set the numIps state with Graphic through Main.
+ * Renders a form with inputs used to generate the graphics.
+ * @param {Object} props
  * @returns {ReactNode}
  */
 export default function Form({
   feature,
-  setFeature,
-  period,
   setPeriod,
-  ip,
   setIp,
-  numIps,
-  setNumIps,
-  chartType,
-  setChartType,
   ipList,
+  setChartType,
+  setColumnMap,
+  setColumnCluster,
+  setNumClusters,
+  setTechnique,
+  setModel,
+  setNumIps,
+  setCountry,
+  setColumnX,
+  setColumnY,
 }) {
+  // Titles and lists
   const periodTitle = "Select period";
-  const periodOptions = ["1st semester", "2nd semester", "3rd semester"];
-
+  const periodList = ["1st semester", "2nd semester", "3rd semester"];
   const ipTitle = "Select ip";
-
   const chartTypeTitle = "Select chart type";
-  const chartTypeOptions = [
+  const chartTypeList = [
     "location",
     "reports",
     "score_average",
@@ -36,22 +35,155 @@ export default function Form({
     "ibm_scores",
     "virustotal_stats",
   ];
+  const columnTitle = "Select column";
+  const columnList = [
+    "abuseipdb_is_whitelisted",
+    "abuseipdb_confidence_score",
+    "abuseipdb_country_code",
+    "abuseipdb_isp",
+    "abuseipdb_domain",
+    "abuseipdb_total_reports",
+    "abuseipdb_num_distinct_users",
+    "abuseipdb_last_reported_at",
+    "virustotal_reputation",
+    "virustotal_regional_internet_registry",
+    "virustotal_as_owner",
+    "harmless",
+    "malicious",
+    "suspicious",
+    "undetected",
+    "IBM_score",
+    "IBM_average history Score",
+    "IBM_most common score",
+    "virustotal_asn",
+    "SHODAN_asn",
+    "SHODAN_isp",
+    "ALIENVAULT_reputation",
+    "ALIENVAULT_asn",
+    "score_average_Mobat",
+  ];
+  const numClustersTitle = "Select number of clusters";
+  const techniqueTitle = "Select technique";
+  const techniqueList = [
+    "Variance Threshold",
+    "SelectKBest",
+    "Lasso",
+    "Mutual Information",
+    "Correlation Matrix",
+  ];
+  const modelTitle = "Select model";
+  const modelList = [
+    "Gradient Boosting Regressor",
+    "Random Forest Regressor",
+    "Extra Trees Regressor",
+    "AdaBoost Regressor",
+    "XGBoost Regressor",
+    "ElasticNet",
+  ];
+  const numIpsTitle = "Select number of ips";
+  const countryTitle = "Select country";
+  const countryList = {
+    US: "Estados Unidos",
+    CN: "China",
+    SG: "Singapura",
+    DE: "Alemanha",
+    VN: "Vietnã",
+    KR: "Coreia do Sul",
+    IN: "Índia",
+    RU: "Rússia",
+    LT: "Lituânia",
+    TW: "Taiwan",
+    GB: "Reino Unido",
+    JP: "Japão",
+    IR: "Irã",
+    BR: "Brasil",
+    AR: "Argentina",
+    NL: "Holanda",
+    TH: "Tailândia",
+    CA: "Canadá",
+    PK: "Paquistão",
+    ID: "Indonésia",
+    ET: "Etiópia",
+    FR: "França",
+    BG: "Bulgária",
+    PA: "Panamá",
+    SA: "Arábia Saudita",
+    BD: "Bangladesh",
+    HK: "Hong Kong",
+    MA: "Marrocos",
+    EG: "Egito",
+    UA: "Ucrânia",
+    MX: "México",
+    UZ: "Uzbequistão",
+    ES: "Espanha",
+    AU: "Austrália",
+    CO: "Colômbia",
+    KZ: "Cazaquistão",
+    EC: "Equador",
+    BZ: "Belize",
+    SN: "Senegal",
+    None: "None",
+    IE: "Irlanda",
+    FI: "Finlândia",
+    ZA: "África do Sul",
+    IT: "Itália",
+    PH: "Filipinas",
+    CR: "Costa Rica",
+    CH: "Suíça",
+  };
+  const columnXYList = [
+    "abuseipdb_is_whitelisted",
+    "abuseipdb_confidence_score",
+    "abuseipdb_total_reports",
+    "abuseipdb_num_distinct_users",
+    "virustotal_reputation",
+    "harmless",
+    "malicious",
+    "suspicious",
+    "undetected",
+    "IBM_score",
+    "IBM_average history Score",
+    "IBM_most common score",
+    "ALIENVAULT_reputation",
+    "score_average_Mobat",
+  ];
 
+  // Form states
   const [formPeriod, setFormPeriod] = useState(null);
   const [formIp, setFormIp] = useState(null);
   const [formChartType, setFormChartType] = useState(null);
+  const [formColumnMap, setFormColumnMap] = useState(null);
+  const [formColumnCluster, setFormColumnCluster] = useState(null);
+  const [formNumClusters, setFormNumClusters] = useState(null);
+  const [formTechnique, setFormTechnique] = useState(null);
+  const [formModel, setFormModel] = useState(null);
   const [formNumIps, setFormNumIps] = useState(null);
+  const [formCountry, setFormCountry] = useState(null);
+  const [formColumnX, setFormColumnX] = useState(null);
+  const [formColumnY, setFormColumnY] = useState(null);
 
-  // Handlers
+  /**
+   * Sends the states to the parent component.
+   * @param {Event} event
+   */
   function handleSubmitClick(event) {
     setPeriod(formPeriod);
     setIp(formIp);
     setChartType(formChartType);
+    setColumnMap(formColumnMap);
+    setColumnCluster(formColumnCluster);
+    setNumClusters(formNumClusters);
+    setTechnique(formTechnique);
+    setModel(formModel);
     setNumIps(formNumIps);
+    setCountry(formCountry);
+    setColumnX(formColumnX);
+    setColumnY(formColumnY);
   }
 
   /**
    * Resets the form. Sets all states to null and the select to the default value.
+   * @param {Event} event
    */
   function handleResetClick(event) {
     setPeriod(null);
@@ -62,21 +194,49 @@ export default function Form({
     setFormIp(null);
     if (document.getElementById("form-select-ip"))
       document.getElementById("form-select-ip").value = ipTitle;
-    setNumIps(null);
-    setFormNumIps(null);
-    if (document.getElementById("form-input-num-ips"))
-      document.getElementById("form-input-num-ips").value = "";
     setChartType(null);
     setFormChartType(null);
     if (document.getElementById("form-select-chart-type"))
       document.getElementById("form-select-chart-type").value = chartTypeTitle;
+    setColumnMap(null);
+    setFormColumnMap(null);
+    if (document.getElementById("form-select-column-map"))
+      document.getElementById("form-select-column-map").value = columnTitle;
+    setColumnCluster(null);
+    setFormColumnCluster(null);
+    if (document.getElementById("form-select-column-cluster"))
+      document.getElementById("form-select-column-cluster").value = columnTitle;
+    setNumClusters(null);
+    setFormNumClusters(null);
+    if (document.getElementById("form-input-num-clusters"))
+      document.getElementById("form-input-num-clusters").value =
+        numClustersTitle;
+    setTechnique(null);
+    setFormTechnique(null);
+    if (document.getElementById("form-select-technique"))
+      document.getElementById("form-select-technique").value = techniqueTitle;
+    setModel(null);
+    setFormModel(null);
+    if (document.getElementById("form-select-model"))
+      document.getElementById("form-select-model").value = modelTitle;
+    setNumIps(null);
+    setFormNumIps(null);
+    if (document.getElementById("form-input-num-ips"))
+      document.getElementById("form-input-num-ips").value = numIpsTitle;
+    setCountry(null);
+    setFormCountry(null);
+    if (document.getElementById("form-select-country"))
+      document.getElementById("form-select-country").value = countryTitle;
+    setColumnX(null);
+    setFormColumnX(null);
+    if (document.getElementById("form-select-column-x"))
+      document.getElementById("form-select-column-x").value = columnTitle;
+    setColumnY(null);
+    setFormColumnY(null);
+    if (document.getElementById("form-select-column-y"))
+      document.getElementById("form-select-column-y").value = columnTitle;
   }
 
-  // Select "feature" always shows
-  // Select "period" shows if "feature" is not null
-  // Select "ip" shows if the feature is "Gráficos de Comportamento"
-  // Input "input-num-ips" shows if the feature is "Score Average Mobat dos IPs com maior variação"
-  // Buttons "submit" and "reset" show if "feature" is not null
   return (
     <div className="w-full lg:w-1/3 lg:h-full p-4 bg-gray-100 gap-4 flex items-center flex-col justify-center">
       <form className="flex flex-col gap-4 w-full items-center">
@@ -86,8 +246,9 @@ export default function Form({
             className="border-0 rounded-md w-full"
             defaultValue={periodTitle}
             onChange={(event) => setFormPeriod(event.target.value)}
+            required
           >
-            {[periodTitle, ...periodOptions].map((option, key) => (
+            {[periodTitle, ...periodList].map((option, key) => (
               <option
                 key={key}
                 value={option}
@@ -106,8 +267,9 @@ export default function Form({
               className="border-0 rounded-md w-full"
               defaultValue={ipTitle}
               onChange={(event) => setFormIp(event.target.value)}
+              required
             >
-              {[ipTitle].map((option, key) => (
+              {[ipTitle, ...ipList].map((option, key) => (
                 <option key={key} value={option} disabled={option === ipTitle}>
                   {option}
                 </option>
@@ -119,8 +281,9 @@ export default function Form({
               className="border-0 rounded-md w-full"
               defaultValue={chartTypeTitle}
               onChange={(event) => setFormChartType(event.target.value)}
+              required
             >
-              {[chartTypeTitle, ...chartTypeOptions].map((option, key) => (
+              {[chartTypeTitle, ...chartTypeList].map((option, key) => (
                 <option
                   key={key}
                   value={option}
@@ -133,10 +296,93 @@ export default function Form({
           </>
         ) : null}
 
-        {feature === "Mapeamento de features" ? <></> : null}
-        {feature === "Clusters" ? <></> : null}
-        {feature === "Seleção de características" ? <></> : null}
-        {feature === "Importâncias para machine learning" ? <></> : null}
+        {feature === "Mapeamento de features" ? (
+          <>
+            <select
+              id="form-select-column-map"
+              className="border-0 rounded-md w-full"
+              defaultValue={columnTitle}
+              onChange={(event) => setColumnMap(event.target.value)}
+              required
+            >
+              {[columnTitle, ...columnList].map((option, key) => (
+                <option
+                  key={key}
+                  value={option}
+                  disabled={option === columnTitle}
+                >
+                  {option}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : null}
+
+        {feature === "Clusters" ? (
+          <>
+            <select
+              id="form-select-column-cluster"
+              className="border-0 rounded-md w-full"
+              defaultValue={columnTitle}
+              onChange={(event) => setFormColumnCluster(event.target.value)}
+              required
+            >
+              {[columnTitle, ...columnList].map((option, key) => (
+                <option
+                  key={key}
+                  value={option}
+                  disabled={option === columnTitle}
+                >
+                  {option}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : null}
+
+        {feature === "Seleção de características" ? (
+          <>
+            <select
+              id="form-select-technique"
+              className="border-0 rounded-md w-full"
+              defaultValue={techniqueTitle}
+              onChange={(event) => setFormTechnique(event.target.value)}
+              required
+            >
+              {[techniqueTitle, ...techniqueList].map((option, key) => (
+                <option
+                  key={key}
+                  value={option}
+                  disabled={option === techniqueTitle}
+                >
+                  {option}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : null}
+
+        {feature === "Importâncias para machine learning" ? (
+          <>
+            <select
+              id="form-select-model"
+              className="border-0 rounded-md w-full"
+              defaultValue={modelTitle}
+              onChange={(event) => setFormModel(event.target.value)}
+              required
+            >
+              {[modelTitle, ...modelList].map((option, key) => (
+                <option
+                  key={key}
+                  value={option}
+                  disabled={option === modelTitle}
+                >
+                  {option}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : null}
 
         {feature === "Score average mobat dos ips com maior variação" ? (
           <input
@@ -148,18 +394,76 @@ export default function Form({
             min="1"
             max="10"
             onChange={(event) => setFormNumIps(event.target.value)}
-            required={
-              feature === "Score average mobat dos ips com maior variação"
-            }
+            required
           />
         ) : null}
 
-        {feature === "Reputação por país" ? <></> : null}
+        {feature === "Reputação por país" ? (
+          <>
+            <select
+              id="form-select-country"
+              className="border-0 rounded-md w-full"
+              defaultValue={countryTitle}
+              onChange={(event) => setFormCountry(event.target.value)}
+              required
+            >
+              {[countryTitle, ...countryList].map((option, key) => (
+                <option
+                  key={key}
+                  value={option}
+                  disabled={option === countryTitle}
+                >
+                  {option}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : null}
+
         {feature === "Heatmap de ocorrência dos ips nos países" ? <></> : null}
         {feature === "Tabela de acurácia e tempo de treinamento dos modelos" ? (
           <></>
         ) : null}
-        {feature === "Gráfico de dispersão" ? <></> : null}
+
+        {feature === "Gráfico de dispersão" ? (
+          <>
+            <select
+              id="form-select-column-x"
+              className="border-0 rounded-md w-full"
+              defaultValue={columnTitle}
+              onChange={(event) => setFormColumnX(event.target.value)}
+              required
+            >
+              {[columnTitle, ...columnXYList].map((option, key) => (
+                <option
+                  key={key}
+                  value={option}
+                  disabled={option === columnTitle}
+                >
+                  {option}
+                </option>
+              ))}
+            </select>
+
+            <select
+              id="form-select-column-y"
+              className="border-0 rounded-md w-full"
+              defaultValue={columnTitle}
+              onChange={(event) => setColumnY(event.target.value)}
+              required
+            >
+              {[columnTitle, ...columnXYList].map((option, key) => (
+                <option
+                  key={key}
+                  value={option}
+                  disabled={option === columnTitle}
+                >
+                  {option}
+                </option>
+              ))}
+            </select>
+          </>
+        ) : null}
 
         {feature ? (
           <div className="flex w-full justify-center gap-4">
