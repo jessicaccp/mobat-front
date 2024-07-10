@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import * as XLSX from "xlsx";
-import { allowedColumns } from "../data";
 import Clusters from "../features/Clusters";
 import Comportamento from "../features/Comportamento";
 import Dispersao from "../features/Dispersao";
@@ -12,15 +9,9 @@ import ScoreAverage from "../features/ScoreAverage";
 import Selecao from "../features/Selecao";
 import Tabela from "../features/Tabela";
 
-// df_selected = trimestre escolhido
-// ips = df_selected['IP'].apply(extract_ip).unique()
-
 /**
  * Renders a graphic based on the inputs from the form.
- * @param {function} feature Function to share the feature state with Form through Main.
- * @param {function} period Function to share the period state with Form through Main.
- * @param {function} ip Function to share the ip state with Form through Main.
- * @param {function} numIps Function to share the numIps state with Form through Main.
+ * @param {Object} props
  * @returns {ReactNode}
  */
 export default function Graphic({
@@ -28,17 +19,32 @@ export default function Graphic({
   feature,
   period,
   ip,
-  numIps,
   chartType,
-  setIpList,
+  columnMap,
+  columnCluster,
+  numClusters,
+  technique,
+  model,
+  numIps,
+  country,
+  columnX,
+  columnY,
 }) {
   return (
     <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-gray-100 flex-col">
       {feature ? <p>{feature}</p> : null}
       {period ? <p>{period}</p> : null}
-      {ip ? ip : null}
-      {numIps ? numIps : null}
-      {chartType ? chartType : null}
+      {ip ? <p>{ip}</p> : null}
+      {chartType ? <p>{chartType}</p> : null}
+      {columnMap ? <p>{columnMap}</p> : null}
+      {columnCluster ? <p>{columnCluster}</p> : null}
+      {numClusters ? <p>{numClusters}</p> : null}
+      {technique ? <p>{technique}</p> : null}
+      {model ? <p>{model}</p> : null}
+      {numIps ? <p>{numIps}</p> : null}
+      {country ? <p>{country}</p> : null}
+      {columnX ? <p>{columnX}</p> : null}
+      {columnY ? <p>{columnY}</p> : null}
 
       {!feature ? "No feature selected" : null}
       {feature === "Gráficos de comportamento" ? (

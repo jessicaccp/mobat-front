@@ -3,6 +3,7 @@ import Form from "../components/Form";
 import Graphic from "../components/Graphic";
 import Header from "../components/Header";
 import * as XLSX from "xlsx";
+import File from "../components/File";
 
 /**
  * Renders the Home page.
@@ -42,6 +43,7 @@ export default function Home() {
   const [data, setData] = useState(null);
   const [meanValues, setMeanValues] = useState(nullMeanValues);
   const [ipList, setIpList] = useState([]);
+  const [files, setFiles] = useState({});
 
   // Matches the period with the file name
   function getFileName(period) {
@@ -196,12 +198,20 @@ export default function Home() {
         ) : null}
         <Graphic
           data={data}
+          meanValues={meanValues}
           feature={feature}
           period={period}
           ip={ip}
-          numIps={numIps}
           chartType={chartType}
-          setIpList={setIpList}
+          columnMap={columnMap}
+          columnCluster={columnCluster}
+          numClusters={numClusters}
+          technique={technique}
+          model={model}
+          numIps={numIps}
+          country={country}
+          columnX={columnX}
+          columnY={columnY}
         />
       </main>
     </>

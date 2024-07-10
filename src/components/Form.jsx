@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 /**
  * Renders a form with inputs used to generate the graphics.
@@ -161,6 +161,57 @@ export default function Form({
   const [formCountry, setFormCountry] = useState(null);
   const [formColumnX, setFormColumnX] = useState(null);
   const [formColumnY, setFormColumnY] = useState(null);
+
+  useEffect(() => {
+    setPeriod(null);
+    setFormPeriod(null);
+    if (document.getElementById("form-select-period"))
+      document.getElementById("form-select-period").value = periodTitle;
+    setIp(null);
+    setFormIp(null);
+    if (document.getElementById("form-select-ip"))
+      document.getElementById("form-select-ip").value = ipTitle;
+    setChartType(null);
+    setFormChartType(null);
+    if (document.getElementById("form-select-chart-type"))
+      document.getElementById("form-select-chart-type").value = chartTypeTitle;
+    setColumnMap(null);
+    setFormColumnMap(null);
+    if (document.getElementById("form-select-column-map"))
+      document.getElementById("form-select-column-map").value = columnTitle;
+    setColumnCluster(null);
+    setFormColumnCluster(null);
+    if (document.getElementById("form-select-column-cluster"))
+      document.getElementById("form-select-column-cluster").value = columnTitle;
+    setNumClusters(null);
+    setFormNumClusters(null);
+    if (document.getElementById("form-input-num-clusters"))
+      document.getElementById("form-input-num-clusters").value = "";
+    setTechnique(null);
+    setFormTechnique(null);
+    if (document.getElementById("form-select-technique"))
+      document.getElementById("form-select-technique").value = techniqueTitle;
+    setModel(null);
+    setFormModel(null);
+    if (document.getElementById("form-select-model"))
+      document.getElementById("form-select-model").value = modelTitle;
+    setNumIps(null);
+    setFormNumIps(null);
+    if (document.getElementById("form-input-num-ips"))
+      document.getElementById("form-input-num-ips").value = "";
+    setCountry(null);
+    setFormCountry(null);
+    if (document.getElementById("form-select-country"))
+      document.getElementById("form-select-country").value = countryTitle;
+    setColumnX(null);
+    setFormColumnX(null);
+    if (document.getElementById("form-select-column-x"))
+      document.getElementById("form-select-column-x").value = columnTitle;
+    setColumnY(null);
+    setFormColumnY(null);
+    if (document.getElementById("form-select-column-y"))
+      document.getElementById("form-select-column-y").value = columnTitle;
+  }, [feature]);
 
   function handlePeriodChange(event) {
     setFormPeriod(event.target.value);
