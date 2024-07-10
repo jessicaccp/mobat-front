@@ -44,6 +44,7 @@ export default function Home() {
   const [meanValues, setMeanValues] = useState(nullMeanValues);
   const [ipList, setIpList] = useState([]);
   const [files, setFiles] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   // Matches the period with the file name
   function getFileName(period) {
@@ -62,6 +63,7 @@ export default function Home() {
   // Gets the content of the file when the period selected changes
   useEffect(() => {
     if (getFileName(period)) {
+      setIsLoading(true);
       fetch(getFileName(period))
         .then((response) => response.arrayBuffer())
         .then((data) => {
@@ -86,15 +88,15 @@ export default function Home() {
             ),
           ]);
         })
+        .then(() => setIsLoading(false))
         .catch((error) => console.error(error));
       setMeanValues(nullMeanValues);
     }
   }, [period]);
-  // console.log(data);
 
   // Calculates the mean values when the data changes. Runs through the data rows twice.
   useEffect(() => {
-    if (data) {
+    if (data && feature === "Gráficos de comportamento") {
       // First run to calculate the sum of the values
       data.forEach((row) => {
         let copyMeanValues = { ...meanValues };
@@ -180,6 +182,7 @@ export default function Home() {
       <main className="container flex items-center flex-col lg:flex-row justify-center p-4 gap-4 flex-grow">
         {feature ? (
           <Form
+            isLoading={isLoading}
             feature={feature}
             setPeriod={setPeriod}
             setIp={setIp}

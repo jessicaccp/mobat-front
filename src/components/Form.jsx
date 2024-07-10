@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
  * @returns {ReactNode}
  */
 export default function Form({
+  isLoading,
   feature,
   setPeriod,
   setIp,
@@ -314,242 +315,249 @@ export default function Form({
           </select>
         ) : null}
 
-        {feature === "Gráficos de comportamento" ? (
+        {isLoading ? (
+          "Loading..."
+        ) : formPeriod ? (
           <>
-            {formPeriod ? (
-              <select
-                id="form-select-ip"
-                className="border-0 rounded-md w-full"
-                defaultValue={ipTitle}
-                onChange={(event) => setFormIp(event.target.value)}
-                required
-              >
-                {[ipTitle, ...ipList.toSorted()].map((option, key) => (
-                  <option
-                    key={key}
-                    value={option}
-                    disabled={option === ipTitle}
-                  >
-                    {option}
-                  </option>
-                ))}
-              </select>
+            {feature === "Gráficos de comportamento" ? (
+              <>
+                <select
+                  id="form-select-ip"
+                  className="border-0 rounded-md w-full"
+                  defaultValue={ipTitle}
+                  onChange={(event) => setFormIp(event.target.value)}
+                  required
+                >
+                  {[ipTitle, ...ipList.toSorted()].map((option, key) => (
+                    <option
+                      key={key}
+                      value={option}
+                      disabled={option === ipTitle}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  id="form-select-chart-type"
+                  className="border-0 rounded-md w-full"
+                  defaultValue={chartTypeTitle}
+                  onChange={(event) => setFormChartType(event.target.value)}
+                  required
+                >
+                  {[chartTypeTitle, ...chartTypeList].map((option, key) => (
+                    <option
+                      key={key}
+                      value={option}
+                      disabled={option === chartTypeTitle}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </>
             ) : null}
 
-            <select
-              id="form-select-chart-type"
-              className="border-0 rounded-md w-full"
-              defaultValue={chartTypeTitle}
-              onChange={(event) => setFormChartType(event.target.value)}
-              required
-            >
-              {[chartTypeTitle, ...chartTypeList].map((option, key) => (
-                <option
-                  key={key}
-                  value={option}
-                  disabled={option === chartTypeTitle}
+            {feature === "Mapeamento de features" ? (
+              <>
+                <select
+                  id="form-select-column-map"
+                  className="border-0 rounded-md w-full"
+                  defaultValue={columnTitle}
+                  onChange={(event) => setColumnMap(event.target.value)}
+                  required
                 >
-                  {option}
-                </option>
-              ))}
-            </select>
+                  {[columnTitle, ...columnList].map((option, key) => (
+                    <option
+                      key={key}
+                      value={option}
+                      disabled={option === columnTitle}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : null}
+
+            {feature === "Clusters" ? (
+              <>
+                <select
+                  id="form-select-column-cluster"
+                  className="border-0 rounded-md w-full"
+                  defaultValue={columnTitle}
+                  onChange={(event) => setFormColumnCluster(event.target.value)}
+                  required
+                >
+                  {[columnTitle, ...columnList].map((option, key) => (
+                    <option
+                      key={key}
+                      value={option}
+                      disabled={option === columnTitle}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : null}
+
+            {feature === "Seleção de características" ? (
+              <>
+                <select
+                  id="form-select-technique"
+                  className="border-0 rounded-md w-full"
+                  defaultValue={techniqueTitle}
+                  onChange={(event) => setFormTechnique(event.target.value)}
+                  required
+                >
+                  {[techniqueTitle, ...techniqueList].map((option, key) => (
+                    <option
+                      key={key}
+                      value={option}
+                      disabled={option === techniqueTitle}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : null}
+
+            {feature === "Importâncias para machine learning" ? (
+              <>
+                <select
+                  id="form-select-model"
+                  className="border-0 rounded-md w-full"
+                  defaultValue={modelTitle}
+                  onChange={(event) => setFormModel(event.target.value)}
+                  required
+                >
+                  {[modelTitle, ...modelList].map((option, key) => (
+                    <option
+                      key={key}
+                      value={option}
+                      disabled={option === modelTitle}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : null}
+
+            {feature === "Score average mobat dos ips com maior variação" ? (
+              <input
+                id="form-input-num-ips"
+                name="input-num-ips"
+                type="number"
+                className="border-0 rounded-md w-full"
+                placeholder="Number of IPs to display"
+                min="1"
+                max="10"
+                onChange={(event) => setFormNumIps(event.target.value)}
+                required
+              />
+            ) : null}
+
+            {feature === "Reputação por país" ? (
+              <>
+                <select
+                  id="form-select-country"
+                  className="border-0 rounded-md w-full"
+                  defaultValue={countryTitle}
+                  onChange={(event) => setFormCountry(event.target.value)}
+                  required
+                >
+                  {[
+                    countryTitle,
+                    ...Object.values(countryList).toSorted((a, b) =>
+                      a.localeCompare(b, "pt-br")
+                    ),
+                  ].map((option, key) => (
+                    <option
+                      key={key}
+                      value={option}
+                      disabled={option === countryTitle}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : null}
+
+            {feature === "Heatmap de ocorrência dos ips nos países" ? (
+              <></>
+            ) : null}
+            {feature ===
+            "Tabela de acurácia e tempo de treinamento dos modelos" ? (
+              <></>
+            ) : null}
+
+            {feature === "Gráfico de dispersão" ? (
+              <>
+                <select
+                  id="form-select-column-x"
+                  className="border-0 rounded-md w-full"
+                  defaultValue={columnTitle}
+                  onChange={(event) => setFormColumnX(event.target.value)}
+                  required
+                >
+                  {[columnTitle, ...columnXYList].map((option, key) => (
+                    <option
+                      key={key}
+                      value={option}
+                      disabled={option === columnTitle}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  id="form-select-column-y"
+                  className="border-0 rounded-md w-full"
+                  defaultValue={columnTitle}
+                  onChange={(event) => setColumnY(event.target.value)}
+                  required
+                >
+                  {[columnTitle, ...columnXYList].map((option, key) => (
+                    <option
+                      key={key}
+                      value={option}
+                      disabled={option === columnTitle}
+                    >
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </>
+            ) : null}
+
+            {feature ? (
+              <div className="flex w-full justify-center gap-4">
+                <button
+                  id="form-submit-button"
+                  className="border-0 rounded-md w-1/3 bg-white p-2 hover:bg-gray-200 "
+                  onClick={handleSubmitClick}
+                  type="button"
+                >
+                  Display
+                </button>
+
+                <button
+                  id="form-reset-button"
+                  className="border-0 rounded-md w-1/3 bg-white p-2 hover:bg-gray-200"
+                  type="reset"
+                  onClick={handleResetClick}
+                >
+                  Reset
+                </button>
+              </div>
+            ) : null}
           </>
-        ) : null}
-
-        {feature === "Mapeamento de features" ? (
-          <>
-            <select
-              id="form-select-column-map"
-              className="border-0 rounded-md w-full"
-              defaultValue={columnTitle}
-              onChange={(event) => setColumnMap(event.target.value)}
-              required
-            >
-              {[columnTitle, ...columnList].map((option, key) => (
-                <option
-                  key={key}
-                  value={option}
-                  disabled={option === columnTitle}
-                >
-                  {option}
-                </option>
-              ))}
-            </select>
-          </>
-        ) : null}
-
-        {feature === "Clusters" ? (
-          <>
-            <select
-              id="form-select-column-cluster"
-              className="border-0 rounded-md w-full"
-              defaultValue={columnTitle}
-              onChange={(event) => setFormColumnCluster(event.target.value)}
-              required
-            >
-              {[columnTitle, ...columnList].map((option, key) => (
-                <option
-                  key={key}
-                  value={option}
-                  disabled={option === columnTitle}
-                >
-                  {option}
-                </option>
-              ))}
-            </select>
-          </>
-        ) : null}
-
-        {feature === "Seleção de características" ? (
-          <>
-            <select
-              id="form-select-technique"
-              className="border-0 rounded-md w-full"
-              defaultValue={techniqueTitle}
-              onChange={(event) => setFormTechnique(event.target.value)}
-              required
-            >
-              {[techniqueTitle, ...techniqueList].map((option, key) => (
-                <option
-                  key={key}
-                  value={option}
-                  disabled={option === techniqueTitle}
-                >
-                  {option}
-                </option>
-              ))}
-            </select>
-          </>
-        ) : null}
-
-        {feature === "Importâncias para machine learning" ? (
-          <>
-            <select
-              id="form-select-model"
-              className="border-0 rounded-md w-full"
-              defaultValue={modelTitle}
-              onChange={(event) => setFormModel(event.target.value)}
-              required
-            >
-              {[modelTitle, ...modelList].map((option, key) => (
-                <option
-                  key={key}
-                  value={option}
-                  disabled={option === modelTitle}
-                >
-                  {option}
-                </option>
-              ))}
-            </select>
-          </>
-        ) : null}
-
-        {feature === "Score average mobat dos ips com maior variação" ? (
-          <input
-            id="form-input-num-ips"
-            name="input-num-ips"
-            type="number"
-            className="border-0 rounded-md w-full"
-            placeholder="Number of IPs to display"
-            min="1"
-            max="10"
-            onChange={(event) => setFormNumIps(event.target.value)}
-            required
-          />
-        ) : null}
-
-        {feature === "Reputação por país" ? (
-          <>
-            <select
-              id="form-select-country"
-              className="border-0 rounded-md w-full"
-              defaultValue={countryTitle}
-              onChange={(event) => setFormCountry(event.target.value)}
-              required
-            >
-              {[
-                countryTitle,
-                ...Object.values(countryList).toSorted((a, b) =>
-                  a.localeCompare(b, "pt-br")
-                ),
-              ].map((option, key) => (
-                <option
-                  key={key}
-                  value={option}
-                  disabled={option === countryTitle}
-                >
-                  {option}
-                </option>
-              ))}
-            </select>
-          </>
-        ) : null}
-
-        {feature === "Heatmap de ocorrência dos ips nos países" ? <></> : null}
-        {feature === "Tabela de acurácia e tempo de treinamento dos modelos" ? (
-          <></>
-        ) : null}
-
-        {feature === "Gráfico de dispersão" ? (
-          <>
-            <select
-              id="form-select-column-x"
-              className="border-0 rounded-md w-full"
-              defaultValue={columnTitle}
-              onChange={(event) => setFormColumnX(event.target.value)}
-              required
-            >
-              {[columnTitle, ...columnXYList].map((option, key) => (
-                <option
-                  key={key}
-                  value={option}
-                  disabled={option === columnTitle}
-                >
-                  {option}
-                </option>
-              ))}
-            </select>
-
-            <select
-              id="form-select-column-y"
-              className="border-0 rounded-md w-full"
-              defaultValue={columnTitle}
-              onChange={(event) => setColumnY(event.target.value)}
-              required
-            >
-              {[columnTitle, ...columnXYList].map((option, key) => (
-                <option
-                  key={key}
-                  value={option}
-                  disabled={option === columnTitle}
-                >
-                  {option}
-                </option>
-              ))}
-            </select>
-          </>
-        ) : null}
-
-        {feature ? (
-          <div className="flex w-full justify-center gap-4">
-            <button
-              id="form-submit-button"
-              className="border-0 rounded-md w-1/3 bg-white p-2 hover:bg-gray-200 "
-              onClick={handleSubmitClick}
-              type="button"
-            >
-              Display
-            </button>
-
-            <button
-              id="form-reset-button"
-              className="border-0 rounded-md w-1/3 bg-white p-2 hover:bg-gray-200"
-              type="reset"
-              onClick={handleResetClick}
-            >
-              Reset
-            </button>
-          </div>
         ) : null}
       </form>
     </div>
