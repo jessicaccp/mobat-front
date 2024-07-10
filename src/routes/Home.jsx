@@ -29,11 +29,19 @@ export default function Home() {
   const [period, setPeriod] = useState(null);
   const [ip, setIp] = useState(null);
   const [chartType, setChartType] = useState(null);
+  const [columnMap, setColumnMap] = useState(null);
+  const [columnCluster, setColumnCluster] = useState(null);
+  const [numClusters, setNumClusters] = useState(null);
+  const [technique, setTechnique] = useState(null);
+  const [model, setModel] = useState(null);
   const [numIps, setNumIps] = useState(null);
+  const [country, setCountry] = useState(null);
+  const [columnX, setColumnX] = useState(null);
+  const [columnY, setColumnY] = useState(null);
 
   const [data, setData] = useState(null);
   const [meanValues, setMeanValues] = useState(nullMeanValues);
-  const [ipList, setIpList] = useState(null);
+  const [ipList, setIpList] = useState([]);
 
   // Matches the period with the file name
   function getFileName(period) {
@@ -80,7 +88,7 @@ export default function Home() {
       setMeanValues(nullMeanValues);
     }
   }, [period]);
-  console.log(data);
+  // console.log(data);
 
   // Calculates the mean values when the data changes. Runs through the data rows twice.
   useEffect(() => {
@@ -171,16 +179,19 @@ export default function Home() {
         {feature ? (
           <Form
             feature={feature}
-            setFeature={setFeature}
-            period={period}
             setPeriod={setPeriod}
-            ip={ip}
             setIp={setIp}
-            numIps={numIps}
-            setNumIps={setNumIps}
-            chartType={chartType}
-            setChartType={setChartType}
             ipList={ipList}
+            setChartType={setChartType}
+            setColumnMap={setColumnMap}
+            setColumnCluster={setColumnCluster}
+            setNumClusters={setNumClusters}
+            setTechnique={setTechnique}
+            setModel={setModel}
+            setNumIps={setNumIps}
+            setCountry={setCountry}
+            setColumnX={setColumnX}
+            setColumnY={setColumnY}
           />
         ) : null}
         <Graphic

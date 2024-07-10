@@ -18,7 +18,7 @@ export default function Header({ setFeature }) {
     "Heatmap de ocorrência dos ips nos países",
     "Tabela de acurácia e tempo de treinamento dos modelos",
     "Gráfico de dispersão",
-  ];
+  ].toSorted();
 
   function handleFeatureChange(event) {
     setFeature(event.target.value);

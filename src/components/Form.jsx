@@ -34,7 +34,7 @@ export default function Form({
     "time_period",
     "ibm_scores",
     "virustotal_stats",
-  ];
+  ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
   const columnTitle = "Select column";
   const columnList = [
     "abuseipdb_is_whitelisted",
@@ -61,7 +61,7 @@ export default function Form({
     "ALIENVAULT_reputation",
     "ALIENVAULT_asn",
     "score_average_Mobat",
-  ];
+  ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
   const numClustersTitle = "Select number of clusters";
   const techniqueTitle = "Select technique";
   const techniqueList = [
@@ -70,7 +70,7 @@ export default function Form({
     "Lasso",
     "Mutual Information",
     "Correlation Matrix",
-  ];
+  ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
   const modelTitle = "Select model";
   const modelList = [
     "Gradient Boosting Regressor",
@@ -79,7 +79,7 @@ export default function Form({
     "AdaBoost Regressor",
     "XGBoost Regressor",
     "ElasticNet",
-  ];
+  ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
   const numIpsTitle = "Select number of ips";
   const countryTitle = "Select country";
   const countryList = {
@@ -146,7 +146,7 @@ export default function Form({
     "IBM_most common score",
     "ALIENVAULT_reputation",
     "score_average_Mobat",
-  ];
+  ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
 
   // Form states
   const [formPeriod, setFormPeriod] = useState(null);
@@ -162,6 +162,10 @@ export default function Form({
   const [formColumnX, setFormColumnX] = useState(null);
   const [formColumnY, setFormColumnY] = useState(null);
 
+  function handlePeriodChange(event) {
+    setFormPeriod(event.target.value);
+    setPeriod(event.target.value);
+  }
   /**
    * Sends the states to the parent component.
    * @param {Event} event
@@ -209,8 +213,7 @@ export default function Form({
     setNumClusters(null);
     setFormNumClusters(null);
     if (document.getElementById("form-input-num-clusters"))
-      document.getElementById("form-input-num-clusters").value =
-        numClustersTitle;
+      document.getElementById("form-input-num-clusters").value = "";
     setTechnique(null);
     setFormTechnique(null);
     if (document.getElementById("form-select-technique"))
@@ -222,7 +225,7 @@ export default function Form({
     setNumIps(null);
     setFormNumIps(null);
     if (document.getElementById("form-input-num-ips"))
-      document.getElementById("form-input-num-ips").value = numIpsTitle;
+      document.getElementById("form-input-num-ips").value = "";
     setCountry(null);
     setFormCountry(null);
     if (document.getElementById("form-select-country"))
@@ -245,7 +248,7 @@ export default function Form({
             id="form-select-period"
             className="border-0 rounded-md w-full"
             defaultValue={periodTitle}
-            onChange={(event) => setFormPeriod(event.target.value)}
+            onChange={handlePeriodChange}
             required
           >
             {[periodTitle, ...periodList].map((option, key) => (
@@ -262,19 +265,25 @@ export default function Form({
 
         {feature === "Gráficos de comportamento" ? (
           <>
-            <select
-              id="form-select-ip"
-              className="border-0 rounded-md w-full"
-              defaultValue={ipTitle}
-              onChange={(event) => setFormIp(event.target.value)}
-              required
-            >
-              {[ipTitle, ...ipList].map((option, key) => (
-                <option key={key} value={option} disabled={option === ipTitle}>
-                  {option}
-                </option>
-              ))}
-            </select>
+            {formPeriod ? (
+              <select
+                id="form-select-ip"
+                className="border-0 rounded-md w-full"
+                defaultValue={ipTitle}
+                onChange={(event) => setFormIp(event.target.value)}
+                required
+              >
+                {[ipTitle, ...ipList.toSorted()].map((option, key) => (
+                  <option
+                    key={key}
+                    value={option}
+                    disabled={option === ipTitle}
+                  >
+                    {option}
+                  </option>
+                ))}
+              </select>
+            ) : null}
 
             <select
               id="form-select-chart-type"
@@ -407,7 +416,12 @@ export default function Form({
               onChange={(event) => setFormCountry(event.target.value)}
               required
             >
-              {[countryTitle, ...countryList].map((option, key) => (
+              {[
+                countryTitle,
+                ...Object.values(countryList).toSorted((a, b) =>
+                  a.localeCompare(b, "pt-br")
+                ),
+              ].map((option, key) => (
                 <option
                   key={key}
                   value={option}
