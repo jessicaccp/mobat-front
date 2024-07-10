@@ -132,6 +132,8 @@ export default function Form({
     CR: "Costa Rica",
     CH: "Suíça",
   };
+  const columnXTitle = "Select column X";
+  const columnYTitle = "Select column Y";
   const columnXYList = [
     "abuseipdb_is_whitelisted",
     "abuseipdb_confidence_score",
@@ -501,15 +503,15 @@ export default function Form({
                 <select
                   id="form-select-column-x"
                   className="border-0 rounded-md w-full"
-                  defaultValue={columnTitle}
+                  defaultValue={columnXTitle}
                   onChange={(event) => setFormColumnX(event.target.value)}
                   required
                 >
-                  {[columnTitle, ...columnXYList].map((option, key) => (
+                  {[columnXTitle, ...columnXYList].map((option, key) => (
                     <option
                       key={key}
                       value={option}
-                      disabled={option === columnTitle}
+                      disabled={option === columnXTitle}
                     >
                       {option}
                     </option>
@@ -519,15 +521,15 @@ export default function Form({
                 <select
                   id="form-select-column-y"
                   className="border-0 rounded-md w-full"
-                  defaultValue={columnTitle}
+                  defaultValue={columnYTitle}
                   onChange={(event) => setColumnY(event.target.value)}
                   required
                 >
-                  {[columnTitle, ...columnXYList].map((option, key) => (
+                  {[columnYTitle, ...columnXYList].map((option, key) => (
                     <option
                       key={key}
                       value={option}
-                      disabled={option === columnTitle}
+                      disabled={option === columnYTitle}
                     >
                       {option}
                     </option>

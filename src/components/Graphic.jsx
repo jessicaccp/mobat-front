@@ -30,22 +30,9 @@ export default function Graphic({
   columnX,
   columnY,
 }) {
+  if (data) console.log(data);
   return (
     <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-gray-100 flex-col">
-      {/* {feature ? <p>{feature}</p> : null}
-      {period ? <p>{period}</p> : null}
-      {ip ? <p>{ip}</p> : null}
-      {chartType ? <p>{chartType}</p> : null}
-      {columnMap ? <p>{columnMap}</p> : null}
-      {columnCluster ? <p>{columnCluster}</p> : null}
-      {numClusters ? <p>{numClusters}</p> : null}
-      {technique ? <p>{technique}</p> : null}
-      {model ? <p>{model}</p> : null}
-      {numIps ? <p>{numIps}</p> : null}
-      {country ? <p>{country}</p> : null}
-      {columnX ? <p>{columnX}</p> : null}
-      {columnY ? <p>{columnY}</p> : null} */}
-
       {!feature ? "No feature selected" : null}
 
       {feature === "Gráficos de comportamento" ? (
