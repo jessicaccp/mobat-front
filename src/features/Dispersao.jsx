@@ -1,21 +1,32 @@
-// Gráfico de Dispersão: Mostra um gráfico de dispersão de todas as características dos IPs. Caso não queira mais visualizar, é possível voltar ao Menu Principal.
-// inputs: feature do eixo x, feature do eixo y
+import Plot from "react-plotly.js";
 export default function Dispersao({ data, period, columnX, columnY }) {
-  const allowedColumns = [
-    "abuseipdb_is_whitelisted",
-    "abuseipdb_confidence_score",
-    "abuseipdb_total_reports",
-    "abuseipdb_num_distinct_users",
-    "virustotal_reputation",
-    "harmless",
-    "malicious",
-    "suspicious",
-    "undetected",
-    "IBM_score",
-    "IBM_average history Score",
-    "IBM_most common score",
-    "ALIENVAULT_reputation",
-    "score_average_Mobat",
-  ];
-  return <>Dispersão</>;
+  if (data && columnX && columnY) {
+    return (
+      <>
+        <Plot
+          divId="chart"
+          data={[
+            {
+              x: data.map((item) => Number(item[columnX])),
+              y: data.map((item) => Number(item[columnY])),
+              type: "scatter",
+            },
+          ]}
+          layout={{
+            autosize: true,
+            title: "Gráfico de Dispersão",
+            xaxis: { title: columnX },
+            yaxis: { title: columnY },
+          }}
+          config={{ locale: "pt-br" }}
+          useResizeHandler
+          responsive
+          className="w-full h-full"
+          // {responsive: true}
+        />
+      </>
+    );
+  }
+
+  return <p>No data</p>;
 }

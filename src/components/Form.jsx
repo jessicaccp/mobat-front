@@ -166,10 +166,10 @@ export default function Form({
   const [formColumnY, setFormColumnY] = useState(null);
 
   useEffect(() => {
-    setPeriod(null);
-    setFormPeriod(null);
-    if (document.getElementById("form-select-period"))
-      document.getElementById("form-select-period").value = periodTitle;
+    // setPeriod(null);
+    // setFormPeriod(null);
+    // if (document.getElementById("form-select-period"))
+    //   document.getElementById("form-select-period").value = periodTitle;
     setIp(null);
     setFormIp(null);
     if (document.getElementById("form-select-ip"))
@@ -244,10 +244,10 @@ export default function Form({
    * @param {Event} event
    */
   function handleResetClick(event) {
-    setPeriod(null);
-    setFormPeriod(null);
-    if (document.getElementById("form-select-period"))
-      document.getElementById("form-select-period").value = periodTitle;
+    // setPeriod(null);
+    // setFormPeriod(null);
+    // if (document.getElementById("form-select-period"))
+    //   document.getElementById("form-select-period").value = periodTitle;
     setIp(null);
     setFormIp(null);
     if (document.getElementById("form-select-ip"))
@@ -511,7 +511,9 @@ export default function Form({
                     <option
                       key={key}
                       value={option}
-                      disabled={option === columnXTitle}
+                      disabled={
+                        option === columnXTitle || option === formColumnY
+                      }
                     >
                       {option}
                     </option>
@@ -522,14 +524,16 @@ export default function Form({
                   id="form-select-column-y"
                   className="border-0 rounded-md w-full"
                   defaultValue={columnYTitle}
-                  onChange={(event) => setColumnY(event.target.value)}
+                  onChange={(event) => setFormColumnY(event.target.value)}
                   required
                 >
                   {[columnYTitle, ...columnXYList].map((option, key) => (
                     <option
                       key={key}
                       value={option}
-                      disabled={option === columnYTitle}
+                      disabled={
+                        option === columnYTitle || option === formColumnX
+                      }
                     >
                       {option}
                     </option>
