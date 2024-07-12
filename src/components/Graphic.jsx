@@ -30,7 +30,7 @@ export default function Graphic({
   columnX,
   columnY,
 }) {
-  if (data) console.log(data);
+  // if (data) console.log(data);
   return (
     <div className="w-full lg:w-2/3 lg:h-full flex items-center justify-center p-4 flex-grow bg-gray-100 flex-col">
       {!feature ? "No feature selected" : null}
