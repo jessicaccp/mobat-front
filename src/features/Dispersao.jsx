@@ -10,6 +10,7 @@ export default function Dispersao({ data, period, columnX, columnY }) {
               x: data.map((item) => Number(item[columnX])),
               y: data.map((item) => Number(item[columnY])),
               type: "scatter",
+              mode: "markers",
             },
           ]}
           layout={{
