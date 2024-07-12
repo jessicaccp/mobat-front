@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { iso31661 } from "iso-3166";
 
 /**
  * Renders a form with inputs used to generate the graphics.
@@ -19,6 +20,7 @@ export default function Form({
   setModel,
   setNumIps,
   setCountry,
+  countryList,
   setColumnX,
   setColumnY,
 }) {
@@ -83,55 +85,55 @@ export default function Form({
   ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
   const numIpsTitle = "Select number of ips";
   const countryTitle = "Select country";
-  const countryList = {
-    US: "Estados Unidos",
-    CN: "China",
-    SG: "Singapura",
-    DE: "Alemanha",
-    VN: "Vietnã",
-    KR: "Coreia do Sul",
-    IN: "Índia",
-    RU: "Rússia",
-    LT: "Lituânia",
-    TW: "Taiwan",
-    GB: "Reino Unido",
-    JP: "Japão",
-    IR: "Irã",
-    BR: "Brasil",
-    AR: "Argentina",
-    NL: "Holanda",
-    TH: "Tailândia",
-    CA: "Canadá",
-    PK: "Paquistão",
-    ID: "Indonésia",
-    ET: "Etiópia",
-    FR: "França",
-    BG: "Bulgária",
-    PA: "Panamá",
-    SA: "Arábia Saudita",
-    BD: "Bangladesh",
-    HK: "Hong Kong",
-    MA: "Marrocos",
-    EG: "Egito",
-    UA: "Ucrânia",
-    MX: "México",
-    UZ: "Uzbequistão",
-    ES: "Espanha",
-    AU: "Austrália",
-    CO: "Colômbia",
-    KZ: "Cazaquistão",
-    EC: "Equador",
-    BZ: "Belize",
-    SN: "Senegal",
-    None: "None",
-    IE: "Irlanda",
-    FI: "Finlândia",
-    ZA: "África do Sul",
-    IT: "Itália",
-    PH: "Filipinas",
-    CR: "Costa Rica",
-    CH: "Suíça",
-  };
+  // const countryList = {
+  //   US: "Estados Unidos",
+  //   CN: "China",
+  //   SG: "Singapura",
+  //   DE: "Alemanha",
+  //   VN: "Vietnã",
+  //   KR: "Coreia do Sul",
+  //   IN: "Índia",
+  //   RU: "Rússia",
+  //   LT: "Lituânia",
+  //   TW: "Taiwan",
+  //   GB: "Reino Unido",
+  //   JP: "Japão",
+  //   IR: "Irã",
+  //   BR: "Brasil",
+  //   AR: "Argentina",
+  //   NL: "Holanda",
+  //   TH: "Tailândia",
+  //   CA: "Canadá",
+  //   PK: "Paquistão",
+  //   ID: "Indonésia",
+  //   ET: "Etiópia",
+  //   FR: "França",
+  //   BG: "Bulgária",
+  //   PA: "Panamá",
+  //   SA: "Arábia Saudita",
+  //   BD: "Bangladesh",
+  //   HK: "Hong Kong",
+  //   MA: "Marrocos",
+  //   EG: "Egito",
+  //   UA: "Ucrânia",
+  //   MX: "México",
+  //   UZ: "Uzbequistão",
+  //   ES: "Espanha",
+  //   AU: "Austrália",
+  //   CO: "Colômbia",
+  //   KZ: "Cazaquistão",
+  //   EC: "Equador",
+  //   BZ: "Belize",
+  //   SN: "Senegal",
+  //   None: "None",
+  //   IE: "Irlanda",
+  //   FI: "Finlândia",
+  //   ZA: "África do Sul",
+  //   IT: "Itália",
+  //   PH: "Filipinas",
+  //   CR: "Costa Rica",
+  //   CH: "Suíça",
+  // };
   const columnXTitle = "Select column X";
   const columnYTitle = "Select column Y";
   const columnXYList = [
@@ -474,9 +476,16 @@ export default function Form({
                 >
                   {[
                     countryTitle,
-                    ...Object.values(countryList).toSorted((a, b) =>
-                      a.localeCompare(b, "pt-br")
-                    ),
+                    ...(countryList
+                      ? countryList
+                          .map(
+                            (countryCode) =>
+                              iso31661.filter(
+                                (item) => item.alpha2 == countryCode
+                              )[0].name
+                          )
+                          .toSorted((a, b) => a.localeCompare(b, "pt-br"))
+                      : []),
                   ].map((option, key) => (
                     <option
                       key={key}

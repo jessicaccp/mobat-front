@@ -37,6 +37,7 @@ export default function Home() {
   const [model, setModel] = useState(null);
   const [numIps, setNumIps] = useState(null);
   const [country, setCountry] = useState(null);
+  const [countryList, setCountryList] = useState(null);
   const [columnX, setColumnX] = useState(null);
   const [columnY, setColumnY] = useState(null);
 
@@ -93,6 +94,14 @@ export default function Home() {
       setMeanValues(nullMeanValues);
     }
   }, [period]);
+
+  useEffect(() => {
+    if (data) {
+      setCountryList([
+        ...new Set(data.map((item) => item.abuseipdb_country_code)),
+      ]);
+    }
+  }, [data]);
 
   // Calculates the mean values when the data changes. Runs through the data rows twice.
   useEffect(() => {
@@ -195,6 +204,7 @@ export default function Home() {
             setModel={setModel}
             setNumIps={setNumIps}
             setCountry={setCountry}
+            countryList={countryList}
             setColumnX={setColumnX}
             setColumnY={setColumnY}
           />

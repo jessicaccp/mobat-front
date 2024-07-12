@@ -1,21 +1,27 @@
-// Clusters: Visualização dos clusters identificados nos dados. É disponibilizada uma lista de características de reputação para selecionar  qual deseja visualizar os clusters. No final, pergunta se deseja exportar a tabela excel dos dados de todos clusters da característica da tabela selecionada no Menu Principal. Caso não queira mais visualizar, é possível voltar ao Menu Principal.
-// inputs: feature, quantidade de clusters
-export default function Clusters({ data, period, columnCluster, numClusters }) {
-  const allowedColumns = [
-    "abuseipdb_confidence_score",
-    "abuseipdb_total_reports",
-    "abuseipdb_num_distinct_users",
-    "virustotal_reputation",
-    "harmless",
-    "malicious",
-    "suspicious",
-    "undetected",
-    "IBM_score",
-    "IBM_average history Score",
-    "IBM_most common score",
-    "ALIENVAULT_reputation",
-    "score_average_Mobat",
-  ];
+import { useEffect } from "react";
+import api from "../services/api";
+
+export default function Clusters({ columnCluster, numClusters }) {
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (columnCluster) {
+      setIsLoading(true);
+      fetch(api)
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(`Failed to fetch data: ${response}`);
+        })
+        .then((data) => setData(data))
+        .then(() => setIsLoading(false))
+        .catch((error) => setError(error));
+    }
+  }, [columnCluster]);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error || error.message}</p>;
 
   return <>Clusters</>;
 }
