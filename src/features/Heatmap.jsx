@@ -1,13 +1,9 @@
-import { useEffect } from "react";
-import { countryList } from "../data";
-import { iso31661Alpha2ToAlpha3 } from "iso-3166";
+import { useEffect, useState } from "react";
+import { iso31661, iso31661Alpha2ToAlpha3 } from "iso-3166";
 import Plot from "react-plotly.js";
 
-// HeatMap de Ocorrência dos IPs nos países: Mostra um mapa de calor da ocorrência dos IPs nos países. No final, pergunta se deseja exportar o arquivo excel com os dados do gráfico.
-// inputs: nenhum
-// geographic heatmap
-// recebe dados da planilha, agrupa por país e conta a quantidade de ocorrências
 export default function Heatmap({ data, period }) {
+  const [countries, setCountries] = useState(null);
   const countryCounts = {};
 
   useEffect(() => {
@@ -19,34 +15,40 @@ export default function Heatmap({ data, period }) {
           ? countryCounts[iso31661Alpha2ToAlpha3[country]] + 1
           : 1;
       }
+      if (countryCounts["undefined"]) delete countryCounts["undefined"];
+      setCountries(countryCounts);
     }
   }, [data]);
 
-  if (data)
+  if (countries) {
     return (
       <>
+        <p>{}</p>
         <Plot
           divId="chart"
           data={[
             {
               type: "choropleth",
               locationmode: "ISO-3",
-              locations: Object.keys(countryCounts),
-              z: countryCounts,
-              text: countryCounts,
+              locations: Object.keys(countries),
+              z: Object.values(countries),
+              text: Object.keys(countries).map(
+                (countryISO3) =>
+                  iso31661.filter(
+                    (country) => country.alpha3 === countryISO3
+                  )[0].name
+              ),
               autocolorscale: true,
             },
           ]}
           layout={{
             autosize: true,
-            title: "Heatmap",
+            title: "Heatmap de Ocorrência dos IPs nos Países",
             geo: {
               projection: {
                 type: "robinson",
               },
             },
-            // xaxis: { title: columnX },
-            // yaxis: { title: columnY },
           }}
           config={{ locale: "pt-br" }}
           useResizeHandler
@@ -55,6 +57,7 @@ export default function Heatmap({ data, period }) {
         />
       </>
     );
+  }
 
-  return <>Heatmap</>;
+  return <>No data</>;
 }
