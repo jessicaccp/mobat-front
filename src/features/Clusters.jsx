@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import api from "../services/api";
 
