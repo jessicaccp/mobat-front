@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "./services/api";
 import Comportamento from "./features/Comportamento";
 import Mapeamento from "./features/Mapeamento";
 import Clusters from "./features/Clusters";
@@ -11,7 +12,10 @@ import Tabela from "./features/Tabela";
 import Dispersao from "./features/Dispersao";
 
 export default function App() {
-  // Visualization states, options and handlers
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Visualization -- states, options and handlers
   const [visualization, setVisualization] = useState(null);
   const [visualizationSelected, setVisualizationSelected] = useState(null);
   const visualizationTitle = "Selecionar visualização";
@@ -32,6 +36,45 @@ export default function App() {
   };
   const handleVisualizationButton = () => {
     setVisualization(visualizationSelected);
+  };
+
+  // Gráficos de comportamento -- inputs
+  const [ip, setIp] = useState(null);
+  const [ipSelected, setIpSelected] = useState(null);
+  const ipTitle = "Selecionar IP";
+  const [ipOptions, setIpOptions] = useState([]);
+  const handleIpSelect = (event) => {
+    setIpSelected(event.target.value);
+  };
+
+  useEffect(() => {
+    if (visualization === "Gráficos de comportamento") {
+      setLoading(true);
+      fetch(api)
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(`Failed to fetch data: ${response}`);
+        })
+        .then((data) => setIpOptions(data))
+        .then(() => setLoading(false))
+        .catch((error) => setError(error));
+    }
+  }, [visualization]);
+
+  const [chartType, setChartType] = useState(null);
+  const [chartTypeSelected, setChartTypeSelected] = useState(null);
+  const chartTypeTitle = "Selecionar tipo de gráfico";
+  const chartTypeOptions = [
+    "Location",
+    "Reports",
+    "Score average",
+    "Last report",
+    "Time period",
+    "IBM scores",
+    "VirusTotal stats",
+  ];
+  const handleChartTypeSelect = (event) => {
+    setChartTypeSelected(event.target.value);
   };
 
   return (
@@ -68,7 +111,43 @@ export default function App() {
       </header>
       <main>
         <form>
-          {visualization === "Gráficos de comportamento" ? null : null}
+          {visualization === "Gráficos de comportamento" ? (
+            <>
+              <select defaultValue={ipTitle} onChange={handleIpSelect}>
+                {[
+                  ipTitle,
+                  ...ipOptions.toSorted((a, b) => a.localeCompare(b, "pt-br")),
+                ].map((option, key) => (
+                  <option
+                    key={key}
+                    value={option}
+                    disabled={option === ipTitle}
+                  >
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <select
+                defaultValue={chartTypeTitle}
+                onChange={handleChartTypeSelect}
+              >
+                {[
+                  chartTypeTitle,
+                  ...chartTypeOptions.toSorted((a, b) =>
+                    a.localeCompare(b, "pt-br")
+                  ),
+                ].map((option, key) => (
+                  <option
+                    key={key}
+                    value={option}
+                    disabled={option === chartTypeTitle}
+                  >
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </>
+          ) : null}
           {visualization === "Mapeamento de features" ? null : null}
           {visualization === "Clusters" ? null : null}
           {visualization === "Seleção de características" ? null : null}
