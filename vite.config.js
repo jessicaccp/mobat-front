@@ -9,7 +9,7 @@ export default defineConfig({
       src: "/src",
       assets: "/src/assets",
       components: "/src/components",
-      features: "/src/features",
+      visualizations: "/src/visualizations",
       layout: "/src/layout",
       routes: "/src/routes",
       services: "/src/services",

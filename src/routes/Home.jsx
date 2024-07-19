@@ -1,14 +1,14 @@
-import Clusters from "features/Clusters";
-import Comportamento from "features/Comportamento";
-import Dispersao from "features/Dispersao";
-import Heatmap from "features/Heatmap";
-import Importancias from "features/Importancias";
-import Mapeamento from "features/Mapeamento";
-import Reputacao from "features/Reputacao";
-import ScoreAverage from "features/ScoreAverage";
-import Selecao from "features/Selecao";
-import Tabela from "features/Tabela";
-import Upload from "features/Upload";
+import Clusters from "visualizations/Clusters";
+import Comportamento from "visualizations/Comportamento";
+import Dispersao from "visualizations/Dispersao";
+import Heatmap from "visualizations/Heatmap";
+import Importancias from "visualizations/Importancias";
+import Mapeamento from "visualizations/Mapeamento";
+import Reputacao from "visualizations/Reputacao";
+import ScoreAverage from "visualizations/ScoreAverage";
+import Selecao from "visualizations/Selecao";
+import Tabela from "visualizations/Tabela";
+import Upload from "visualizations/Upload";
 import useFormStore from "store/useFormStore";
 import Error from "routes/Error";
 import React from "react";
@@ -19,6 +19,7 @@ import React from "react";
  */
 const Home = () => {
   const visualization = useFormStore((state) => state.visualization);
+  const errorMessage = "Visualização não selecionada";
 
   switch (visualization) {
     case "Clusters":
@@ -44,7 +45,7 @@ const Home = () => {
     case "Upload da Tabela dos IPs do período":
       return <Upload />;
     default:
-      return <Error message="Visualização não selecionada" />;
+      return <Error message={errorMessage} />;
   }
 };
 
