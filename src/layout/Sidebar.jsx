@@ -7,6 +7,7 @@ import useFormStore from "store/useFormStore";
  * @returns {React.JSX.Element} The aside tag, containing all the inputs and form components for filtering the data.
  */
 const Sidebar = () => {
+  // Options
   const visualizationOptions = [
     "Clusters",
     "Gráfico de Dispersão",
@@ -20,7 +21,6 @@ const Sidebar = () => {
     "Tabela de Acurácia e Tempo de Treinamento dos Modelos",
     "Upload da Tabela dos IPs do período",
   ];
-  const setVisualization = useFormStore((state) => state.setVisualization);
 
   const featureOptions = [
     "abuseipdb_is_whitelisted",
@@ -48,13 +48,26 @@ const Sidebar = () => {
     "ALIENVAULT_asn",
     "score_average_Mobat",
   ];
-  const setClusterFeature = useFormStore((state) => state.setClusterFeature);
-  const setClusterNum = useFormStore((state) => state.setClusterNum);
 
-  const setDispersaoX = useFormStore((state) => state.setDispersaoX);
-  const setDispersaoY = useFormStore((state) => state.setDispersaoY);
+  const numericFeatureOptions = [
+    "abuseipdb_is_whitelisted",
+    "abuseipdb_confidence_score",
+    "abuseipdb_total_reports",
+    "abuseipdb_num_distinct_users",
+    "virustotal_reputation",
+    "harmless",
+    "malicious",
+    "suspicious",
+    "undetected",
+    "IBM_score",
+    "IBM_average history Score",
+    "IBM_most common score",
+    "ALIENVAULT_reputation",
+    "score_average_Mobat",
+  ];
 
   const ipOptions = [];
+
   const chartTypeOptions = [
     "Location",
     "Reports",
@@ -64,28 +77,46 @@ const Sidebar = () => {
     "IBM Scores",
     "VirusTotal Stats",
   ];
+
+  const modelOptions = [
+    "Gradient Boosting Regressor",
+    "Random Forest Regressor",
+    "Extra Trees Regressor",
+    "AdaBoost Regressor",
+    "XGBoost Regressor",
+    "ElasticNet",
+  ];
+
+  const countryOptions = [];
+
+  const techniqueOptions = [
+    "Variance Threshold",
+    "SelectKBest",
+    "Lasso",
+    "Mutual Information",
+    "Correlation Matrix",
+  ];
+
+  // Setters
+  const setVisualization = useFormStore((state) => state.setVisualization);
+  const setClusterFeature = useFormStore((state) => state.setClusterFeature);
+  const setClusterNum = useFormStore((state) => state.setClusterNum);
+  const setDispersaoX = useFormStore((state) => state.setDispersaoX);
+  const setDispersaoY = useFormStore((state) => state.setDispersaoY);
   const setComportamentoIp = useFormStore((state) => state.setComportamentoIp);
   const setComportamentoChart = useFormStore(
     (state) => state.setComportamentoChart
   );
-
-  const modelOptions = [];
   const setImportanciasModel = useFormStore(
     (state) => state.setImportanciasModel
   );
-
   const setMapeamentoFeature = useFormStore(
     (state) => state.setMapeamentoFeature
   );
-
-  const countryOptions = [];
   const setReputacaoCountry = useFormStore(
     (state) => state.setReputacaoCountry
   );
-
   const setScoreNum = useFormStore((state) => state.setScoreNum);
-
-  const techniqueOptions = [];
   const setSelecaoTechnique = useFormStore(
     (state) => state.setSelecaoTechnique
   );
@@ -121,7 +152,7 @@ const Sidebar = () => {
 
           <Select
             title="Coluna eixo x dispersão"
-            options={featureOptions}
+            options={numericFeatureOptions}
             handle={(e) => {
               setDispersaoX(e.target.value);
             }}
@@ -129,7 +160,7 @@ const Sidebar = () => {
 
           <Select
             title="Coluna eixo y dispersão"
-            options={featureOptions}
+            options={numericFeatureOptions}
             handle={(e) => {
               setDispersaoY(e.target.value);
             }}

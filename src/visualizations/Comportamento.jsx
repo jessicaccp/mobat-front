@@ -1,17 +1,40 @@
-// Gráficos de Comportamento: Visualiza o comportamento de IPs específicos. De acordo com a lista de IP, o usuário escolhe qual IP deseja visualizar e gerar os gráficos de comportamento. No final, pergunta se deseja exportar a tabela excel com os dados do IP específico.
+import useFormStore from "store/useFormStore";
+import Error from "routes/Error";
+import api from "services/api";
+import { useState } from "react";
 
-// location: abuseipdb_country_code, abuseipdb_isp, abuseipdb_domain, virustotal_as_owner, virustotal_asn, ALIENVAULT_asn
-export default function Comportamento({ data, period, ip, chartType }) {
+const Comportamento = () => {
+  const ip = useFormStore((state) => state.comportamento.ip);
+  const chartType = useFormStore((state) => state.comportamento.chart);
+  const errorMessage = "IP e tipo de gráfico não selecionados";
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (ip && chartType) {
+      setLoading(true);
+      fetch(api)
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(`Failed to fetch data: ${response}`);
+        })
+        .then((data) => setData(data))
+        .then(() => setLoading(false))
+        .catch((error) => setError(error));
+    }
+  }, [ip, chartType]);
+
+  if (!(ip && chartType)) return <Error message={errorMessage} />;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <Error message={error?.message || error} />;
+
   return (
     <>
-      {!chartType ? "No chart type selected" : null}
-      {chartType === "location" ? <>Location</> : null}
-      {chartType === "reports" ? <>Reports</> : null}
-      {chartType === "score_average" ? <>Score average</> : null}
-      {chartType === "last_report" ? <>Last report</> : null}
-      {chartType === "time_period" ? <>Time period</> : null}
-      {chartType === "ibm_scores" ? <>IBM scores</> : null}
-      {chartType === "virustotal_stats" ? <>VirusTotal stats</> : null}
+      <Plot />
     </>
   );
-}
+};
+
+export default Comportamento;

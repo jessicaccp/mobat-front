@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import api from "../services/api";
+import api from "services/api";
+import useFormStore from "store/useFormStore";
+import Error from "routes/Error";
 
-export default function Clusters({ columnCluster, numClusters }) {
+const Clusters = () => {
+  const columnCluster = useFormStore((state) => state.cluster.feature);
+  const numClusters = useFormStore((state) => state.cluster.num);
+  const errorMessage = "Coluna e número de clusters não selecionados";
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -21,12 +27,15 @@ export default function Clusters({ columnCluster, numClusters }) {
     }
   }, [columnCluster, numClusters]);
 
+  if (!(columnCluster && numClusters)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error?.message || error}</p>;
+  if (error) return <Error message={error?.message || error} />;
 
   return (
     <>
       <Plot />
     </>
   );
-}
+};
+
+export default Clusters;

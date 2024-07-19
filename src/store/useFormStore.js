@@ -22,7 +22,7 @@ const useFormStore = create((set) => ({
   setClusterNum: (num) =>
     set(
       produce((state) => {
-        state.cluster.num = num;
+        state.cluster.num = Number(num);
       })
     ),
   setDispersaoX: (x) =>
@@ -70,7 +70,7 @@ const useFormStore = create((set) => ({
   setScoreNum: (num) =>
     set(
       produce((state) => {
-        state.score.num = num;
+        state.score.num = Number(num);
       })
     ),
   setSelecaoTechnique: (technique) =>
