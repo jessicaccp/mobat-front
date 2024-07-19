@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Select from "components/Select";
 import Input from "components/Input";
 import useFormStore from "store/useFormStore";
@@ -93,7 +92,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <aside className="w-full max-h-fit lg:w-1/3 lg:h-full p-8 bg-gray-100 gap-4 flex items-center flex-col overflow-y-scroll lg:overflow-y-auto">
+      <aside className="w-full max-h-fit lg:w-1/3 lg:h-full p-8 bg-gray-100 gap-4 flex items-center flex-col overflow-y-scroll lg:overflow-y-auto lg:justify-center">
         <form className="flex flex-row flex-wrap lg:flex-col gap-4 w-full items-center justify-center">
           <Select
             title="Visualização"
