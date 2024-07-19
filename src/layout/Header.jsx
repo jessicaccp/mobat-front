@@ -1,3 +1,9 @@
+import React from "react";
+
+/**
+ * Main header of the application.
+ * @returns {React.JSX.Element} The header tag, containing title and subtitle, both linked to the root route.
+ */
 const Header = () => {
   const title = "MoBAt";
   const subtitle = "Monitoramento e Análise de Dados de Bases de Ameaças";

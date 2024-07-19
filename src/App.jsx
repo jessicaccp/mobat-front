@@ -3,6 +3,10 @@ import Header from "layout/Header";
 import Sidebar from "layout/Sidebar";
 import Main from "layout/Main";
 
+/**
+ * Main component of the application.
+ * @returns {React.JSX.Element} The layout components.
+ */
 const App = () => {
   useEffect(() => {
     document.title = "MoBAt";
