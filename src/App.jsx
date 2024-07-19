@@ -15,7 +15,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <div className="flex flex-col lg:flex-row w-full h-full">
+      <div className="container flex flex-col lg:flex-row w-full h-full">
         <Sidebar />
         <Main />
       </div>
