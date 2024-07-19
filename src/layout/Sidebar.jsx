@@ -1,13 +1,13 @@
 import { useState } from "react";
 import Select from "components/Select";
 import Input from "components/Input";
+import useFormStore from "store/useFormStore";
 
 /**
  * Sidebar component of the application.
  * @returns {React.JSX.Element} The aside tag, containing all the inputs and form components for filtering the data.
  */
 const Sidebar = () => {
-  const [visualization, setVisualization] = useState(null);
   const visualizationOptions = [
     "Clusters",
     "Gráfico de Dispersão",
@@ -21,12 +21,8 @@ const Sidebar = () => {
     "Tabela de Acurácia e Tempo de Treinamento dos Modelos",
     "Upload da Tabela dos IPs do período",
   ];
-  const handleVisualization = (event) => {
-    setVisualization(event.target.value);
-  };
+  const setVisualization = useFormStore((state) => state.setVisualization);
 
-  const [featureCluster, setFeatureCluster] = useState(null);
-  const [numCluster, setNumCluster] = useState(null);
   const featureOptions = [
     "abuseipdb_is_whitelisted",
     "abuseipdb_confidence_score",
@@ -53,24 +49,12 @@ const Sidebar = () => {
     "ALIENVAULT_asn",
     "score_average_Mobat",
   ];
-  const handleFeatureCluster = (event) => {
-    setFeatureCluster(event.target.value);
-  };
-  const handleNumCluster = (event) => {
-    setNumCluster(event.target.value);
-  };
+  const setClusterFeature = useFormStore((state) => state.setClusterFeature);
+  const setClusterNum = useFormStore((state) => state.setClusterNum);
 
-  const [featureX, setFeatureX] = useState(null);
-  const [featureY, setFeatureY] = useState(null);
-  const handleFeatureX = (event) => {
-    setFeatureX(event.target.value);
-  };
-  const handleFeatureY = (event) => {
-    setFeatureY(event.target.value);
-  };
+  const setDispersaoX = useFormStore((state) => state.setDispersaoX);
+  const setDispersaoY = useFormStore((state) => state.setDispersaoY);
 
-  const [ip, setIp] = useState(null);
-  const [chartType, setChartType] = useState(null);
   const ipOptions = [];
   const chartTypeOptions = [
     "Location",
@@ -81,36 +65,31 @@ const Sidebar = () => {
     "IBM Scores",
     "VirusTotal Stats",
   ];
-  const handleIp = (event) => {
-    setIp(event.target.value);
-  };
-  const handleChartType = (event) => {
-    setChartType(event.target.value);
-  };
+  const setComportamentoIp = useFormStore((state) => state.setComportamentoIp);
+  const setComportamentoChart = useFormStore(
+    (state) => state.setComportamentoChart
+  );
 
-  const [model, setModel] = useState(null);
   const modelOptions = [];
-  const handleModel = (event) => {
-    setModel(event.target.value);
-  };
-  const [featureMap, setFeatureMap] = useState(null);
-  const handleFeatureMap = (event) => {
-    setFeatureMap(event.target.value);
-  };
-  const [country, setCountry] = useState(null);
+  const setImportanciasModel = useFormStore(
+    (state) => state.setImportanciasModel
+  );
+
+  const setMapeamentoFeature = useFormStore(
+    (state) => state.setMapeamentoFeature
+  );
+
   const countryOptions = [];
-  const handleCountry = (event) => {
-    setCountry(event.target.value);
-  };
-  const [numIP, setNumIP] = useState(null);
-  const handleNumIP = (event) => {
-    setNumIP(event.target.value);
-  };
-  const [technique, setTechnique] = useState(null);
+  const setReputacaoCountry = useFormStore(
+    (state) => state.setReputacaoCountry
+  );
+
+  const setScoreNum = useFormStore((state) => state.setScoreNum);
+
   const techniqueOptions = [];
-  const handleTechnique = (event) => {
-    setTechnique(event.target.value);
-  };
+  const setSelecaoTechnique = useFormStore(
+    (state) => state.setSelecaoTechnique
+  );
 
   return (
     <>
@@ -119,18 +98,24 @@ const Sidebar = () => {
           <Select
             title="Visualização"
             options={visualizationOptions}
-            handle={handleVisualization}
+            handle={(e) => {
+              setVisualization(e.target.value);
+            }}
           />
 
           <Select
             title="Coluna do cluster"
             options={featureOptions}
-            handle={handleFeatureCluster}
+            handle={(e) => {
+              setClusterFeature(e.target.value);
+            }}
           />
 
           <Input
             title="Número de clusters"
-            handle={handleNumCluster}
+            handle={(e) => {
+              setClusterNum(e.target.value);
+            }}
             min={1}
             max={10}
           />
@@ -138,43 +123,74 @@ const Sidebar = () => {
           <Select
             title="Coluna eixo x dispersão"
             options={featureOptions}
-            handle={handleFeatureX}
+            handle={(e) => {
+              setDispersaoX(e.target.value);
+            }}
           />
 
           <Select
             title="Coluna eixo y dispersão"
             options={featureOptions}
-            handle={handleFeatureY}
+            handle={(e) => {
+              setDispersaoY(e.target.value);
+            }}
           />
 
-          <Select title="IP" options={ipOptions} handle={handleIp} />
+          <Select
+            title="IP"
+            options={ipOptions}
+            handle={(e) => {
+              setComportamentoIp(e.target.value);
+            }}
+          />
 
           <Select
             title="Tipo de comportamento"
             options={chartTypeOptions}
-            handle={handleChartType}
+            handle={(e) => {
+              setComportamentoChart(e.target.value);
+            }}
           />
 
-          <Select title="Modelo" options={modelOptions} handle={handleModel} />
+          <Select
+            title="Modelo"
+            options={modelOptions}
+            handle={(e) => {
+              setImportanciasModel(e.target.value);
+            }}
+          />
 
           <Select
             title="Coluna mapeamento"
             options={featureOptions}
-            handle={handleFeatureMap}
+            handle={(e) => {
+              setMapeamentoFeature(e.target.value);
+            }}
           />
 
           <Select
             title="País mapeamento"
             options={countryOptions}
-            handle={handleCountry}
+            handle={(e) => {
+              setReputacaoCountry(e.target.value);
+            }}
           />
 
-          <Input title="Número de IPs" handle={handleNumIP} min={1} max={10} />
+          <Input
+            title="Número de IPs"
+            handle={(e) => {
+              setScoreNum(e.target.value);
+            }}
+            min={1}
+            max={10}
+          />
 
           <Select
             title="Técnica"
             options={techniqueOptions}
-            handle={handleTechnique}
+            handle={(e) => {
+              setSelecaoTechnique(e.target.value);
+            }}
           />
         </form>
       </aside>

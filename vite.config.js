@@ -13,6 +13,7 @@ export default defineConfig({
       layout: "/src/layout",
       routes: "/src/routes",
       services: "/src/services",
+      store: "/src/store",
       tests: "/src/tests",
     },
   },
