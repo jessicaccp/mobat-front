@@ -11,7 +11,6 @@ export default defineConfig({
       components: "/src/components",
       visualizations: "/src/visualizations",
       layout: "/src/layout",
-      routes: "/src/routes",
       services: "/src/services",
       store: "/src/store",
       tests: "/src/tests",

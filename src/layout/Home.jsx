@@ -8,7 +8,6 @@ import Reputacao from "visualizations/Reputacao";
 import ScoreAverage from "visualizations/ScoreAverage";
 import Selecao from "visualizations/Selecao";
 import Tabela from "visualizations/Tabela";
-import Upload from "visualizations/Upload";
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 import React from "react";
@@ -42,8 +41,6 @@ const Home = () => {
       return <Selecao />;
     case "Tabela de Acurácia e Tempo de Treinamento dos Modelos":
       return <Tabela />;
-    case "Upload da Tabela dos IPs do período":
-      return <Upload />;
     default:
       return <Error message={errorMessage} />;
   }

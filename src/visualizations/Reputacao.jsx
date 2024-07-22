@@ -40,7 +40,6 @@ const Reputacao = () => {
         if (item.abuseipdb_country_code === countryCode) {
           scores.push(Number(item.score_average_Mobat));
           sum += Number(item.score_average_Mobat);
-          console.log(item, sum);
         }
       });
       setScore(scores);
@@ -51,7 +50,6 @@ const Reputacao = () => {
   useEffect(() => {
     if (country) {
       let alpha2 = iso31661.filter((item) => item.name === country);
-      console.log(country, alpha2);
       // if (alpha2) setCountryCode(alpha2);
     }
   }, [country]);
@@ -80,3 +78,5 @@ const Reputacao = () => {
     </>
   );
 };
+
+export default Reputacao;

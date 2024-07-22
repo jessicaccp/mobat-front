@@ -5,7 +5,7 @@ import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 
 const Selecao = () => {
-  const technique = useFormStore((state) => state.score.num);
+  const technique = useFormStore((state) => state.selecao.technique);
   const errorMessage = "Técnica não selecionada";
 
   const [data, setData] = useState(null);
@@ -96,12 +96,12 @@ const Selecao = () => {
         />
       </>
     );
-};
 
-return (
-  <>
-    <Plot />
-  </>
-);
+  return (
+    <>
+      <Plot />
+    </>
+  );
+};
 
 export default Selecao;
