@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "routes/Home";
-import Error from "routes/Error";
+import Home from "layout/Home";
+import Error from "layout/Error";
 import React from "react";
 
 /**

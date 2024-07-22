@@ -10,7 +10,7 @@ import Selecao from "visualizations/Selecao";
 import Tabela from "visualizations/Tabela";
 import Upload from "visualizations/Upload";
 import useFormStore from "store/useFormStore";
-import Error from "routes/Error";
+import Error from "layout/Error";
 import React from "react";
 
 /**
