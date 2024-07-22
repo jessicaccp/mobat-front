@@ -30,10 +30,24 @@ const Clusters = () => {
   if (!(columnCluster && numClusters)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
+  if (!data) return <Error message="No data" />;
 
   return (
     <>
-      <Plot />
+      <Plot
+        divId="chart"
+        data={[{}]}
+        layout={{
+          autosize: true,
+          title: "Clusters",
+          xaxis: { title: "" },
+          yaxis: { title: "" },
+        }}
+        config={{ locale: "pt-br" }}
+        useResizeHandler
+        responsive
+        className="w-full h-full"
+      />
     </>
   );
 };

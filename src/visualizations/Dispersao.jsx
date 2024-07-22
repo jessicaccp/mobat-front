@@ -1,5 +1,8 @@
 import Plot from "react-plotly.js";
 import useFormStore from "store/useFormStore";
+import { useState } from "react";
+import api from "services/api";
+import Error from "routes/Error";
 
 const Dispersao = () => {
   const columnX = useFormStore((state) => state.dispersao.x);
@@ -27,6 +30,7 @@ const Dispersao = () => {
   if (!(columnX && columnY)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
+  if (!data) return <Error message="No data" />;
 
   return (
     <>

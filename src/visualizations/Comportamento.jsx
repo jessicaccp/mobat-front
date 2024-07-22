@@ -2,6 +2,7 @@ import useFormStore from "store/useFormStore";
 import Error from "routes/Error";
 import api from "services/api";
 import { useState } from "react";
+import Plot from "react-plotly.js";
 
 const Comportamento = () => {
   const ip = useFormStore((state) => state.comportamento.ip);
@@ -29,10 +30,24 @@ const Comportamento = () => {
   if (!(ip && chartType)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
+  if (!data) return <Error message="No data" />;
 
   return (
     <>
-      <Plot />
+      <Plot
+        divId="chart"
+        data={[{}]}
+        layout={{
+          autosize: true,
+          title: "Gráficos de Comportamento",
+          xaxis: { title: "" },
+          yaxis: { title: "" },
+        }}
+        config={{ locale: "pt-br" }}
+        useResizeHandler
+        responsive
+        className="w-full h-full"
+      />
     </>
   );
 };

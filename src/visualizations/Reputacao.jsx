@@ -1,17 +1,38 @@
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { iso31661 } from "iso-3166";
+import useFormStore from "store/useFormStore";
+import api from "services/api";
+import Error from "routes/Error";
 
-// Reputação por País: Visualiza o gráfico da reputação dos IPs por país.
-// inputs: 46 países
-export default function Reputacao({ data, period, country }) {
+const Reputacao = () => {
+  const country = useFormStore((state) => state.reputacao.country);
+  const errorMessage = "País não selecionado";
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (country) {
+      setLoading(true);
+      fetch(api)
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(`Failed to fetch data: ${response}`);
+        })
+        .then((data) => setData(data))
+        .then(() => setLoading(false))
+        .catch((error) => setError(error));
+    }
+  }, [country]);
+
   const [score, setScore] = useState(null);
   const [mean, setMean] = useState(null);
   const [countryCode, setCountryCode] = useState(null);
   const scores = [];
   let sum = 0;
 
-  // console.log(data);
   useEffect(() => {
     if (data && countryCode) {
       sum = 0;
@@ -35,7 +56,27 @@ export default function Reputacao({ data, period, country }) {
     }
   }, [country]);
 
-  // console.log(countryCode, score, mean);
+  if (!country) return <Error message={errorMessage} />;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <Error message={error?.message || error} />;
+  if (!data) return <Error message="No data" />;
 
-  return <>Reputação</>;
-}
+  return (
+    <>
+      <Plot
+        divId="chart"
+        data={[{}]}
+        layout={{
+          autosize: true,
+          title: "Reputação por País",
+          xaxis: { title: "" },
+          yaxis: { title: "" },
+        }}
+        config={{ locale: "pt-br" }}
+        useResizeHandler
+        responsive
+        className="w-full h-full"
+      />
+    </>
+  );
+};
