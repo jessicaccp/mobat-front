@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import api from "../services/api";
+import api from "services/api";
 import Plot from "react-plotly.js";
+import useFormStore from "store/useFormStore";
+import Error from "layout/Error";
 
 const Tabela = () => {
   const [data, setData] = useState(null);

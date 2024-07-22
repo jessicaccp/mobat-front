@@ -3,7 +3,7 @@ import { iso31661, iso31661Alpha2ToAlpha3 } from "iso-3166";
 import Plot from "react-plotly.js";
 import useFormStore from "store/useFormStore";
 import api from "services/api";
-import Error from "routes/Error";
+import Error from "layout/Error";
 
 const Heatmap = () => {
   const [data, setData] = useState(null);

@@ -3,7 +3,7 @@ import Plot from "react-plotly.js";
 import { iso31661 } from "iso-3166";
 import useFormStore from "store/useFormStore";
 import api from "services/api";
-import Error from "routes/Error";
+import Error from "layout/Error";
 
 const Reputacao = () => {
   const country = useFormStore((state) => state.reputacao.country);

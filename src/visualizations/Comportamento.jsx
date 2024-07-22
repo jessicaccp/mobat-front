@@ -1,7 +1,7 @@
 import useFormStore from "store/useFormStore";
-import Error from "routes/Error";
+import Error from "layout/Error";
 import api from "services/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 
 const Comportamento = () => {

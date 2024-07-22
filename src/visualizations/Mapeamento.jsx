@@ -1,8 +1,8 @@
 import Plot from "react-plotly.js";
 import useFormStore from "store/useFormStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "services/api";
-import Error from "routes/Error";
+import Error from "layout/Error";
 
 const Mapeamento = () => {
   const columnMap = useFormStore((state) => state.mapeamento.feature);

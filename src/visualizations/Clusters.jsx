@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import api from "services/api";
 import useFormStore from "store/useFormStore";
-import Error from "routes/Error";
+import Error from "layout/Error";
 
 const Clusters = () => {
   const columnCluster = useFormStore((state) => state.cluster.feature);
