@@ -7,7 +7,12 @@
  * @param {Function} props.handle - The input's onChange event handler.
  * @returns {React.JSX.Element} An input tag with the given input props.
  */
-const Input = ({ min, max, title, handle }) => {
+const Input = ({
+  min = 1,
+  max = 10,
+  title = "Set a value",
+  handle = emptyHandler,
+}) => {
   return (
     <>
       <input
@@ -21,5 +26,7 @@ const Input = ({ min, max, title, handle }) => {
     </>
   );
 };
+
+const emptyHandler = () => {};
 
 export default Input;

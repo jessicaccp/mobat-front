@@ -6,7 +6,11 @@
  * @param {Function} props.handle - The select's onChange event handler
  * @returns {React.JSX.Element} A select tag with the given input props.
  */
-const Select = ({ title = "Select", options = [], handle }) => {
+const Select = ({
+  title = "Select an option",
+  options = [],
+  handle = emptyHandler,
+}) => {
   return (
     <>
       <select
@@ -27,5 +31,7 @@ const Select = ({ title = "Select", options = [], handle }) => {
     </>
   );
 };
+
+const emptyHandler = () => {};
 
 export default Select;
