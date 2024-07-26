@@ -1,3 +1,5 @@
+import useFormStore from "store/useFormStore";
+
 /**
  * Select component.
  * @param {Object} props - Input properties for the component.
@@ -10,6 +12,7 @@ const Select = ({
   title = "Select an option",
   options = [],
   handle = emptyHandler,
+  eixo = null,
 }) => {
   return (
     <>
@@ -23,7 +26,17 @@ const Select = ({
           title,
           ...options.toSorted((a, b) => a.localeCompare(b, "pt-br")),
         ].map((option, key) => (
-          <option key={key} value={option} disabled={option === title}>
+          <option
+            key={key}
+            value={option}
+            disabled={
+              option === title ||
+              (eixo === "X" &&
+                option === useFormStore((state) => state.dispersao.y)) ||
+              (eixo === "Y" &&
+                option === useFormStore((state) => state.dispersao.x))
+            }
+          >
             {option}
           </option>
         ))}

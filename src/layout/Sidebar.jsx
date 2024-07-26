@@ -224,6 +224,7 @@ const Sidebar = () => {
               handle={(e) => {
                 setDispersaoX(e.target.value);
               }}
+              eixo={"X"}
             />
           )}
           {useFormStore((state) => state.visualization) ===
@@ -234,6 +235,7 @@ const Sidebar = () => {
               handle={(e) => {
                 setDispersaoY(e.target.value);
               }}
+              eixo={"Y"}
             />
           )}
           {useFormStore((state) => state.visualization) ===
