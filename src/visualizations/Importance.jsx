@@ -12,19 +12,25 @@ const Importance = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // --- TEST
   useEffect(() => {
-    if (model) {
-      setLoading(true);
-      fetch(api)
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(`Failed to fetch data: ${response}`);
-        })
-        .then((data) => setData(data))
-        .then(() => setLoading(false))
-        .catch((error) => setError(error));
-    }
-  }, [model]);
+    setData();
+  }, []);
+
+  // --- REAL
+  // useEffect(() => {
+  //   if (model) {
+  //     setLoading(true);
+  //     fetch(api)
+  //       .then((response) => {
+  //         if (response.ok) return response.json();
+  //         throw new Error(`Failed to fetch data: ${response}`);
+  //       })
+  //       .then((data) => setData(data))
+  //       .then(() => setLoading(false))
+  //       .catch((error) => setError(error));
+  //   }
+  // }, [model]);
 
   if (!model) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;

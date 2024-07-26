@@ -13,19 +13,25 @@ const Behavior = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // --- TEST
   useEffect(() => {
-    if (ip) {
-      setLoading(true);
-      fetch(api + `/?ip=${ip}`)
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(`Failed to fetch data: ${response}`);
-        })
-        .then((data) => setData(data))
-        .then(() => setLoading(false))
-        .catch((error) => setError(error));
-    }
-  }, [ip]);
+    setData();
+  }, []);
+
+  // --- REAL
+  // useEffect(() => {
+  //   if (ip) {
+  //     setLoading(true);
+  //     fetch(api + `/?ip=${ip}`)
+  //       .then((response) => {
+  //         if (response.ok) return response.json();
+  //         throw new Error(`Failed to fetch data: ${response}`);
+  //       })
+  //       .then((data) => setData(data))
+  //       .then(() => setLoading(false))
+  //       .catch((error) => setError(error));
+  //   }
+  // }, [ip]);
 
   if (!(ip && chartType)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;

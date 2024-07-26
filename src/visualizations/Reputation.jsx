@@ -13,19 +13,25 @@ const Reputation = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // --- TEST
   useEffect(() => {
-    if (country) {
-      setLoading(true);
-      fetch(api)
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(`Failed to fetch data: ${response}`);
-        })
-        .then((data) => setData(data))
-        .then(() => setLoading(false))
-        .catch((error) => setError(error));
-    }
-  }, [country]);
+    setData();
+  }, []);
+
+  // --- REAL
+  // useEffect(() => {
+  //   if (country) {
+  //     setLoading(true);
+  //     fetch(api)
+  //       .then((response) => {
+  //         if (response.ok) return response.json();
+  //         throw new Error(`Failed to fetch data: ${response}`);
+  //       })
+  //       .then((data) => setData(data))
+  //       .then(() => setLoading(false))
+  //       .catch((error) => setError(error));
+  //   }
+  // }, [country]);
 
   const [score, setScore] = useState(null);
   const [mean, setMean] = useState(null);

@@ -13,19 +13,25 @@ const Cluster = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // --- TEST
   useEffect(() => {
-    if (columnCluster && numCluster) {
-      setLoading(true);
-      fetch(api)
-        .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(`Failed to fetch data: ${response}`);
-        })
-        .then((data) => setData(data))
-        .then(() => setLoading(false))
-        .catch((error) => setError(error));
-    }
-  }, [columnCluster, numCluster]);
+    setData();
+  }, []);
+
+  // --- REAL
+  // useEffect(() => {
+  //   if (columnCluster && numCluster) {
+  //     setLoading(true);
+  //     fetch(api)
+  //       .then((response) => {
+  //         if (response.ok) return response.json();
+  //         throw new Error(`Failed to fetch data: ${response}`);
+  //       })
+  //       .then((data) => setData(data))
+  //       .then(() => setLoading(false))
+  //       .catch((error) => setError(error));
+  //   }
+  // }, [columnCluster, numCluster]);
 
   if (!(columnCluster && numCluster)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
