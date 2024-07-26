@@ -12,18 +12,18 @@ import { iso31661 } from "iso-3166";
  */
 const Sidebar = () => {
   // Options
-  const visualizationOptions = [
-    "Clusters",
-    "Gráfico de Dispersão",
-    "Gráficos de Comportamento",
-    "HeatMap de Ocorrência dos IPs nos países",
-    "Importâncias para Machine Learning",
-    "Mapeamento das features",
-    "Reputação por País",
-    "Score Average Mobat dos IPs com maior variação",
-    "Seleção de Características",
-    "Tabela de Acurácia e Tempo de Treinamento dos Modelos",
-  ];
+  const visualizationOptions = {
+    cluster: "Cluster",
+    scatter: "Scatter plot",
+    behavior: "Behavior graphs",
+    heatmap: "Heatmap of occurrence of IPs per country",
+    importance: "Importance for machine learning",
+    mapping: "Feature mapping",
+    reputation: "Reputation per country",
+    score: "MoBAt average score of IPs with the highest variation",
+    selection: "Feature selection",
+    table: "Model accuracy and training time table",
+  };
 
   const featureOptions = [
     "abuseipdb_is_whitelisted",
@@ -166,24 +166,18 @@ const Sidebar = () => {
   const setVisualization = useFormStore((state) => state.setVisualization);
   const setClusterFeature = useFormStore((state) => state.setClusterFeature);
   const setClusterNum = useFormStore((state) => state.setClusterNum);
-  const setDispersaoX = useFormStore((state) => state.setDispersaoX);
-  const setDispersaoY = useFormStore((state) => state.setDispersaoY);
-  const setComportamentoIp = useFormStore((state) => state.setComportamentoIp);
-  const setComportamentoChart = useFormStore(
-    (state) => state.setComportamentoChart
-  );
-  const setImportanciasModel = useFormStore(
-    (state) => state.setImportanciasModel
-  );
-  const setMapeamentoFeature = useFormStore(
-    (state) => state.setMapeamentoFeature
-  );
-  const setReputacaoCountry = useFormStore(
-    (state) => state.setReputacaoCountry
+  const setScatterX = useFormStore((state) => state.setScatterX);
+  const setScatterY = useFormStore((state) => state.setScatterY);
+  const setBehaviorIp = useFormStore((state) => state.setBehaviorIp);
+  const setBehaviorChart = useFormStore((state) => state.setBehaviorChart);
+  const setImportanceModel = useFormStore((state) => state.setImportanceModel);
+  const setMappingFeature = useFormStore((state) => state.setMappingFeature);
+  const setReputationCountry = useFormStore(
+    (state) => state.setReputationCountry
   );
   const setScoreNum = useFormStore((state) => state.setScoreNum);
-  const setSelecaoTechnique = useFormStore(
-    (state) => state.setSelecaoTechnique
+  const setSelectionTechnique = useFormStore(
+    (state) => state.setSelectionTechnique
   );
 
   return (
@@ -191,24 +185,28 @@ const Sidebar = () => {
       <aside className="w-full max-h-fit lg:w-1/3 lg:h-full p-8 bg-gray-100 gap-4 flex items-center flex-col overflow-y-scroll lg:overflow-y-auto lg:justify-center">
         <form className="flex flex-row flex-wrap lg:flex-col gap-4 w-full items-center justify-center">
           <Select
-            title="Visualização"
-            options={visualizationOptions}
+            title="Select a visualization"
+            options={Object.values(visualizationOptions)}
             handle={(e) => {
-              setVisualization(e.target.value);
+              setVisualization(
+                Object.keys(visualizationOptions).find(
+                  (key) => visualizationOptions[key] === e.target.value
+                )
+              );
             }}
           />
-          {useFormStore((state) => state.visualization) === "Clusters" && (
+          {useFormStore((state) => state.visualization) === "cluster" && (
             <Select
-              title="Coluna para clusterização"
+              title="Select a feature"
               options={featureOptions}
               handle={(e) => {
                 setClusterFeature(e.target.value);
               }}
             />
           )}
-          {useFormStore((state) => state.visualization) === "Clusters" && (
+          {useFormStore((state) => state.visualization) === "cluster" && (
             <Input
-              title="Número de clusters"
+              title="Select the number of clusters"
               handle={(e) => {
                 setClusterNum(e.target.value);
               }}
@@ -216,82 +214,74 @@ const Sidebar = () => {
               max={10}
             />
           )}
-          {useFormStore((state) => state.visualization) ===
-            "Gráfico de Dispersão" && (
+          {useFormStore((state) => state.visualization) === "scatter" && (
             <Select
-              title="Coluna eixo x dispersão"
+              title="Select a feature for x-axis"
               options={numericFeatureOptions}
               handle={(e) => {
-                setDispersaoX(e.target.value);
+                setScatterX(e.target.value);
               }}
-              eixo={"X"}
+              axis={"X"}
             />
           )}
-          {useFormStore((state) => state.visualization) ===
-            "Gráfico de Dispersão" && (
+          {useFormStore((state) => state.visualization) === "scatter" && (
             <Select
-              title="Coluna eixo y dispersão"
+              title="Select a feature for y-axis"
               options={numericFeatureOptions}
               handle={(e) => {
-                setDispersaoY(e.target.value);
+                setScatterY(e.target.value);
               }}
-              eixo={"Y"}
+              axis={"Y"}
             />
           )}
-          {useFormStore((state) => state.visualization) ===
-            "Gráficos de Comportamento" && (
+          {useFormStore((state) => state.visualization) === "behavior" && (
             <Select
-              title="IP"
+              title="Select an IP"
               options={ipOptions}
               handle={(e) => {
-                setComportamentoIp(e.target.value);
+                setBehaviorIp(e.target.value);
               }}
             />
           )}
-          {useFormStore((state) => state.visualization) ===
-            "Gráficos de Comportamento" && (
+          {useFormStore((state) => state.visualization) === "behavior" && (
             <Select
-              title="Tipo de comportamento"
+              title="Select a behavior"
               options={chartTypeOptions}
               handle={(e) => {
-                setComportamentoChart(e.target.value);
+                setBehaviorChart(e.target.value);
               }}
             />
           )}
-          {useFormStore((state) => state.visualization) ===
-            "Importâncias para Machine Learning" && (
+          {useFormStore((state) => state.visualization) === "importance" && (
             <Select
-              title="Modelo"
+              title="Select a model"
               options={modelOptions}
               handle={(e) => {
-                setImportanciasModel(e.target.value);
+                setImportanceModel(e.target.value);
               }}
             />
           )}
-          {useFormStore((state) => state.visualization) ===
-            "Mapeamento das features" && (
+          {useFormStore((state) => state.visualization) === "mapping" && (
             <Select
-              title="Coluna mapeamento"
+              title="Select a feature"
               options={featureOptions}
               handle={(e) => {
-                setMapeamentoFeature(e.target.value);
+                setMappingFeature(e.target.value);
               }}
             />
           )}
-          {useFormStore((state) => state.visualization) ===
-            "Reputação por País" && (
+          {useFormStore((state) => state.visualization) === "reputation" && (
             <Select
-              title="País reputação"
+              title="Select a country"
               options={countryOptions}
               handle={(e) => {
-                setReputacaoCountry(e.target.value);
+                setReputationCountry(e.target.value);
               }}
             />
           )}
-          {useFormStore((state) => state.visualization) ===
-            "Score Average Mobat dos IPs com maior variação" && (
+          {useFormStore((state) => state.visualization) === "score" && (
             <Input
-              title="Número de IPs"
+              title="Select the number of IPs"
               handle={(e) => {
                 setScoreNum(e.target.value);
               }}
@@ -299,13 +289,12 @@ const Sidebar = () => {
               max={10}
             />
           )}
-          {useFormStore((state) => state.visualization) ===
-            "Seleção de Características" && (
+          {useFormStore((state) => state.visualization) === "selection" && (
             <Select
-              title="Técnica"
+              title="Select a machine learning technique"
               options={techniqueOptions}
               handle={(e) => {
-                setSelecaoTechnique(e.target.value);
+                setSelectionTechnique(e.target.value);
               }}
             />
           )}

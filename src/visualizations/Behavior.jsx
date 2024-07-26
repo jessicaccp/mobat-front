@@ -4,10 +4,10 @@ import api from "services/api";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 
-const Comportamento = () => {
-  const ip = useFormStore((state) => state.comportamento.ip);
-  const chartType = useFormStore((state) => state.comportamento.chart);
-  const errorMessage = "IP e tipo de gráfico não selecionados";
+const Behavior = () => {
+  const ip = useFormStore((state) => state.behavior.ip);
+  const chartType = useFormStore((state) => state.behavior.chart);
+  const errorMessage = "IP and behavior not selected";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -171,4 +171,4 @@ const Comportamento = () => {
   }
 };
 
-export default Comportamento;
+export default Behavior;

@@ -4,7 +4,7 @@ import Plot from "react-plotly.js";
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 
-const Tabela = () => {
+const Table = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -76,4 +76,4 @@ const Tabela = () => {
   );
 };
 
-export default Tabela;
+export default Table;

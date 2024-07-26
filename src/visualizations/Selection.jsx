@@ -4,9 +4,9 @@ import Plot from "react-plotly.js";
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 
-const Selecao = () => {
-  const technique = useFormStore((state) => state.selecao.technique);
-  const errorMessage = "Técnica não selecionada";
+const Selection = () => {
+  const technique = useFormStore((state) => state.selection.technique);
+  const errorMessage = "Technique not selected";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -104,4 +104,4 @@ const Selecao = () => {
   );
 };
 
-export default Selecao;
+export default Selection;

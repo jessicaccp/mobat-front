@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
-import api from "services/api";
 import Plot from "react-plotly.js";
 import useFormStore from "store/useFormStore";
+import { useEffect, useState } from "react";
+import api from "services/api";
 import Error from "layout/Error";
 
-const ScoreAverage = () => {
-  const numIps = useFormStore((state) => state.score.num);
-  const errorMessage = "Número de IPs não selecionado";
+const Importance = () => {
+  const model = useFormStore((state) => state.importance.model);
+  const errorMessage = "Model not selected";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (numIps) {
+    if (model) {
       setLoading(true);
       fetch(api)
         .then((response) => {
@@ -24,9 +24,9 @@ const ScoreAverage = () => {
         .then(() => setLoading(false))
         .catch((error) => setError(error));
     }
-  }, [numIps]);
+  }, [model]);
 
-  if (!numIps) return <Error message={errorMessage} />;
+  if (!model) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
   if (!data) return <Error message="No data" />;
@@ -38,7 +38,7 @@ const ScoreAverage = () => {
         data={[{}]}
         layout={{
           autosize: true,
-          title: "Score Average Mobat dos IPs com maior variação",
+          title: "Importâncias para Machine Learning",
           xaxis: { title: "" },
           yaxis: { title: "" },
         }}
@@ -51,4 +51,4 @@ const ScoreAverage = () => {
   );
 };
 
-export default ScoreAverage;
+export default Importance;

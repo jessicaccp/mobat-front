@@ -11,7 +11,7 @@ const Input = ({
   min = 1,
   max = 10,
   title = "Set a value",
-  handle = emptyHandler,
+  handle = () => {},
 }) => {
   return (
     <>
@@ -26,7 +26,5 @@ const Input = ({
     </>
   );
 };
-
-const emptyHandler = () => {};
 
 export default Input;

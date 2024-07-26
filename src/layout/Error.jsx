@@ -4,10 +4,10 @@
  * @param {string} [props.message = "An error occurred"] The error message.
  * @returns {React.JSX.Element} The content of the error page.
  */
-const Error = ({ message = "Ocorreu um erro." }) => {
+const Error = ({ message = "An error has occurred" }) => {
   return (
     <>
-      <h2>Erro</h2>
+      <h2>Error</h2>
       <p>{message}</p>
     </>
   );

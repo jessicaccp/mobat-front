@@ -1,19 +1,20 @@
-import Plot from "react-plotly.js";
-import useFormStore from "store/useFormStore";
 import { useEffect, useState } from "react";
+import Plot from "react-plotly.js";
+import { iso31661 } from "iso-3166";
+import useFormStore from "store/useFormStore";
 import api from "services/api";
 import Error from "layout/Error";
 
-const Importancias = () => {
-  const model = useFormStore((state) => state.importancias.model);
-  const errorMessage = "Modelo não selecionado";
+const Reputation = () => {
+  const country = useFormStore((state) => state.reputation.country);
+  const errorMessage = "Country not selected";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (model) {
+    if (country) {
       setLoading(true);
       fetch(api)
         .then((response) => {
@@ -24,9 +25,36 @@ const Importancias = () => {
         .then(() => setLoading(false))
         .catch((error) => setError(error));
     }
-  }, [model]);
+  }, [country]);
 
-  if (!model) return <Error message={errorMessage} />;
+  const [score, setScore] = useState(null);
+  const [mean, setMean] = useState(null);
+  const [countryCode, setCountryCode] = useState(null);
+  const scores = [];
+  let sum = 0;
+
+  useEffect(() => {
+    if (data && countryCode) {
+      sum = 0;
+      data.map((item) => {
+        if (item.abuseipdb_country_code === countryCode) {
+          scores.push(Number(item.score_average_Mobat));
+          sum += Number(item.score_average_Mobat);
+        }
+      });
+      setScore(scores);
+      setMean(sum / (scores.length || 1));
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (country) {
+      let alpha2 = iso31661.filter((item) => item.name === country);
+      // if (alpha2) setCountryCode(alpha2);
+    }
+  }, [country]);
+
+  if (!country) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
   if (!data) return <Error message="No data" />;
@@ -38,7 +66,7 @@ const Importancias = () => {
         data={[{}]}
         layout={{
           autosize: true,
-          title: "Importâncias para Machine Learning",
+          title: "Reputação por País",
           xaxis: { title: "" },
           yaxis: { title: "" },
         }}
@@ -51,4 +79,4 @@ const Importancias = () => {
   );
 };
 
-export default Importancias;
+export default Reputation;

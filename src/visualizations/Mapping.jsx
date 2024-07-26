@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import api from "services/api";
 import useFormStore from "store/useFormStore";
+import { useEffect, useState } from "react";
+import api from "services/api";
 import Error from "layout/Error";
 
-const Clusters = () => {
-  const columnCluster = useFormStore((state) => state.cluster.feature);
-  const numClusters = useFormStore((state) => state.cluster.num);
-  const errorMessage = "Coluna e número de clusters não selecionados";
+const Mapping = () => {
+  const columnMap = useFormStore((state) => state.mapping.feature);
+  const errorMessage = "Feature not selected";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (columnCluster && numClusters) {
+    if (columnMap) {
       setLoading(true);
       fetch(api)
         .then((response) => {
@@ -25,9 +24,9 @@ const Clusters = () => {
         .then(() => setLoading(false))
         .catch((error) => setError(error));
     }
-  }, [columnCluster, numClusters]);
+  }, [columnMap]);
 
-  if (!(columnCluster && numClusters)) return <Error message={errorMessage} />;
+  if (!columnMap) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
   if (!data) return <Error message="No data" />;
@@ -39,7 +38,7 @@ const Clusters = () => {
         data={[{}]}
         layout={{
           autosize: true,
-          title: "Clusters",
+          title: "Mapeamento das Features",
           xaxis: { title: "" },
           yaxis: { title: "" },
         }}
@@ -52,4 +51,4 @@ const Clusters = () => {
   );
 };
 
-export default Clusters;
+export default Mapping;

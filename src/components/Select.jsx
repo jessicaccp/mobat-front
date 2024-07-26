@@ -11,8 +11,8 @@ import useFormStore from "store/useFormStore";
 const Select = ({
   title = "Select an option",
   options = [],
-  handle = emptyHandler,
-  eixo = null,
+  handle = () => {},
+  axis = null,
 }) => {
   return (
     <>
@@ -31,10 +31,10 @@ const Select = ({
             value={option}
             disabled={
               option === title ||
-              (eixo === "X" &&
-                option === useFormStore((state) => state.dispersao.y)) ||
-              (eixo === "Y" &&
-                option === useFormStore((state) => state.dispersao.x))
+              (axis === "X" &&
+                option === useFormStore((state) => state.scatter.y)) ||
+              (axis === "Y" &&
+                option === useFormStore((state) => state.scatter.x))
             }
           >
             {option}
@@ -44,7 +44,5 @@ const Select = ({
     </>
   );
 };
-
-const emptyHandler = () => {};
 
 export default Select;

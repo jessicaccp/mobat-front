@@ -4,13 +4,13 @@ import { produce } from "immer";
 const useFormStore = create((set) => ({
   visualization: null,
   cluster: { feature: null, num: null },
-  dispersao: { x: null, y: null },
-  comportamento: { ip: null, chart: null },
-  importancias: { model: null },
-  mapeamento: { feature: null },
-  reputacao: { country: null },
+  scatter: { x: null, y: null },
+  behavior: { ip: null, chart: null },
+  importance: { model: null },
+  mapping: { feature: null },
+  reputation: { country: null },
   score: { num: null },
-  selecao: { technique: null },
+  selection: { technique: null },
 
   setVisualization: (visualization) => set({ visualization }),
   setClusterFeature: (feature) =>
@@ -25,46 +25,46 @@ const useFormStore = create((set) => ({
         state.cluster.num = Number(num);
       })
     ),
-  setDispersaoX: (x) =>
+  setScatterX: (x) =>
     set(
       produce((state) => {
-        state.dispersao.x = x;
+        state.scatter.x = x;
       })
     ),
-  setDispersaoY: (y) =>
+  setScatterY: (y) =>
     set(
       produce((state) => {
-        state.dispersao.y = y;
+        state.scatter.y = y;
       })
     ),
-  setComportamentoIp: (ip) =>
+  setBehaviorIp: (ip) =>
     set(
       produce((state) => {
-        state.comportamento.ip = ip;
+        state.behavior.ip = ip;
       })
     ),
-  setComportamentoChart: (chart) =>
+  setBehaviorChart: (chart) =>
     set(
       produce((state) => {
-        state.comportamento.chart = chart;
+        state.behavior.chart = chart;
       })
     ),
-  setImportanciasModel: (model) =>
+  setImportanceModel: (model) =>
     set(
       produce((state) => {
-        state.importancias.model = model;
+        state.importance.model = model;
       })
     ),
-  setMapeamentoFeature: (feature) =>
+  setMappingFeature: (feature) =>
     set(
       produce((state) => {
-        state.mapeamento.feature = feature;
+        state.mapping.feature = feature;
       })
     ),
-  setReputacaoCountry: (country) =>
+  setReputationCountry: (country) =>
     set(
       produce((state) => {
-        state.reputacao.country = country;
+        state.reputation.country = country;
       })
     ),
   setScoreNum: (num) =>
@@ -73,10 +73,10 @@ const useFormStore = create((set) => ({
         state.score.num = Number(num);
       })
     ),
-  setSelecaoTechnique: (technique) =>
+  setSelectionTechnique: (technique) =>
     set(
       produce((state) => {
-        state.selecao.technique = technique;
+        state.selection.technique = technique;
       })
     ),
 }));

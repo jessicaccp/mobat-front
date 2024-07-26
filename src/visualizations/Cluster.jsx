@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import { iso31661 } from "iso-3166";
-import useFormStore from "store/useFormStore";
 import api from "services/api";
+import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 
-const Reputacao = () => {
-  const country = useFormStore((state) => state.reputacao.country);
-  const errorMessage = "País não selecionado";
+const Cluster = () => {
+  const columnCluster = useFormStore((state) => state.cluster.feature);
+  const numCluster = useFormStore((state) => state.cluster.num);
+  const errorMessage = "Feature and number of clusters not selected";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (country) {
+    if (columnCluster && numCluster) {
       setLoading(true);
       fetch(api)
         .then((response) => {
@@ -25,36 +25,9 @@ const Reputacao = () => {
         .then(() => setLoading(false))
         .catch((error) => setError(error));
     }
-  }, [country]);
+  }, [columnCluster, numCluster]);
 
-  const [score, setScore] = useState(null);
-  const [mean, setMean] = useState(null);
-  const [countryCode, setCountryCode] = useState(null);
-  const scores = [];
-  let sum = 0;
-
-  useEffect(() => {
-    if (data && countryCode) {
-      sum = 0;
-      data.map((item) => {
-        if (item.abuseipdb_country_code === countryCode) {
-          scores.push(Number(item.score_average_Mobat));
-          sum += Number(item.score_average_Mobat);
-        }
-      });
-      setScore(scores);
-      setMean(sum / (scores.length || 1));
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (country) {
-      let alpha2 = iso31661.filter((item) => item.name === country);
-      // if (alpha2) setCountryCode(alpha2);
-    }
-  }, [country]);
-
-  if (!country) return <Error message={errorMessage} />;
+  if (!(columnCluster && numCluster)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
   if (!data) return <Error message="No data" />;
@@ -66,7 +39,7 @@ const Reputacao = () => {
         data={[{}]}
         layout={{
           autosize: true,
-          title: "Reputação por País",
+          title: "Clusters",
           xaxis: { title: "" },
           yaxis: { title: "" },
         }}
@@ -79,4 +52,4 @@ const Reputacao = () => {
   );
 };
 
-export default Reputacao;
+export default Cluster;

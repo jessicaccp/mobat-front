@@ -1,13 +1,13 @@
-import Clusters from "visualizations/Clusters";
-import Comportamento from "visualizations/Comportamento";
-import Dispersao from "visualizations/Dispersao";
+import Cluster from "visualizations/Cluster";
+import Behavior from "visualizations/Behavior";
+import Scatter from "visualizations/Scatter";
 import Heatmap from "visualizations/Heatmap";
-import Importancias from "visualizations/Importancias";
-import Mapeamento from "visualizations/Mapeamento";
-import Reputacao from "visualizations/Reputacao";
-import ScoreAverage from "visualizations/ScoreAverage";
-import Selecao from "visualizations/Selecao";
-import Tabela from "visualizations/Tabela";
+import Importance from "visualizations/Importance";
+import Mapping from "visualizations/Mapping";
+import Reputation from "visualizations/Reputation";
+import Score from "visualizations/Score";
+import Selection from "visualizations/Selection";
+import Table from "visualizations/Table";
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 import React from "react";
@@ -18,29 +18,49 @@ import React from "react";
  */
 const Home = () => {
   const visualization = useFormStore((state) => state.visualization);
-  const errorMessage = "Visualização não selecionada";
+  const errorMessage = "Visualization not selected";
 
   switch (visualization) {
-    case "Clusters":
-      return <Clusters />;
-    case "Gráfico de Dispersão":
-      return <Dispersao />;
-    case "Gráficos de Comportamento":
-      return <Comportamento />;
-    case "HeatMap de Ocorrência dos IPs nos países":
+    case "cluster":
+      return <Cluster />;
+
+    // Gráfico de dispersão
+    case "scatter":
+      return <Scatter />;
+
+    // Gráficos de comportamento
+    case "behavior":
+      return <Behavior />;
+
+    // Heatmap de ocorrência dos IPs nos países
+    case "heatmap":
       return <Heatmap />;
-    case "Importâncias para Machine Learning":
-      return <Importancias />;
-    case "Mapeamento das features":
-      return <Mapeamento />;
-    case "Reputação por País":
-      return <Reputacao />;
-    case "Score Average Mobat dos IPs com maior variação":
-      return <ScoreAverage />;
-    case "Seleção de Características":
-      return <Selecao />;
-    case "Tabela de Acurácia e Tempo de Treinamento dos Modelos":
-      return <Tabela />;
+
+    // Importâncias para machine learning
+    case "importance":
+      return <Importance />;
+
+    // Mapeamento das features
+    case "mapping":
+      return <Mapping />;
+
+    // Reputação por país
+    case "reputation":
+      return <Reputation />;
+
+    // Score average MoBAt dos IPs com maior variação
+    case "score":
+      return <Score />;
+
+    // Seleção de características
+    case "selection":
+      return <Selection />;
+
+    // Tabela de acurácia e tempo de treinamento de modelos
+    case "table":
+      return <Table />;
+
+    // Display error message
     default:
       return <Error message={errorMessage} />;
   }

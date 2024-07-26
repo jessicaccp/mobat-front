@@ -1,20 +1,19 @@
-import Plot from "react-plotly.js";
-import useFormStore from "store/useFormStore";
 import { useEffect, useState } from "react";
 import api from "services/api";
+import Plot from "react-plotly.js";
+import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 
-const Dispersao = () => {
-  const columnX = useFormStore((state) => state.dispersao.x);
-  const columnY = useFormStore((state) => state.dispersao.y);
-  const errorMessage = "Colunas X e Y não selecionadas";
+const Score = () => {
+  const numIps = useFormStore((state) => state.score.num);
+  const errorMessage = "Number of IPs not selected";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (columnX && columnY) {
+    if (numIps) {
       setLoading(true);
       fetch(api)
         .then((response) => {
@@ -25,9 +24,9 @@ const Dispersao = () => {
         .then(() => setLoading(false))
         .catch((error) => setError(error));
     }
-  }, [columnX, columnY]);
+  }, [numIps]);
 
-  if (!(columnX && columnY)) return <Error message={errorMessage} />;
+  if (!numIps) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
   if (!data) return <Error message="No data" />;
@@ -36,19 +35,12 @@ const Dispersao = () => {
     <>
       <Plot
         divId="chart"
-        data={[
-          {
-            x: data.map((item) => Number(item[columnX])),
-            y: data.map((item) => Number(item[columnY])),
-            type: "scatter",
-            mode: "markers",
-          },
-        ]}
+        data={[{}]}
         layout={{
           autosize: true,
-          title: "Gráfico de Dispersão",
-          xaxis: { title: columnX },
-          yaxis: { title: columnY },
+          title: "Score Average Mobat dos IPs com maior variação",
+          xaxis: { title: "" },
+          yaxis: { title: "" },
         }}
         config={{ locale: "pt-br" }}
         useResizeHandler
@@ -59,4 +51,4 @@ const Dispersao = () => {
   );
 };
 
-export default Dispersao;
+export default Score;

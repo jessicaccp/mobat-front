@@ -4,16 +4,17 @@ import { useEffect, useState } from "react";
 import api from "services/api";
 import Error from "layout/Error";
 
-const Mapeamento = () => {
-  const columnMap = useFormStore((state) => state.mapeamento.feature);
-  const errorMessage = "Coluna do mapeamento não selecionada";
+const Scatter = () => {
+  const columnX = useFormStore((state) => state.scatter.x);
+  const columnY = useFormStore((state) => state.scatter.y);
+  const errorMessage = "Features not selected";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (columnMap) {
+    if (columnX && columnY) {
       setLoading(true);
       fetch(api)
         .then((response) => {
@@ -24,9 +25,9 @@ const Mapeamento = () => {
         .then(() => setLoading(false))
         .catch((error) => setError(error));
     }
-  }, [columnMap]);
+  }, [columnX, columnY]);
 
-  if (!columnMap) return <Error message={errorMessage} />;
+  if (!(columnX && columnY)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
   if (!data) return <Error message="No data" />;
@@ -35,12 +36,19 @@ const Mapeamento = () => {
     <>
       <Plot
         divId="chart"
-        data={[{}]}
+        data={[
+          {
+            x: data.map((item) => Number(item[columnX])),
+            y: data.map((item) => Number(item[columnY])),
+            type: "scatter",
+            mode: "markers",
+          },
+        ]}
         layout={{
           autosize: true,
-          title: "Mapeamento das Features",
-          xaxis: { title: "" },
-          yaxis: { title: "" },
+          title: "Gráfico de Dispersão",
+          xaxis: { title: columnX },
+          yaxis: { title: columnY },
         }}
         config={{ locale: "pt-br" }}
         useResizeHandler
@@ -51,4 +59,4 @@ const Mapeamento = () => {
   );
 };
 
-export default Mapeamento;
+export default Scatter;
