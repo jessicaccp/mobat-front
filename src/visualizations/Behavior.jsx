@@ -6,7 +6,7 @@ import Plot from "react-plotly.js";
 
 const Behavior = () => {
   const ip = useFormStore((state) => state.behavior.ip);
-  const chartType = useFormStore((state) => state.behavior.chart);
+  const behavior = useFormStore((state) => state.behavior.chart);
   const errorMessage = "IP and behavior not selected";
 
   const [data, setData] = useState(null);
@@ -33,23 +33,50 @@ const Behavior = () => {
   //   }
   // }, [ip]);
 
-  if (!(ip && chartType)) return <Error message={errorMessage} />;
+  if (!(ip && behavior)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+  // if (!data) return <Error message="No data" />;
 
-  switch (chartType) {
+  switch (behavior) {
     case "Location":
       return (
         <>
           <Plot
             divId="chart"
-            data={[{}]}
+            data={[
+              { x: [0, 1, 2], y: [0, 1, 2], name: "AbuseIPDB Country" },
+              {
+                x: [5, 6, 3],
+                y: [0, 1, 2],
+                name: "AbuseIPDB ISP",
+              },
+              {
+                x: [5, 2, 6],
+                y: [0, 1, 2],
+                name: "AbuseIPDB Domain",
+              },
+              {
+                x: [7, 6, 8],
+                y: [0, 1, 2],
+                name: "VirusTotal AS Owner",
+              },
+              {
+                x: [2, 4, 2],
+                y: [0, 1, 2],
+                name: "VirusTotal ASN",
+              },
+              {
+                x: [7, 7, 7],
+                y: [0, 1, 2],
+                name: "ALIENVAULT ASN",
+              },
+            ]}
             layout={{
               autosize: true,
-              title: `Comportamento do IP ${ip} em relação à localização`,
-              xaxis: { title: "Registros ao longo do tempo" },
-              yaxis: { title: "Valor" },
+              title: `${ip} IP behavior in relation to location`,
+              xaxis: { title: "Records over time" },
+              yaxis: { title: "Value" },
             }}
             config={{ locale: "en-us" }}
             useResizeHandler
@@ -66,9 +93,9 @@ const Behavior = () => {
             data={[{}]}
             layout={{
               autosize: true,
-              title: `Comportamento do IP ${ip} em relação ao total de reports e usuários distintos`,
-              xaxis: { title: "Registros ao longo do tempo" },
-              yaxis: { title: "Valor" },
+              title: `${ip} IP behavior in relation to the total number of reports and different users`,
+              xaxis: { title: "Records over time" },
+              yaxis: { title: "Value" },
             }}
             config={{ locale: "en-us" }}
             useResizeHandler
@@ -85,9 +112,9 @@ const Behavior = () => {
             data={[{}]}
             layout={{
               autosize: true,
-              title: `Comportamento do IP ${ip} em relação ao Score Average Mobat`,
-              xaxis: { title: "Registros ao longo do tempo" },
-              yaxis: { title: "Score Average Mobat" },
+              title: `${ip} IP behavior in relation to the Mobat Average Score`,
+              xaxis: { title: "Records over time" },
+              yaxis: { title: "Mobat Average Score" },
             }}
             config={{ locale: "en-us" }}
             useResizeHandler
@@ -104,9 +131,9 @@ const Behavior = () => {
             data={[{}]}
             layout={{
               autosize: true,
-              title: `Comportamento do IP ${ip} em relação ao último relatório do AbuseIPDB`,
-              xaxis: { title: "Registros ao longo do tempo" },
-              yaxis: { title: "Timestamp(EUA)" },
+              title: `${ip} IP behavior in relation to the latest AbuseIPDB report`,
+              xaxis: { title: "Records over time" },
+              yaxis: { title: "Timestamp (USA)" },
             }}
             config={{ locale: "en-us" }}
             useResizeHandler
@@ -123,9 +150,9 @@ const Behavior = () => {
             data={[{}]}
             layout={{
               autosize: true,
-              title: `Períodos do Dia com mais ocorrência de report do IP ${ip}`,
-              xaxis: { title: "Período do dia" },
-              yaxis: { title: "Ocorrências" },
+              title: `Day periods with the most occurrence of ${ip} IP reports `,
+              xaxis: { title: "Day period" },
+              yaxis: { title: "Occurrences" },
             }}
             config={{ locale: "en-us" }}
             useResizeHandler
@@ -139,12 +166,75 @@ const Behavior = () => {
         <>
           <Plot
             divId="chart"
-            data={[{}]}
+            data={[
+              {
+                // --- TEST
+                x: [0, 1, 2],
+                y: [10, 11, 12],
+                type: "scatter",
+                name: "IBM Score",
+              },
+              {
+                // --- TEST
+                x: [2, 3, 4],
+                y: [100, 110, 120],
+                type: "scatter",
+                name: "IBM Average History Score",
+              },
+              {
+                // --- TEST
+                x: [3, 4, 5],
+                y: [1000, 1100, 1200],
+                type: "scatter",
+                name: "IBM Most Common Score",
+              },
+            ]}
             layout={{
+              shapes: [
+                {
+                  // mean score
+                  type: "line",
+                  xref: "paper",
+                  x0: 0,
+                  y0: 12.0,
+                  x1: 1,
+                  y1: 12.0,
+                  line: {
+                    color: "rgb(255, 0, 0)",
+                    dash: "dot",
+                  },
+                  label: {
+                    text: "Mean score",
+                    textposition: "end",
+                    font: { color: "red", size: 12 },
+                  },
+                },
+
+                {
+                  // score range
+                  type: "rect",
+                  x0: 0,
+                  y0: 0,
+                  x1: 1,
+                  y1: 1200,
+                  fillcolor: "#d3d3d3",
+                  opacity: 0.2,
+                  editable: true,
+                  line: {
+                    width: 0,
+                  },
+                  label: {
+                    text: "Score range",
+                    font: { size: 10, color: "green" },
+                    textposition: "top center",
+                  },
+                },
+              ],
+
               autosize: true,
-              title: `Comportamento do IP ${ip} em relação aos scores da IBM`,
-              xaxis: { title: "Registros ao longo do tempo" },
-              yaxis: { title: "Valor" },
+              title: `${ip} IP behavior in relation to IBM scores`,
+              xaxis: { title: "Records over time", anchor: "x1" },
+              yaxis: { title: "Value" },
             }}
             config={{ locale: "en-us" }}
             useResizeHandler
@@ -161,9 +251,9 @@ const Behavior = () => {
             data={[{}]}
             layout={{
               autosize: true,
-              title: `Comportamento do IP ${ip} em relação às estatísticas do VirusTotal`,
-              xaxis: { title: "Registros ao longo do tempo" },
-              yaxis: { title: "Valor" },
+              title: `${ip} IP behavior in relation to VirusTotal statistics`,
+              xaxis: { title: "Records over time" },
+              yaxis: { title: "Value" },
             }}
             config={{ locale: "en-us" }}
             useResizeHandler
@@ -173,7 +263,7 @@ const Behavior = () => {
         </>
       );
     default:
-      return <Error message="Tipo de gráfico inválido" />;
+      return <Error message="Invalid behavior" />;
   }
 };
 

@@ -122,7 +122,7 @@ const Sidebar = () => {
   // }, []);
   // const ipOptions = [...new Set(data.map((item) => item.ip))];
 
-  const chartTypeOptions = [
+  const behaviorOptions = [
     "Location",
     "Reports",
     "Score Average",
@@ -246,7 +246,7 @@ const Sidebar = () => {
           {useFormStore((state) => state.visualization) === "behavior" && (
             <Select
               title="Select a behavior"
-              options={chartTypeOptions}
+              options={behaviorOptions}
               handle={(e) => {
                 setBehaviorChart(e.target.value);
               }}

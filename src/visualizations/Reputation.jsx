@@ -63,7 +63,7 @@ const Reputation = () => {
   if (!country) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+  // if (!data) return <Error message="No data" />;
 
   return (
     <>
