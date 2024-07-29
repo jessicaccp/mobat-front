@@ -24,7 +24,7 @@ const Select = ({
       >
         {[
           title,
-          ...options.toSorted((a, b) => a.localeCompare(b, "pt-br")),
+          ...options.toSorted((a, b) => a.localeCompare(b, "en-us")),
         ].map((option, key) => (
           <option
             key={key}

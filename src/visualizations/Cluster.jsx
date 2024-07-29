@@ -49,7 +49,7 @@ const Cluster = () => {
           xaxis: { title: "" },
           yaxis: { title: "" },
         }}
-        config={{ locale: "pt-br" }}
+        config={{ locale: "en-us" }}
         useResizeHandler
         responsive
         className="w-full h-full"

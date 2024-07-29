@@ -103,7 +103,7 @@ const Sidebar = () => {
       "165.232.70.143",
       "143.198.146.239",
     ]),
-  ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
+  ].toSorted((a, b) => a.localeCompare(b, "en-us"));
 
   // --- REAL
   // const [data, setData] = useState([]);
@@ -149,7 +149,7 @@ const Sidebar = () => {
       (alpha2) =>
         iso31661.filter((country) => country.alpha2 === alpha2)[0].name
     )
-    .toSorted((a, b) => a.localeCompare(b, "pt-br"));
+    .toSorted((a, b) => a.localeCompare(b, "en-us"));
 
   // --- REAL
   // const countryOptions = [...new Set(data.map((item) => item.country))];

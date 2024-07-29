@@ -51,7 +51,7 @@ const Behavior = () => {
               xaxis: { title: "Registros ao longo do tempo" },
               yaxis: { title: "Valor" },
             }}
-            config={{ locale: "pt-br" }}
+            config={{ locale: "en-us" }}
             useResizeHandler
             responsive
             className="w-full h-full"
@@ -70,7 +70,7 @@ const Behavior = () => {
               xaxis: { title: "Registros ao longo do tempo" },
               yaxis: { title: "Valor" },
             }}
-            config={{ locale: "pt-br" }}
+            config={{ locale: "en-us" }}
             useResizeHandler
             responsive
             className="w-full h-full"
@@ -89,7 +89,7 @@ const Behavior = () => {
               xaxis: { title: "Registros ao longo do tempo" },
               yaxis: { title: "Score Average Mobat" },
             }}
-            config={{ locale: "pt-br" }}
+            config={{ locale: "en-us" }}
             useResizeHandler
             responsive
             className="w-full h-full"
@@ -108,7 +108,7 @@ const Behavior = () => {
               xaxis: { title: "Registros ao longo do tempo" },
               yaxis: { title: "Timestamp(EUA)" },
             }}
-            config={{ locale: "pt-br" }}
+            config={{ locale: "en-us" }}
             useResizeHandler
             responsive
             className="w-full h-full"
@@ -127,7 +127,7 @@ const Behavior = () => {
               xaxis: { title: "Período do dia" },
               yaxis: { title: "Ocorrências" },
             }}
-            config={{ locale: "pt-br" }}
+            config={{ locale: "en-us" }}
             useResizeHandler
             responsive
             className="w-full h-full"
@@ -146,7 +146,7 @@ const Behavior = () => {
               xaxis: { title: "Registros ao longo do tempo" },
               yaxis: { title: "Valor" },
             }}
-            config={{ locale: "pt-br" }}
+            config={{ locale: "en-us" }}
             useResizeHandler
             responsive
             className="w-full h-full"
@@ -165,7 +165,7 @@ const Behavior = () => {
               xaxis: { title: "Registros ao longo do tempo" },
               yaxis: { title: "Valor" },
             }}
-            config={{ locale: "pt-br" }}
+            config={{ locale: "en-us" }}
             useResizeHandler
             responsive
             className="w-full h-full"
