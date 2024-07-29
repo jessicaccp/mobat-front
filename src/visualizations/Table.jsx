@@ -28,7 +28,7 @@ const Table = () => {
   // }, []);
 
   const [values, setValues] = useState(null);
-  const labels = ["Model", "Selection Technique", "MSE", "Training Time"];
+  const labels = ["Model", "Selection technique", "MSE", "Training time"];
 
   // Extracts the cell values from the data
   useEffect(() => {
@@ -45,7 +45,9 @@ const Table = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+
+  // --- REAL
+  // if (!data) return <Error message="No data" />;
 
   return (
     <>
@@ -71,9 +73,9 @@ const Table = () => {
         ]}
         layout={{
           autosize: true,
-          title: "Tabela de acurácia e tempo de treinamento dos modelos",
+          title: "Model accuracy and training time table",
         }}
-        config={{ locale: "pt-br" }}
+        config={{ locale: "en-us" }}
         useResizeHandler
         responsive
         className="w-full h-full"
