@@ -3,26 +3,25 @@ import Error from "layout/Error";
 import api from "services/api";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
+import { getRandom } from "tests/random";
 
 const Behavior = () => {
+  // Get user input values from the store
   const ip = useFormStore((state) => state.behavior.ip);
   const behavior = useFormStore((state) => state.behavior.chart);
   const errorMessage = "IP and behavior not selected";
 
+  // Set initial states
   const [data, setData] = useState(null);
+  const [mean, setMean] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // --- TEST
-  useEffect(() => {
-    setData();
-  }, []);
-
-  // --- REAL
+  // Fetch data from the api
   // useEffect(() => {
-  //   if (ip) {
+  //   if (ip && behavior) {
   //     setLoading(true);
-  //     fetch(api + `/?ip=${ip}`)
+  //     fetch(api)
   //       .then((response) => {
   //         if (response.ok) return response.json();
   //         throw new Error(`Failed to fetch data: ${response}`);
@@ -31,13 +30,47 @@ const Behavior = () => {
   //       .then(() => setLoading(false))
   //       .catch((error) => setError(error));
   //   }
-  // }, [ip]);
+  // }, [ip, behavior]);
 
+  // Set up fake data for testing
+  useEffect(() => {
+    setData({
+      location: {
+        abuseIPDB: {
+          country: { x: 0, y: 0 },
+          isp: { x: 0, y: 0 },
+          domain: { x: 0, y: 0 },
+        },
+        virusTotal: { asOwner: { x: 0, y: 0 }, asn: { x: 0, y: 0 } },
+        alienVault: { asn: { x: 0, y: 0 } },
+      },
+      reports: {
+        abuseIPDB: {
+          totalReports: { x: 0, y: 0 },
+          numDistinctUsers: { x: 0, y: 0 },
+        },
+      },
+      scoreAverage: { x: 0, y: 0 },
+      lastReport: { x: 0, y: 0 },
+      timePeriod: { x: 0, y: 0 },
+      ibmScores: {
+        default: { x: 0, y: 0 },
+        history: { x: 0, y: 0 },
+        common: { x: 0, y: 0 },
+      },
+      virusTotalStats: { x: 0, y: 0 },
+    });
+    setMean();
+  }, [ip]);
+
+  // Handle errors
+  // In case of missing user input, loading, error or no data
   if (!(ip && behavior)) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
-  // if (!data) return <Error message="No data" />;
+  if (!data) return <Error message="No data" />;
 
+  // Render the plot for the respective behavior
   switch (behavior) {
     case "Location":
       return (
@@ -45,31 +78,35 @@ const Behavior = () => {
           <Plot
             divId="chart"
             data={[
-              { x: [0, 1, 2], y: [0, 1, 2], name: "AbuseIPDB Country" },
               {
-                x: [5, 6, 3],
-                y: [0, 1, 2],
-                name: "AbuseIPDB ISP",
+                x: data.location.abuseIPDB.country.x,
+                y: data.location.abuseIPDB.country.y,
+                name: "abuseipdb_country_code",
               },
               {
-                x: [5, 2, 6],
-                y: [0, 1, 2],
-                name: "AbuseIPDB Domain",
+                x: data.location.abuseIPDB.isp.x,
+                y: data.location.abuseIPDB.isp.y,
+                name: "abuseipdb_isp",
               },
               {
-                x: [7, 6, 8],
-                y: [0, 1, 2],
-                name: "VirusTotal AS Owner",
+                x: data.location.abuseIPDB.domain.x,
+                y: data.location.abuseIPDB.domain.y,
+                name: "abuseipdb_domain",
               },
               {
-                x: [2, 4, 2],
-                y: [0, 1, 2],
-                name: "VirusTotal ASN",
+                x: data.location.virusTotal.asOwner.x,
+                y: data.location.virusTotal.asOwner.y,
+                name: "virustotal_as_owner",
               },
               {
-                x: [7, 7, 7],
-                y: [0, 1, 2],
-                name: "ALIENVAULT ASN",
+                x: data.location.virusTotal.asn.x,
+                y: data.location.virusTotal.asn.y,
+                name: "virustotal_asn",
+              },
+              {
+                x: data.location.alienVault.asn.x,
+                y: data.location.alienVault.asn.y,
+                name: "ALIENVAULT_asn",
               },
             ]}
             layout={{
