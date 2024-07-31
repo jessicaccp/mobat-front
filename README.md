@@ -15,4 +15,5 @@ Plot charts using Plotly.js, handle input values using Zustand and Immer, use lo
 
 ## Useful links
 
-[MoBAt project](https://github.com/LarcesUece/MoBat)
+- [MoBAt](https://github.com/LarcesUece/MoBat)
+- [mobat_project](https://github.com/Melinh0/mobat_project)
