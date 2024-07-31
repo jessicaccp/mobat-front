@@ -54,7 +54,7 @@ const Cluster = () => {
         }),
     ]);
     setMean(sum / (size * numCluster));
-  }, [numCluster]);
+  }, [numCluster, columnCluster]);
 
   // Handle errors
   // In case of missing user input, loading, error or no data
