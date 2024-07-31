@@ -198,7 +198,7 @@ const Sidebar = () => {
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Select
               title="Select a feature"
-              options={featureOptions}
+              options={numericFeatureOptions}
               handle={(e) => {
                 setClusterFeature(e.target.value);
               }}
