@@ -32,7 +32,7 @@ const Behavior = () => {
   //   }
   // }, [ip, behavior]);
 
-  // Set up fake data for testing
+  // Set up fake data (x and y) for testing
   useEffect(() => {
     const size = 10;
     setData({
@@ -73,16 +73,25 @@ const Behavior = () => {
           totalReports: {
             x: range(1, size),
             y: getRandom("float", size, 1, 10),
+            mean: null,
+            min: null,
+            max: null,
           },
           numDistinctUsers: {
             x: range(1, size),
             y: getRandom("float", size, 1, 10),
+            mean: null,
+            min: null,
+            max: null,
           },
         },
       },
       scoreAverage: {
         x: range(1, size),
         y: getRandom("string", size, 1, 10),
+        mean: null,
+        min: null,
+        max: null,
       },
       lastReport: {
         x: range(1, size),
@@ -96,23 +105,101 @@ const Behavior = () => {
         default: {
           x: range(1, size),
           y: getRandom("float", size, 1, 10),
+          mean: null,
+          min: null,
+          max: null,
         },
         history: {
           x: range(1, size),
           y: getRandom("float", size, 1, 10),
+          mean: null,
+          min: null,
+          max: null,
         },
         common: {
           x: range(1, size),
           y: getRandom("float", size, 1, 10),
+          mean: null,
+          min: null,
+          max: null,
         },
       },
       virusTotalStats: {
         x: range(1, size),
         y: getRandom("float", size, 1, 10),
+        mean: null,
+        min: null,
+        max: null,
       },
     });
     setMean();
   }, [ip]);
+
+  // Set up more fake data (mean, min, max) to testing
+  useEffect(() => {
+    if (data && data?.location.abuseIPDB.country.x) {
+      let completeData = data;
+      completeData.reports.abuseIPDB.totalReports.mean =
+        completeData.reports.abuseIPDB.totalReports.y.reduce((a, b) => a + b) /
+        completeData.reports.abuseIPDB.totalReports.y.length;
+      completeData.reports.abuseIPDB.totalReports.min = Math.min(
+        ...completeData.reports.abuseIPDB.totalReports.y
+      );
+      completeData.reports.abuseIPDB.totalReports.max = Math.max(
+        ...completeData.reports.abuseIPDB.totalReports.y
+      );
+      completeData.reports.abuseIPDB.numDistinctUsers.mean =
+        completeData.reports.abuseIPDB.numDistinctUsers.y.reduce(
+          (a, b) => a + b
+        ) / completeData.reports.abuseIPDB.numDistinctUsers.y.length;
+      completeData.reports.abuseIPDB.numDistinctUsers.min = Math.min(
+        ...completeData.reports.abuseIPDB.numDistinctUsers.y
+      );
+      completeData.reports.abuseIPDB.numDistinctUsers.max = Math.max(
+        ...completeData.reports.abuseIPDB.numDistinctUsers.y
+      );
+      completeData.scoreAverage.mean =
+        completeData.scoreAverage.y.reduce((a, b) => a + b) /
+        completeData.scoreAverage.y.length;
+      completeData.scoreAverage.min = Math.min(...completeData.scoreAverage.y);
+      completeData.scoreAverage.max = Math.max(...completeData.scoreAverage.y);
+      completeData.ibmScores.default.mean = (
+        completeData.ibmScores.default.y.reduce(
+          (a, b) => Number(a) + Number(b)
+        ) / completeData.ibmScores.default.y.length
+      ).toString();
+      completeData.ibmScores.default.min = Math.min(
+        ...completeData.ibmScores.default.y
+      );
+      completeData.ibmScores.default.max = Math.max(
+        ...completeData.ibmScores.default.y
+      );
+      completeData.ibmScores.history.mean =
+        completeData.ibmScores.history.y.reduce((a, b) => a + b) /
+        completeData.ibmScores.history.y.length;
+      completeData.ibmScores.history.min = Math.min(
+        ...completeData.ibmScores.history.y
+      );
+      completeData.ibmScores.history.max = Math.max(
+        ...completeData.ibmScores.history.y
+      );
+      completeData.ibmScores.common.mean =
+        completeData.ibmScores.common.y.reduce((a, b) => a + b) /
+        completeData.ibmScores.common.y.length;
+      completeData.ibmScores.common.min = Math.min(
+        ...completeData.ibmScores.common.y
+      );
+      completeData.ibmScores.common.max = Math.max(
+        ...completeData.ibmScores.common.y
+      );
+      completeData.virusTotal.mean = completeData.virusTotal.y.reduce(
+        (a, b) => a + b / completeData.virusTotal.y.length
+      );
+      completeData.virusTotal.min = Math.min(...completeData.virusTotal.y);
+      completeData.virusTotal.max = Math.max(...completeData.virusTotal.y);
+      setData(completeData);
+    }
+  }, []);
 
   // Handle errors
   // In case of missing user input, loading, error or no data
@@ -409,15 +496,15 @@ const Behavior = () => {
                   type: "line",
                   xref: "paper",
                   x0: 0,
-                  y0: 12.0,
+                  y0: data.ibmScores.default.mean,
                   x1: 1,
-                  y1: 12.0,
+                  y1: data.ibmScores.default.mean,
                   line: {
                     color: "red",
                     dash: "dot",
                   },
                   label: {
-                    text: "Mean score",
+                    text: "Default mean score",
                     textposition: "end",
                     font: { color: "red", size: 12 },
                   },
@@ -426,10 +513,11 @@ const Behavior = () => {
                 {
                   // score range
                   type: "rect",
+                  xref: "paper",
                   x0: 0,
-                  y0: 0,
+                  y0: data.ibmScores.default.min,
                   x1: 1,
-                  y1: 12,
+                  y1: data.ibmScores.default.max,
                   fillcolor: "#d3d3d3",
                   opacity: 0.2,
                   editable: true,
@@ -437,7 +525,7 @@ const Behavior = () => {
                     width: 0,
                   },
                   label: {
-                    text: "Score range",
+                    text: "Default score range",
                     font: { size: 10, color: "green" },
                     textposition: "top center",
                   },
