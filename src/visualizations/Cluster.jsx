@@ -3,7 +3,7 @@ import Plot from "react-plotly.js";
 import api from "services/api";
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
-import { getRandom } from "tests/random";
+import { getRandom } from "tests/utils";
 
 const Cluster = () => {
   // Get user input values from the store
