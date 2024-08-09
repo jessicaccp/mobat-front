@@ -11,6 +11,7 @@ const useFormStore = create((set) => ({
   reputation: { country: null },
   score: { num: null },
   selection: { technique: null },
+  year: null,
 
   setVisualization: (visualization) => set({ visualization }),
   setClusterFeature: (feature) =>
@@ -79,6 +80,7 @@ const useFormStore = create((set) => ({
         state.selection.technique = technique;
       })
     ),
+  setYear: (year) => set({ year }),
 }));
 
 export default useFormStore;

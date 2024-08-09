@@ -25,6 +25,8 @@ const Sidebar = () => {
     table: "Model accuracy and training time table",
   };
 
+  const yearOptions = ["2023", "2024"];
+
   const featureOptions = [
     "abuseipdb_is_whitelisted",
     "abuseipdb_confidence_score",
@@ -179,6 +181,23 @@ const Sidebar = () => {
   const setSelectionTechnique = useFormStore(
     (state) => state.setSelectionTechnique
   );
+  const setYear = useFormStore((state) => state.setYear);
+
+  // Handlers
+  const handleVisualization = (e) => {
+    setVisualization(
+      Object.keys(visualizationOptions).find(
+        (key) => visualizationOptions[key] === e.target.value
+      )
+    );
+  };
+  const handleYear = (e) => {
+    setYear(
+      Object.keys(yearOptions).find(
+        (key) => yearOptions[key] === e.target.value
+      )
+    );
+  };
 
   return (
     <>
@@ -187,13 +206,12 @@ const Sidebar = () => {
           <Select
             title="Select a visualization"
             options={Object.values(visualizationOptions)}
-            handle={(e) => {
-              setVisualization(
-                Object.keys(visualizationOptions).find(
-                  (key) => visualizationOptions[key] === e.target.value
-                )
-              );
-            }}
+            handle={handleVisualization}
+          />
+          <Select
+            title="Select a year"
+            options={Object.values(yearOptions)}
+            handle={handleYear}
           />
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Select
