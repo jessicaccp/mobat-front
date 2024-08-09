@@ -6,6 +6,17 @@ import Error from "layout/Error";
 import { getRandom } from "tests/utils";
 
 const Cluster = () => {
+  // example
+  // url = "clusterizacao/?feature=abuseipdb_is_whitelisted&clusters=1&year=2023&month=2&day=3&semester=First&view=json"
+  // params: feature, clusters, year, month, day, semester, view
+  // feature: nome da coluna [required]
+  // clusters: número de clusters (int) [required]
+  // year: ano (int, 2023 ou 2024) [required]
+  // month: mês (int, 1 a 12)
+  // day: dia (int, 1 a 31)
+  // semester: string (First ou Second)
+  // view: string (json ou csv) [required]
+
   // Get user input values from the store
   const columnCluster = useFormStore((state) => state.cluster.feature);
   const numCluster = useFormStore((state) => state.cluster.num);

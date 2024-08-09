@@ -6,42 +6,61 @@ import Error from "layout/Error";
 
 const Selection = () => {
   const technique = useFormStore((state) => state.selection.technique);
+  const year = useFormStore((state) => state.year);
   const errorMessage = "Technique not selected";
 
+  const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const [title, setTitle] = useState(null);
-  const [values, setValues] = useState(null);
-  const labels = null;
 
-  // --- TEST
+  const labels = [
+    "abuseipdb_is_whitelisted",
+    "abuseipdb_confidence_score",
+    "abuseipdb_total_reports",
+    "abuseipdb_num_distinct_users",
+    "virustotal_reputation",
+    "harmless",
+    "malicious",
+    "suspicious",
+    "undetected",
+    "IBM_score",
+    "IBM_average_history_Score",
+    "IBM_most_common_score",
+    "score_average_Mobat",
+  ];
+
+  const techniques = {
+    "Variance Threshold": "variance_threshold",
+    SelectKBest: "select_kbest",
+    Lasso: "lasso",
+    "Mutual Information": "mutual_info",
+    "Correlation Matrix": "correlation",
+  };
+
   useEffect(() => {
-    setData();
-  }, []);
+    setUrl(
+      `feature-selection/?technique=${techniques[technique]}&year=${year}&view=json`
+    );
+  }, [technique, year]);
 
   // --- REAL
-  // useEffect(() => {
-  //   if (technique) {
-  //     setLoading(true);
-  //     fetch(api)
-  //       .then((response) => {
-  //         if (response.ok) return response.json();
-  //         throw new Error(`Failed to fetch data: ${response}`);
-  //       })
-  //       .then((data) => setData(data))
-  //       .then(() => setLoading(false))
-  //       .catch((error) => setError(error));
-  //   }
-  // }, [technique]);
-
   useEffect(() => {
-    if (data) {
-      const values = data.map((item) => item.value);
-      setValues(values);
+    if (url && technique && year) {
+      setLoading(true);
+      // fetch(api + url)
+      api
+        .get(url, { headers: { "Access-Control-Allow-Origin": "*" } })
+        .then((response) => {
+          if (response.ok) return response.json();
+          throw new Error(`Failed to fetch data: ${response}`);
+        })
+        .then((data) => setData(data))
+        .then(() => setLoading(false))
+        .catch((error) => setError(error));
     }
-  }, [data]);
+  }, [url]);
 
   useEffect(() => {
     switch (technique) {
@@ -71,12 +90,14 @@ const Selection = () => {
     }
   }, [technique]);
 
+  console.log(url);
+  console.log(api);
+  console.log(data);
+
   if (!technique) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
-
-  // --- REAL
-  // if (!data) return <Error message="No data" />;
+  if (!data) return <Error message="No data" />;
 
   if (technique === "Correlation Matrix")
     return (
@@ -85,12 +106,8 @@ const Selection = () => {
           divId="chart"
           data={[
             {
-              // x: [],
-              // y: [],
-              // z: [[], [], []],
-              // --- TEST
-              x: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-              y: ["Morning", "Afternoon", "Evening"],
+              x: labels,
+              y: labels,
               z: [
                 [1, null, 30, 50, 1],
                 [20, 1, 60, 80, 30],
