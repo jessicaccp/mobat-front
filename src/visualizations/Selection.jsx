@@ -10,7 +10,7 @@ const Selection = () => {
   const errorMessage = "Technique not selected";
 
   const [url, setUrl] = useState(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([null]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [title, setTitle] = useState(null);
@@ -45,16 +45,16 @@ const Selection = () => {
     );
   }, [technique, year]);
 
-  // --- REAL
   useEffect(() => {
     if (url && technique && year) {
       setLoading(true);
-      // fetch(api + url)
       api
-        .get(url, { headers: { "Access-Control-Allow-Origin": "*" } })
+        .get(url)
         .then((response) => {
-          if (response.ok) return response.json();
-          throw new Error(`Failed to fetch data: ${response}`);
+          if (response.status === 200) return response.data;
+          throw new Error(
+            `Failed to fetch data: ${response.status} ${response.statusText}`
+          );
         })
         .then((data) => setData(data))
         .then(() => setLoading(false))
@@ -90,8 +90,6 @@ const Selection = () => {
     }
   }, [technique]);
 
-  console.log(url);
-  console.log(api);
   console.log(data);
 
   if (!technique) return <Error message={errorMessage} />;
@@ -108,23 +106,32 @@ const Selection = () => {
             {
               x: labels,
               y: labels,
-              z: [
-                [1, null, 30, 50, 1],
-                [20, 1, 60, 80, 30],
-                [30, 60, 1, -10, 20],
-              ],
+              z: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
               type: "heatmap",
-              hoverongaps: false,
-              // colorscale: "YlGnBu",
+              hoverongaps: true,
             },
           ]}
           layout={{
             autosize: true,
             title: title,
+            modebar: { orientation: "v", remove: ["lasso", "select"] },
+            xaxis: {
+              title: "Feature",
+              tickangle: -90,
+              automargin: true,
+            },
+            yaxis: {
+              title: "Feature",
+              automargin: true,
+            },
           }}
-          config={{ locale: "en-us" }}
+          config={{
+            locale: "en-us",
+            scrollZoom: true,
+            displaylogo: false,
+            responsive: true,
+          }}
           useResizeHandler
-          responsive
           className="w-full h-full"
         />
       </>

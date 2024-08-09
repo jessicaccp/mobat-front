@@ -192,11 +192,7 @@ const Sidebar = () => {
     );
   };
   const handleYear = (e) => {
-    setYear(
-      Object.keys(yearOptions).find(
-        (key) => yearOptions[key] === e.target.value
-      )
-    );
+    setYear(e.target.value);
   };
 
   return (
