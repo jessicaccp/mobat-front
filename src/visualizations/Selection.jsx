@@ -13,7 +13,14 @@ const Selection = () => {
   const [data, setData] = useState([null]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [title, setTitle] = useState(null);
+
+  const [plotTitle, setPlotTitle] = useState(null);
+  const [plotX, setPlotX] = useState(null);
+  const [plotY, setPlotY] = useState(null);
+  const [plotZ, setPlotZ] = useState(null);
+  const [plotType, setPlotType] = useState(null);
+  const [plotXAxis, setPlotXAxis] = useState(null);
+  const [plotYAxis, setPlotYAxis] = useState(null);
 
   const labels = [
     "abuseipdb_is_whitelisted",
@@ -66,76 +73,78 @@ const Selection = () => {
     switch (technique) {
       // Variância das Features
       case "Variance Threshold":
-        setTitle("Variance threshold");
+        setPlotTitle("Variance threshold");
+        setPlotX(Object.keys(data));
+        setPlotY(Object.values(data));
+        setPlotZ(null);
+        setPlotType("bar");
+        setPlotXAxis("Feature");
+        setPlotYAxis("Score");
         break;
+
       // SelectKBest - Top 5 Features
       case "SelectKBest":
-        setTitle("SelectKBest - Top 5 features");
+        const top5 = Object.entries(data)
+          .toSorted((a, b) => b[1] - a[1])
+          .slice(0, 5);
+        setPlotTitle("SelectKBest - Top 5 features");
+        setPlotX(top5.map((item) => item[0]));
+        setPlotY(top5.map((item) => item[1]));
+        setPlotZ(null);
+        setPlotType("bar");
+        setPlotXAxis("Feature");
+        setPlotYAxis("Score");
         break;
+
       // Lasso Coefficients
       case "Lasso":
-        setTitle("Lasso coefficients");
+        setPlotTitle("Lasso coefficients");
+        setPlotX(Object.keys(data));
+        setPlotY(Object.values(data));
+        setPlotZ(null);
+        setPlotType("bar");
+        setPlotXAxis("Feature");
+        setPlotYAxis("Score");
         break;
+
       // Mutual Information
       case "Mutual Information":
-        setTitle("Mutual information");
+        setPlotTitle("Mutual information");
+        setPlotX(Object.keys(data));
+        setPlotY(Object.values(data));
+        setPlotZ(null);
+        setPlotType("bar");
+        setPlotXAxis("Feature");
+        setPlotYAxis("Score");
         break;
+
       // Matriz de Correlação
       case "Correlation Matrix":
-        setTitle("Correlation matrix");
+        setPlotTitle("Correlation matrix");
+        setPlotX(labels);
+        setPlotY(labels);
+        setPlotZ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+        setPlotType("heatmap");
+        setPlotXAxis("Feature");
+        setPlotYAxis("Feature");
         break;
+
       default:
-        setTitle(null);
+        setPlotTitle(null);
+        setPlotX(null);
+        setPlotY(null);
+        setPlotZ(null);
+        setPlotType(null);
+        setPlotXAxis(null);
+        setPlotYAxis(null);
         break;
     }
-  }, [technique]);
-
-  console.log(data);
+  }, [technique, data]);
 
   if (!technique) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
   if (!data) return <Error message="No data" />;
-
-  if (technique === "Correlation Matrix")
-    return (
-      <>
-        <Plot
-          divId="chart"
-          data={[
-            {
-              x: labels,
-              y: labels,
-              z: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-              type: "heatmap",
-              hoverongaps: true,
-            },
-          ]}
-          layout={{
-            autosize: true,
-            title: title,
-            modebar: { orientation: "v", remove: ["lasso", "select"] },
-            xaxis: {
-              title: "Feature",
-              tickangle: -90,
-              automargin: true,
-            },
-            yaxis: {
-              title: "Feature",
-              automargin: true,
-            },
-          }}
-          config={{
-            locale: "en-us",
-            scrollZoom: true,
-            displaylogo: false,
-            responsive: true,
-          }}
-          useResizeHandler
-          className="w-full h-full"
-        />
-      </>
-    );
 
   return (
     <>
@@ -143,22 +152,32 @@ const Selection = () => {
         divId="chart"
         data={[
           {
-            // --- TEST
-            x: ["a", "b", "c"], // valores precisam ser diferentes
-            y: [20, 14, 23], // tamanho de x e y devem ser iguais
-            // x: [],
-            // y: values,
-            type: "bar",
+            x: plotX,
+            y: plotY,
+            z: plotZ,
+            type: plotType,
           },
         ]}
         layout={{
           autosize: true,
-          title: title,
-          yaxis: { title: "Score" },
+          title: plotTitle,
+          modebar: { orientation: "v", remove: ["lasso", "select"] },
+          xaxis: {
+            title: plotXAxis,
+            automargin: true,
+          },
+          yaxis: {
+            title: plotYAxis,
+            automargin: true,
+          },
         }}
-        config={{ locale: "en-us" }}
+        config={{
+          locale: "en-us",
+          scrollZoom: true,
+          displaylogo: false,
+          responsive: true,
+        }}
         useResizeHandler
-        responsive
         className="w-full h-full"
       />
     </>
