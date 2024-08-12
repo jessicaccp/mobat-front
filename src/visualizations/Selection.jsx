@@ -136,7 +136,7 @@ const Selection = () => {
           break;
       }
     }
-  }, [technique, data]);
+  }, [data]);
 
   if (!technique) return <Error message={errorMessage} />;
   if (loading) return <p>Loading...</p>;
