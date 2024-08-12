@@ -10,7 +10,7 @@ const Selection = () => {
   const errorMessage = "Technique not selected";
 
   const [url, setUrl] = useState(null);
-  const [data, setData] = useState([null]);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -70,74 +70,71 @@ const Selection = () => {
   }, [url]);
 
   useEffect(() => {
-    switch (technique) {
-      // Variância das Features
-      case "Variance Threshold":
-        setPlotTitle("Variance threshold");
-        setPlotX(Object.keys(data));
-        setPlotY(Object.values(data));
-        setPlotZ(null);
-        setPlotType("bar");
-        setPlotXAxis("Feature");
-        setPlotYAxis("Score");
-        break;
+    if (data) {
+      switch (technique) {
+        case "Variance Threshold":
+          setPlotTitle("Variance threshold");
+          setPlotX(Object.keys(data));
+          setPlotY(Object.values(data).map((x) => x.toFixed(2)));
+          setPlotZ(null);
+          setPlotType("bar");
+          setPlotXAxis("Feature");
+          setPlotYAxis("Score");
+          break;
 
-      // SelectKBest - Top 5 Features
-      case "SelectKBest":
-        const top5 = Object.entries(data)
-          .toSorted((a, b) => b[1] - a[1])
-          .slice(0, 5);
-        setPlotTitle("SelectKBest - Top 5 features");
-        setPlotX(top5.map((item) => item[0]));
-        setPlotY(top5.map((item) => item[1]));
-        setPlotZ(null);
-        setPlotType("bar");
-        setPlotXAxis("Feature");
-        setPlotYAxis("Score");
-        break;
+        case "SelectKBest":
+          const top5 = Object.entries(data)
+            .toSorted((a, b) => b[1] - a[1])
+            .slice(0, 5);
+          setPlotTitle("SelectKBest - Top 5 features");
+          setPlotX(top5.map((item) => item[0]));
+          setPlotY(top5.map((item) => item[1].toFixed(2)));
+          setPlotZ(null);
+          setPlotType("bar");
+          setPlotXAxis("Feature");
+          setPlotYAxis("Score");
+          break;
 
-      // Lasso Coefficients
-      case "Lasso":
-        setPlotTitle("Lasso coefficients");
-        setPlotX(Object.keys(data));
-        setPlotY(Object.values(data));
-        setPlotZ(null);
-        setPlotType("bar");
-        setPlotXAxis("Feature");
-        setPlotYAxis("Score");
-        break;
+        case "Lasso":
+          setPlotTitle("Lasso coefficients");
+          setPlotX(Object.keys(data));
+          setPlotY(Object.values(data).map((x) => x.toFixed(2)));
+          setPlotZ(null);
+          setPlotType("bar");
+          setPlotXAxis("Feature");
+          setPlotYAxis("Score");
+          break;
 
-      // Mutual Information
-      case "Mutual Information":
-        setPlotTitle("Mutual information");
-        setPlotX(Object.keys(data));
-        setPlotY(Object.values(data));
-        setPlotZ(null);
-        setPlotType("bar");
-        setPlotXAxis("Feature");
-        setPlotYAxis("Score");
-        break;
+        case "Mutual Information":
+          setPlotTitle("Mutual information");
+          setPlotX(Object.keys(data));
+          setPlotY(Object.values(data).map((x) => x.toFixed(2)));
+          setPlotZ(null);
+          setPlotType("bar");
+          setPlotXAxis("Feature");
+          setPlotYAxis("Score");
+          break;
 
-      // Matriz de Correlação
-      case "Correlation Matrix":
-        setPlotTitle("Correlation matrix");
-        setPlotX(labels);
-        setPlotY(labels);
-        setPlotZ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
-        setPlotType("heatmap");
-        setPlotXAxis("Feature");
-        setPlotYAxis("Feature");
-        break;
+        case "Correlation Matrix":
+          setPlotTitle("Correlation matrix");
+          setPlotX(labels);
+          setPlotY(labels);
+          setPlotZ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+          setPlotType("heatmap");
+          setPlotXAxis("Feature");
+          setPlotYAxis("Feature");
+          break;
 
-      default:
-        setPlotTitle(null);
-        setPlotX(null);
-        setPlotY(null);
-        setPlotZ(null);
-        setPlotType(null);
-        setPlotXAxis(null);
-        setPlotYAxis(null);
-        break;
+        default:
+          setPlotTitle(null);
+          setPlotX(null);
+          setPlotY(null);
+          setPlotZ(null);
+          setPlotType(null);
+          setPlotXAxis(null);
+          setPlotYAxis(null);
+          break;
+      }
     }
   }, [technique, data]);
 
@@ -156,6 +153,8 @@ const Selection = () => {
             y: plotY,
             z: plotZ,
             type: plotType,
+            text: plotY ? plotY.map(String) : null,
+            textposition: "outside",
           },
         ]}
         layout={{
