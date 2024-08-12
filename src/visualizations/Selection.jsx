@@ -119,7 +119,7 @@ const Selection = () => {
           setPlotTitle("Correlation matrix");
           setPlotX(labels);
           setPlotY(labels);
-          setPlotZ([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
+          setPlotZ(labels.map((label) => Object.values(data[label])));
           setPlotType("heatmap");
           setPlotXAxis("Feature");
           setPlotYAxis("Feature");
@@ -153,7 +153,7 @@ const Selection = () => {
             y: plotY,
             z: plotZ,
             type: plotType,
-            text: plotY ? plotY.map(String) : null,
+            text: plotY && plotType !== "heatmap" ? plotY.map(String) : null,
             textposition: "outside",
           },
         ]}
