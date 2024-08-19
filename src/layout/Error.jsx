@@ -1,4 +1,4 @@
-import usePreferenceStore from "store/usePreferenceStore";
+import { useTranslation } from "react-i18next";
 
 /**
  * Error component.
@@ -7,23 +7,12 @@ import usePreferenceStore from "store/usePreferenceStore";
  * @returns {React.JSX.Element} The content of the error page.
  */
 const Error = ({ message = null }) => {
-  // Language
-  const language = usePreferenceStore((state) => state.language);
-
-  // Error messages based on language
-  const errorTitle = {
-    EN: "Error",
-    PT: "Erro",
-  };
-  const errorMessage = {
-    EN: message ? message : "An error occurred",
-    PT: message ? message : "Ocorreu um erro",
-  };
+  const { t, i18n } = useTranslation();
 
   return (
     <>
-      <h2>{errorTitle[language]}</h2>
-      <p>{errorMessage[language]}</p>
+      <h2>{t("error.heading")}</h2>
+      <p>{t("error.message")}</p>
     </>
   );
 };

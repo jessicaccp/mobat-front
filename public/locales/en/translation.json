@@ -1,0 +1,46 @@
+{
+  "input": {
+    "placeholder": "Set a value"
+  },
+
+  "select": {
+    "default_value": "Select an option",
+    "locale": "en-us"
+  },
+
+  "error": {
+    "heading": "Error",
+    "message": "An error occurred"
+  },
+
+  "footer": {
+    "larces": "Laboratory of Computer Networks and Security",
+    "message": "MoBAt is a project by"
+  },
+
+  "header": {
+    "title": "MoBAt",
+    "subtitle": "Monitoring and Analysis of Threat Data Bases"
+  },
+
+  "home": {
+    "error": "Visualization not selected"
+  },
+
+  "main": {
+    "error": "Page not found"
+  },
+
+  "visualization": {
+    "cluster": "Cluster",
+    "scatter": "Scatter plot",
+    "behavior": "Behavior graphs",
+    "heatmap": "Heatmap of occurrence of IPs per country",
+    "importance": "Importance for machine learning",
+    "mapping": "Feature mapping",
+    "reputation": "Reputation per country",
+    "score": "MoBAt average score of IPs with the highest variation",
+    "selection": "Feature selection",
+    "table": "Model accuracy and training time table"
+  }
+}

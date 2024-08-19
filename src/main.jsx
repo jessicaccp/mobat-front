@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "src/App";
 import "assets/style.css";
+import "src/i18n";
 
 // Define the root div where the app will be rendered
 const rootDiv = document.getElementById("root");

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import usePreferenceStore from "store/usePreferenceStore";
 import Cookies from "js-cookie";
+import i18n from "src/i18n";
+import { useTranslation } from "react-i18next";
 
 /**
  * Main footer of the application
  * @returns {React.JSX.Element} The footer tag, containing the credits message and language and color selectors.
  */
 const Footer = () => {
+  const { t, i18n } = useTranslation();
+
   // Viewport dimensions
   const [height, setHeight] = useState(window.innerHeight);
   const [width, setWidth] = useState(window.innerWidth);
@@ -20,12 +24,13 @@ const Footer = () => {
   }, []);
 
   // Language
-  const languages = { EN: "English", PT: "Português" };
+  const languages = { en: "English", pt: "Português" };
   const language = usePreferenceStore((state) => state.language);
   const setLanguage = usePreferenceStore((state) => state.setLanguage);
   const languageHandler = (event) => {
     setLanguage(event.target.value);
     Cookies.set("language", event.target.value);
+    i18n.changeLanguage(event.target.value);
   };
 
   // Color
@@ -43,9 +48,9 @@ const Footer = () => {
   const larcesAnchor = (
     <a
       href="https://larces.uece.br"
-      title="Laboratory of Computer Networks and Security"
+      title={t("footer.larces")}
       target="_blank"
-      aria-label="Laboratory of Computer Networks and Security"
+      aria-label={t("footer.larces")}
       className="hover:underline"
       rel="noreferrer noopener"
     >
@@ -55,14 +60,9 @@ const Footer = () => {
 
   // Credits component
   const Credits = () => {
-    const message = {
-      EN: import.meta.env.VITE_FOOTER_TEXT,
-      PT: import.meta.env.VITE_FOOTER_TEXT_PT,
-    };
-
     return (
       <p>
-        {width >= 640 && message[language]} {larcesAnchor} {symbol} {year}
+        {width >= 640 && t("footer.message")} {larcesAnchor} {symbol} {year}
       </p>
     );
   };

@@ -2,8 +2,8 @@ import { create } from "zustand";
 import Cookies from "js-cookie";
 
 const usePreferenceStore = create((set) => ({
-  // language options: "EN", "PT"
-  language: Cookies.get("language") || "EN",
+  // language options: "en", "pt"
+  language: Cookies.get("language") || "en",
   setLanguage: (language) => set({ language }),
 
   // color options: "Light", "Dark"

@@ -6,41 +6,55 @@ import api from "services/api";
 import { data1, data2, data3 } from "tests/data";
 import { iso31661 } from "iso-3166";
 import usePreferenceStore from "store/usePreferenceStore";
+import { useTranslation } from "react-i18next";
 
 /**
  * Sidebar component of the application.
  * @returns {React.JSX.Element} The aside tag, containing all the inputs and form components for filtering the data.
  */
 const Sidebar = () => {
+  const { t, i18n } = useTranslation();
   const language = usePreferenceStore((state) => state.language);
 
   // Options
-  const visualizationOptions = {
-    EN: {
-      cluster: "Cluster",
-      scatter: "Scatter plot",
-      behavior: "Behavior graphs",
-      heatmap: "Heatmap of occurrence of IPs per country",
-      importance: "Importance for machine learning",
-      mapping: "Feature mapping",
-      reputation: "Reputation per country",
-      score: "MoBAt average score of IPs with the highest variation",
-      selection: "Feature selection",
-      table: "Model accuracy and training time table",
-    },
-    PT: {
-      cluster: "Cluster",
-      scatter: "Gráfico de dispersão",
-      behavior: "Gráficos de comportamento",
-      heatmap: "Heatmap de ocorrência dos IPs nos países",
-      importance: "Importâncias para machine learning",
-      mapping: "Mapeamento das features",
-      reputation: "Reputação por país",
-      score: "Score average MoBAt dos IPs com maior variação",
-      selection: "Seleção de características",
-      table: "Tabela de acurácia e tempo de treinamento de modelos",
-    },
-  };
+  const visualizationOptions = [
+    "cluster",
+    "scatter",
+    "behavior",
+    "heatmap",
+    "importance",
+    "mapping",
+    "reputation",
+    "score",
+    "selection",
+    "table",
+  ];
+  // const visualizationOptions = {
+  //   en: {
+  //     cluster: "Cluster",
+  //     scatter: "Scatter plot",
+  //     behavior: "Behavior graphs",
+  //     heatmap: "Heatmap of occurrence of IPs per country",
+  //     importance: "Importance for machine learning",
+  //     mapping: "Feature mapping",
+  //     reputation: "Reputation per country",
+  //     score: "MoBAt average score of IPs with the highest variation",
+  //     selection: "Feature selection",
+  //     table: "Model accuracy and training time table",
+  //   },
+  //   pt: {
+  //     cluster: "Cluster",
+  //     scatter: "Gráfico de dispersão",
+  //     behavior: "Gráficos de comportamento",
+  //     heatmap: "Heatmap de ocorrência dos IPs nos países",
+  //     importance: "Importâncias para machine learning",
+  //     mapping: "Mapeamento das features",
+  //     reputation: "Reputação por país",
+  //     score: "Score average MoBAt dos IPs com maior variação",
+  //     selection: "Seleção de características",
+  //     table: "Tabela de acurácia e tempo de treinamento de modelos",
+  //   },
+  // };
 
   const yearOptions = ["2023", "2024"];
 
@@ -141,7 +155,7 @@ const Sidebar = () => {
   // const ipOptions = [...new Set(data.map((item) => item.ip))];
 
   const behaviorOptions = {
-    EN: {
+    en: {
       location: "Location",
       reports: "Reports",
       scoreAverage: "Score Average",
@@ -150,7 +164,7 @@ const Sidebar = () => {
       ibmScores: "IBM Scores",
       virusTotalStats: "VirusTotal Stats",
     },
-    PT: {
+    pt: {
       location: "Localização",
       reports: "Relatórios",
       scoreAverage: "Média de pontuação",
@@ -213,8 +227,8 @@ const Sidebar = () => {
   // Handlers
   const handleVisualization = (e) => {
     setVisualization(
-      Object.keys(visualizationOptions[language]).find(
-        (key) => visualizationOptions[language][key] === e.target.value
+      Object.keys(t(`visualization`, { returnObjects: true })).find(
+        (key) => t(`visualization.${key}`) === e.target.value
       )
     );
   };
@@ -237,7 +251,9 @@ const Sidebar = () => {
         <form className="flex flex-row flex-wrap lg:flex-col gap-4 w-full items-center justify-center">
           <Select
             title="Select a visualization"
-            options={Object.values(visualizationOptions[language])}
+            options={visualizationOptions.map((option) => {
+              return t(`visualization.${option}`);
+            })}
             handle={handleVisualization}
           />
           <Select
