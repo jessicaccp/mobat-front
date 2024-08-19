@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import usePreferenceStore from "store/usePreferenceStore";
+import Cookies from "js-cookie";
 
 /**
  * Main footer of the application
@@ -24,6 +25,7 @@ const Footer = () => {
   const setLanguage = usePreferenceStore((state) => state.setLanguage);
   const languageHandler = (event) => {
     setLanguage(event.target.value);
+    Cookies.set("language", event.target.value);
   };
 
   // Color
@@ -32,6 +34,7 @@ const Footer = () => {
   const setColor = usePreferenceStore((state) => state.setColor);
   const colorHandler = (event) => {
     setColor(event.target.value);
+    Cookies.set("color", event.target.value);
   };
 
   // Credits message
@@ -73,7 +76,7 @@ const Footer = () => {
             <select
               className="h-4 text-xs py-0 align-middle border-0"
               onChange={languageHandler}
-              defaultValue={language}
+              defaultValue={Cookies.get("language") || language}
             >
               {Object.keys(languages).map((option, key) => (
                 <option key={key} value={option}>
@@ -84,7 +87,7 @@ const Footer = () => {
             <select
               className="h-4 text-xs py-0 align-middle border-0"
               onChange={colorHandler}
-              defaultValue={color}
+              defaultValue={Cookies.get("color") || color}
             >
               {colors.map((option, key) => (
                 <option key={key} value={option}>
