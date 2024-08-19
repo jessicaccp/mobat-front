@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Header from "layout/Header";
 import Sidebar from "layout/Sidebar";
 import Main from "layout/Main";
+import Footer from "layout/Footer";
 
 /**
  * Main component of the application.
@@ -19,6 +20,7 @@ const App = () => {
         <Sidebar />
         <Main />
       </div>
+      <Footer />
     </>
   );
 };
