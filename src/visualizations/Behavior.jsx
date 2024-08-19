@@ -219,7 +219,7 @@ const Behavior = () => {
     // y = virustotal_asn: string contendo alfabeto e números
     // y = ALIENVAULT_asn: string contendo código acima e o nome da empresa
     // Exibe um gráfico com 6 traços, cada um representando a relação do ip com cada uma das características acima
-    case "Location":
+    case "location":
       return (
         <>
           <Plot
@@ -307,7 +307,7 @@ const Behavior = () => {
     // min(abuseipdb_num_distinct_users): lateral do retângulo destacado
     // max(abuseipdb_num_distinct_users): lateral do retângulo destacado
     // Exibe um gráfico com 2 traços, cada um representando a relação do ip com cada uma das características acima
-    case "Reports":
+    case "reports":
       return (
         <>
           <Plot
@@ -353,7 +353,7 @@ const Behavior = () => {
     // min(score_average_Mobat): lateral do retângulo destacado
     // max(score_average_Mobat): lateral do retângulo destacado
     // Exibe gráfico com traço único
-    case "Score Average":
+    case "scoreAverage":
       return (
         <>
           <Plot
@@ -389,7 +389,7 @@ const Behavior = () => {
     // x = index na tabela
     // y = abuseipdb_last_reported_at: string com horário
     // Exibe gráfico com traço único
-    case "Last Report":
+    case "lastReport":
       return (
         <>
           <Plot
@@ -422,7 +422,7 @@ const Behavior = () => {
         </>
       );
     // Gráfico de barras: morning, afternoon, night
-    case "Time Period":
+    case "timePeriod":
       return (
         <>
           <Plot
@@ -461,7 +461,7 @@ const Behavior = () => {
     // min(IBM_most common score): lateral do retângulo destacado
     // max(IBM_most common score): lateral do retângulo destacado
     // Exibe gráfico com 3 traços
-    case "IBM Scores":
+    case "ibmScores":
       return (
         <>
           <Plot
@@ -556,7 +556,7 @@ const Behavior = () => {
     // min(virustotal_reputation): lateral do retângulo destacado
     // max(virustotal_reputation): lateral do retângulo destacado
     // Exibe gráfico com 1 traço
-    case "VirusTotal Stats":
+    case "virusTotalStats":
       return (
         <>
           <Plot

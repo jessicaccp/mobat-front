@@ -6,17 +6,14 @@ import usePreferenceStore from "store/usePreferenceStore";
  * @returns {React.JSX.Element} The header tag, containing title and subtitle, both linked to the root route.
  */
 const Header = () => {
+  // Language
   const language = usePreferenceStore((state) => state.language);
+
+  // Title and subtitle based on the language
   const title = import.meta.env.VITE_HEADER_TITLE;
-  const Subtitle = () => {
-    switch (language) {
-      case "EN":
-        return <>{import.meta.env.VITE_HEADER_SUBTITLE}</>;
-      case "PT":
-        return <>{import.meta.env.VITE_HEADER_SUBTITLE_PT}</>;
-      default:
-        return <>{import.meta.env.VITE_HEADER_SUBTITLE}</>;
-    }
+  const subtitle = {
+    EN: import.meta.env.VITE_HEADER_SUBTITLE,
+    PT: import.meta.env.VITE_HEADER_SUBTITLE_PT,
   };
 
   return (
@@ -29,8 +26,8 @@ const Header = () => {
             </a>
           </h1>
           <small>
-            <a href="/" alt={<Subtitle />} className="w-fit">
-              {<Subtitle />}
+            <a href="/" alt={subtitle[language]} className="w-fit">
+              {subtitle[language]}
             </a>
           </small>
         </div>

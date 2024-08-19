@@ -11,14 +11,20 @@ import Table from "visualizations/Table";
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 import React from "react";
+import usePreferenceStore from "store/usePreferenceStore";
 
 /**
  * Home component.
  * @returns {React.JSX.Element} The chart for the visualization selected by the user.
  */
 const Home = () => {
+  const language = usePreferenceStore((state) => state.language);
+
   const visualization = useFormStore((state) => state.visualization);
-  const errorMessage = "Visualization not selected";
+  const errorMessage = {
+    EN: "Visualization not selected",
+    PT: "Visualização não selecionada",
+  };
 
   switch (visualization) {
     case "cluster":
@@ -62,7 +68,7 @@ const Home = () => {
 
     // Display error message
     default:
-      return <Error message={errorMessage} />;
+      return <Error message={errorMessage[language]} />;
   }
 };
 
