@@ -8,18 +8,17 @@ import Reputation from "visualizations/Reputation";
 import Score from "visualizations/Score";
 import Selection from "visualizations/Selection";
 import Table from "visualizations/Table";
+import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import useFormStore from "store/useFormStore";
 
 /**
  * Home component.
  * @returns {React.JSX.Element} The chart for the visualization selected by the user.
  */
 const Home = () => {
-  const { t, i18n } = useTranslation();
   const visualization = useFormStore((state) => state.visualization);
+  const errorMessage = "Visualization not selected";
 
   switch (visualization) {
     case "cluster":
@@ -63,7 +62,7 @@ const Home = () => {
 
     // Display error message
     default:
-      return <Error message={t("home.error")} />;
+      return <Error message={errorMessage} />;
   }
 };
 

@@ -1,5 +1,4 @@
 import useFormStore from "store/useFormStore";
-import { useTranslation } from "react-i18next";
 
 /**
  * Select component.
@@ -10,24 +9,22 @@ import { useTranslation } from "react-i18next";
  * @returns {React.JSX.Element} A select tag with the given input props.
  */
 const Select = ({
-  title = null,
+  title = "Select an option",
   options = [],
   handle = () => {},
   axis = null,
 }) => {
-  const { t, i18n } = useTranslation();
-
   return (
     <>
       <select
-        defaultValue={t("select.default_value")}
+        defaultValue={title}
         onChange={handle}
         className="border-0 rounded-md w-[22%] lg:w-full min-w-48 text-sm"
         disabled={options.length === 0}
       >
         {[
           title,
-          ...options.toSorted((a, b) => a.localeCompare(b, t("select.locale"))),
+          ...options.toSorted((a, b) => a.localeCompare(b, "en-us")),
         ].map((option, key) => (
           <option
             key={key}

@@ -1,18 +1,14 @@
-import { useTranslation } from "react-i18next";
-
 /**
  * Error component.
  * @param {Object} props Input properties for the component.
- * @param {string} [props.message = null] The error message.
+ * @param {string} [props.message = "An error occurred"] The error message.
  * @returns {React.JSX.Element} The content of the error page.
  */
-const Error = ({ message = null }) => {
-  const { t, i18n } = useTranslation();
-
+const Error = ({ message = "An error has occurred" }) => {
   return (
     <>
-      <h2>{t("error.heading")}</h2>
-      <p>{t("error.message")}</p>
+      <h2>Error</h2>
+      <p>{message}</p>
     </>
   );
 };

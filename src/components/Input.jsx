@@ -1,5 +1,3 @@
-import { useTranslation } from "react-i18next";
-
 /**
  * Input component.
  * @param {Object} props - Input properties for the component.
@@ -9,16 +7,19 @@ import { useTranslation } from "react-i18next";
  * @param {Function} props.handle - The input's onChange event handler.
  * @returns {React.JSX.Element} An input tag with the given input props.
  */
-const Input = ({ min = 1, max = 10, title = null, handle = () => {} }) => {
-  const { t, i18n } = useTranslation();
-
+const Input = ({
+  min = 1,
+  max = 10,
+  title = "Set a value",
+  handle = () => {},
+}) => {
   return (
     <>
       <input
         type="number"
         min={min}
         max={max}
-        placeholder={t("input.placeholder")}
+        placeholder={title}
         onChange={handle}
         className="border-0 rounded-md w-[22%] lg:w-full min-w-48 text-sm"
       />
