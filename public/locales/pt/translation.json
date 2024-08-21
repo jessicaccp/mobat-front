@@ -1,4 +1,5 @@
 {
+  "locale": "pt-br",
   "input": {
     "placeholder": "Defina um valor"
   },
@@ -42,5 +43,16 @@
     "score": "Score average MoBAt dos IPs com maior variação",
     "selection": "Seleção de características",
     "table": "Tabela de acurácia e tempo de treinamento de modelos"
+  },
+
+  "behavior": {
+    "error": "IP e comportamento não selecionados",
+    "location": "Localização",
+    "reports": "Relatórios",
+    "scoreAverage": "Média de pontuação",
+    "lastReport": "Último relatório",
+    "timePeriod": "Período do dia",
+    "ibmScores": "Pontuações IBM",
+    "virusTotalStats": "Estatísticas do VirusTotal"
   }
 }

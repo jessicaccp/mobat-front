@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
  */
 const Sidebar = () => {
   const { t, i18n } = useTranslation();
-  const language = usePreferenceStore((state) => state.language);
+  // const language = usePreferenceStore((state) => state.language);
 
   // Options
   const visualizationOptions = [
@@ -29,32 +29,6 @@ const Sidebar = () => {
     "selection",
     "table",
   ];
-  // const visualizationOptions = {
-  //   en: {
-  //     cluster: "Cluster",
-  //     scatter: "Scatter plot",
-  //     behavior: "Behavior graphs",
-  //     heatmap: "Heatmap of occurrence of IPs per country",
-  //     importance: "Importance for machine learning",
-  //     mapping: "Feature mapping",
-  //     reputation: "Reputation per country",
-  //     score: "MoBAt average score of IPs with the highest variation",
-  //     selection: "Feature selection",
-  //     table: "Model accuracy and training time table",
-  //   },
-  //   pt: {
-  //     cluster: "Cluster",
-  //     scatter: "Gráfico de dispersão",
-  //     behavior: "Gráficos de comportamento",
-  //     heatmap: "Heatmap de ocorrência dos IPs nos países",
-  //     importance: "Importâncias para machine learning",
-  //     mapping: "Mapeamento das features",
-  //     reputation: "Reputação por país",
-  //     score: "Score average MoBAt dos IPs com maior variação",
-  //     selection: "Seleção de características",
-  //     table: "Tabela de acurácia e tempo de treinamento de modelos",
-  //   },
-  // };
 
   const yearOptions = ["2023", "2024"];
 
@@ -154,26 +128,15 @@ const Sidebar = () => {
   // }, []);
   // const ipOptions = [...new Set(data.map((item) => item.ip))];
 
-  const behaviorOptions = {
-    en: {
-      location: "Location",
-      reports: "Reports",
-      scoreAverage: "Score Average",
-      lastReport: "Last Report",
-      timePeriod: "Time Period",
-      ibmScores: "IBM Scores",
-      virusTotalStats: "VirusTotal Stats",
-    },
-    pt: {
-      location: "Localização",
-      reports: "Relatórios",
-      scoreAverage: "Média de pontuação",
-      lastReport: "Último relatório",
-      timePeriod: "Período de tempo",
-      ibmScores: "Pontuações IBM",
-      virusTotalStats: "Estatísticas do VirusTotal",
-    },
-  };
+  const behaviorOptions = [
+    "location",
+    "reports",
+    "scoreAverage",
+    "lastReport",
+    "timePeriod",
+    "ibmScores",
+    "virusTotalStats",
+  ];
 
   const modelOptions = [
     "Gradient Boosting Regressor",

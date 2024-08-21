@@ -1,5 +1,6 @@
 import useFormStore from "store/useFormStore";
 import { useTranslation } from "react-i18next";
+import { localeSort } from "src/utils";
 
 /**
  * Select component.
@@ -15,31 +16,31 @@ const Select = ({
   handle = () => {},
   axis = null,
 }) => {
+  // Translation
   const { t, i18n } = useTranslation();
+  // Use the default value if there is no title
+  const defaultValue = title || t("select.default_value");
+  // Style
+  const classes = "border-0 rounded-md w-[22%] lg:w-full min-w-48 text-sm";
+  // Disable the select if there are no options
+  const selectDisabled = options.length === 0;
+  // Option is disabled if it is the default value or if it is the same as the other axis
+  const optionDisabled = (option) => {
+    option === defaultValue ||
+      (axis === "X" && option === useFormStore((state) => state.scatter.y)) ||
+      (axis === "Y" && option === useFormStore((state) => state.scatter.x));
+  };
 
   return (
     <>
       <select
-        defaultValue={t("select.default_value")}
+        defaultValue={defaultValue}
         onChange={handle}
-        className="border-0 rounded-md w-[22%] lg:w-full min-w-48 text-sm"
-        disabled={options.length === 0}
+        className={classes}
+        disabled={selectDisabled}
       >
-        {[
-          title,
-          ...options.toSorted((a, b) => a.localeCompare(b, t("select.locale"))),
-        ].map((option, key) => (
-          <option
-            key={key}
-            value={option}
-            disabled={
-              option === title ||
-              (axis === "X" &&
-                option === useFormStore((state) => state.scatter.y)) ||
-              (axis === "Y" &&
-                option === useFormStore((state) => state.scatter.x))
-            }
-          >
+        {[defaultValue, ...options.toSorted(localeSort)].map((option, key) => (
+          <option key={key} value={option} disabled={optionDisabled(option)}>
             {option}
           </option>
         ))}

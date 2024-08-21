@@ -9,10 +9,12 @@ import { useTranslation } from "react-i18next";
 const Error = ({ message = null }) => {
   const { t, i18n } = useTranslation();
 
+  const errorMessage = message || t("error.message");
+
   return (
     <>
       <h2>{t("error.heading")}</h2>
-      <p>{t("error.message")}</p>
+      <p>{errorMessage}</p>
     </>
   );
 };

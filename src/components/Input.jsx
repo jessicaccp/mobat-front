@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
  */
 const Input = ({ min = 1, max = 10, title = null, handle = () => {} }) => {
   const { t, i18n } = useTranslation();
+  const placeholder = title || t("input.placeholder");
 
   return (
     <>
@@ -18,7 +19,7 @@ const Input = ({ min = 1, max = 10, title = null, handle = () => {} }) => {
         type="number"
         min={min}
         max={max}
-        placeholder={t("input.placeholder")}
+        placeholder={placeholder}
         onChange={handle}
         className="border-0 rounded-md w-[22%] lg:w-full min-w-48 text-sm"
       />

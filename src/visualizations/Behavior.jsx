@@ -4,12 +4,15 @@ import api from "services/api";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { getRandom, range } from "tests/utils";
+import { useTranslation } from "react-i18next";
 
 const Behavior = () => {
   // Get user input values from the store
   const ip = useFormStore((state) => state.behavior.ip);
   const behavior = useFormStore((state) => state.behavior.chart);
-  const errorMessage = "IP and behavior not selected";
+
+  const { t, i18n } = useTranslation();
+  const errorMessage = t("behavior.error");
 
   // Set initial states
   const [data, setData] = useState(null);

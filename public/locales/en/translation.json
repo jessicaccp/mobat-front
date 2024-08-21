@@ -1,4 +1,5 @@
 {
+  "locale": "en-us",
   "input": {
     "placeholder": "Set a value"
   },
@@ -42,5 +43,16 @@
     "score": "MoBAt average score of IPs with the highest variation",
     "selection": "Feature selection",
     "table": "Model accuracy and training time table"
+  },
+
+  "behavior": {
+    "error": "IP and behavior not selected",
+    "location": "Location",
+    "reports": "Reports",
+    "scoreAverage": "Score Average",
+    "lastReport": "Last Report",
+    "timePeriod": "Time Period",
+    "ibmScores": "IBM Scores",
+    "virusTotalStats": "VirusTotal Stats"
   }
 }
