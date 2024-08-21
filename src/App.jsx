@@ -1,13 +1,17 @@
+import { useEffect } from "react";
 import Header from "layout/Header";
 import Sidebar from "layout/Sidebar";
 import Main from "layout/Main";
-import Footer from "layout/Footer";
 
 /**
  * Main component of the application.
  * @returns {React.JSX.Element} The layout components.
  */
 const App = () => {
+  useEffect(() => {
+    document.title = "MoBAt";
+  }, []);
+
   return (
     <>
       <Header />
@@ -15,7 +19,6 @@ const App = () => {
         <Sidebar />
         <Main />
       </div>
-      <Footer />
     </>
   );
 };
