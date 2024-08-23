@@ -7,17 +7,10 @@ Plot charts using [Plotly.js](https://plotly.com/javascript/), handle input valu
 ## How to run
 
 - install node and npm
-- git clone git@github.com:jessicaccp/mobat-front.git
-- git clone git@github.com:jessicaccp/mobat_tool.git
-- cd mobat_tool/
-- python manage.py runserver 8000
-- back end will run on 8000 port ([localhost:8000](localhost:8000))
-- cd ../mobat-front/
-- npm install
-- npm run dev
-- front end will run on 5173 port ([localhost:5173](localhost:5173))
+- clone [mobat-front](https://github.com/jessicaccp/mobat-front) and [mobat_tool](https://github.com/jessicaccp/mobat_tool)
+- run start.sh to start or stop.sh to stop both apps
 
-## Useful links
+## Project links
 
 - [MoBAt](https://github.com/LarcesUece/MoBat)
 - [mobat_project](https://github.com/Melinh0/mobat_project)
