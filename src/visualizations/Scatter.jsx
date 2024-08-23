@@ -1,53 +1,97 @@
-import Plot from "react-plotly.js";
-import useFormStore from "store/useFormStore";
 import { useEffect, useState } from "react";
-import api from "services/api";
+import Plot from "react-plotly.js";
 import Error from "layout/Error";
+import Loading from "layout/Loading";
+import api from "services/api";
+import useFormStore from "store/useFormStore";
 
 const Scatter = () => {
+  // Get user input values from the store
   const columnX = useFormStore((state) => state.scatter.x);
   const columnY = useFormStore((state) => state.scatter.y);
-  const errorMessage = "Features not selected";
+  const year = useFormStore((state) => state.year);
+  const semester = useFormStore((state) => state.semester);
 
+  // Error messages
+  const missingInput = "Características não informadas";
+  const noData = "Sem dados";
+  const fetchError = "Falha ao solicitar dados";
+
+  // Set initial states
+  const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
+  const [formattedData, setFormattedData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // --- TEST
+  const [x, setX] = useState([]);
+  const [y, setY] = useState([]);
+  const [size, setSize] = useState([]);
+
+  // Set url
   useEffect(() => {
-    setData();
-  }, []);
+    setUrl(
+      `/mapeamento-features/?action=Map%20Feature%20by%20Feature&feature_choice=${columnX}&feature_to_count=${columnY}&year=${year}&semester=${semester}&view=json`
+    );
+  }, [columnX, columnY, semester, year]);
 
-  // --- REAL
-  // useEffect(() => {
-  //   if (columnX && columnY) {
-  //     setLoading(true);
-  //     fetch(api)
-  //       .then((response) => {
-  //         if (response.ok) return response.json();
-  //         throw new Error(`Failed to fetch data: ${response}`);
-  //       })
-  //       .then((data) => setData(data))
-  //       .then(() => setLoading(false))
-  //       .catch((error) => setError(error));
-  //   }
-  // }, [columnX, columnY]);
+  // Fetch data
+  useEffect(() => {
+    if (url && columnX && columnY && year) {
+      setLoading(true);
+      api
+        .get(url)
+        .then((response) => setData(response.data))
+        .catch((error) => {
+          setError(fetchError);
+          console.error(error);
+        });
+    }
+  }, [url]);
 
-  if (!(columnX && columnY)) return <Error message={errorMessage} />;
-  if (loading) return <p>Loading...</p>;
+  useEffect(() => {
+    if (data) {
+      Object.values(data).forEach((item) => {
+        Object.keys(item).forEach((key) => {
+          if (key !== columnX && item[key] !== 0) {
+            setX((old) => [...old, Number(item[columnX])]);
+            setY((old) => [...old, Number(key)]);
+            setSize((old) => [...old, Number(item[key])]);
+          }
+        });
+      });
+    } else {
+      setX([]);
+      setY([]);
+      setSize([]);
+    }
+    setLoading(false);
+  }, [data]);
+
+  // Handle errors
+  // In case of missing user input, loading, error or no data
+  if (!(columnX && columnY)) return <Error message={missingInput} />;
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+  if (loading) return <Loading />;
+  if (!data) return <Error message={noData} />;
 
+  // console.log(size.sort());
+  // Render the scatter plot
   return (
     <>
       <Plot
         divId="chart"
         data={[
           {
-            x: data.map((item) => Number(item[columnX])),
-            y: data.map((item) => Number(item[columnY])),
+            x: x,
+            y: y,
             type: "scatter",
             mode: "markers",
+            marker: {
+              size: size,
+              sizeref: 0.1,
+              sizemode: "area",
+            },
           },
         ]}
         layout={{

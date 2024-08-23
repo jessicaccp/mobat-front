@@ -12,6 +12,7 @@ const useFormStore = create((set) => ({
   score: { num: null },
   selection: { technique: null },
   year: null,
+  semester: null,
 
   setVisualization: (visualization) => set({ visualization }),
   setClusterFeature: (feature) =>
@@ -81,6 +82,7 @@ const useFormStore = create((set) => ({
       })
     ),
   setYear: (year) => set({ year }),
+  setSemester: (semester) => set({ semester }),
 }));
 
 export default useFormStore;

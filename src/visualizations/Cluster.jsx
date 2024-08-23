@@ -1,47 +1,48 @@
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
+import Error from "layout/Error";
+import Loading from "layout/Loading";
 import api from "services/api";
 import useFormStore from "store/useFormStore";
-import Error from "layout/Error";
 import { getRandom } from "tests/utils";
 
 const Cluster = () => {
-  // example
-  // url = "clusterizacao/?feature=abuseipdb_is_whitelisted&clusters=1&year=2023&month=2&day=3&semester=First&view=json"
-  // params: feature, clusters, year, month, day, semester, view
-  // feature: nome da coluna [required]
-  // clusters: número de clusters (int) [required]
-  // year: ano (int, 2023 ou 2024) [required]
-  // month: mês (int, 1 a 12)
-  // day: dia (int, 1 a 31)
-  // semester: string (First ou Second)
-  // view: string (json ou csv) [required]
-
   // Get user input values from the store
   const columnCluster = useFormStore((state) => state.cluster.feature);
   const numCluster = useFormStore((state) => state.cluster.num);
-  const errorMessage = "Feature and number of clusters not selected";
+  const year = useFormStore((state) => state.year);
+
+  // Error messages
+  const missingInput = "Característica e/ou número de clusters não informados";
+  const noData = "Sem dados";
+  const fetchError = "Falha ao solicitar dados";
 
   // Set initial states
+  const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
   const [mean, setMean] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch data from the api
-  // useEffect(() => {
-  //   if (columnCluster && numCluster) {
-  //     setLoading(true);
-  //     fetch(api)
-  //       .then((response) => {
-  //         if (response.ok) return response.json();
-  //         throw new Error(`Failed to fetch data: ${response}`);
-  //       })
-  //       .then((data) => setData(data))
-  //       .then(() => setLoading(false))
-  //       .catch((error) => setError(error));
-  //   }
-  // }, [columnCluster, numCluster]);
+  useEffect(() => {
+    setUrl(
+      `clusterizacao/?feature=${columnCluster}t&clusters=${numCluster}&year=${year}&view=json`
+    );
+  }, [columnCluster, numCluster, year]);
+
+  useEffect(() => {
+    if (url && columnCluster && numCluster && year) {
+      setLoading(true);
+      api
+        .get(url)
+        .then((response) => setData(response.data))
+        .then(() => setLoading(false))
+        .catch((error) => {
+          setError(fetchError);
+          console.error(error);
+        });
+    }
+  }, [url]);
 
   // Set up fake data for testing
   // Add a trace for every cluster, randomizing x and y values
@@ -69,10 +70,10 @@ const Cluster = () => {
 
   // Handle errors
   // In case of missing user input, loading, error or no data
-  if (!(columnCluster && numCluster)) return <Error message={errorMessage} />;
-  if (loading) return <p>Loading...</p>;
+  if (!(columnCluster && numCluster)) return <Error message={missingInput} />;
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+  if (!data) return <Error message={noData} />;
+  if (loading) return <Loading />;
 
   // Render the plot with clusters and aproximated mean data
   return (

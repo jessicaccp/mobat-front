@@ -25,6 +25,8 @@ const Sidebar = () => {
     table: "Tabela de acurácia e tempo de treinamento de modelos",
   };
 
+  const semesterOptions = { First: "Primeiro", Second: "Segundo" };
+
   const yearOptions = ["2023", "2024"];
 
   const featureOptions = [
@@ -44,8 +46,8 @@ const Sidebar = () => {
     "suspicious",
     "undetected",
     "IBM_score",
-    "IBM_average history Score",
-    "IBM_most common score",
+    "IBM_average_history_Score",
+    "IBM_most_common_score",
     "virustotal_asn",
     "SHODAN_asn",
     "SHODAN_isp",
@@ -65,8 +67,8 @@ const Sidebar = () => {
     "suspicious",
     "undetected",
     "IBM_score",
-    "IBM_average history Score",
-    "IBM_most common score",
+    "IBM_average_history_Score",
+    "IBM_most_common_score",
     "ALIENVAULT_reputation",
     "score_average_Mobat",
   ];
@@ -182,6 +184,7 @@ const Sidebar = () => {
     (state) => state.setSelectionTechnique
   );
   const setYear = useFormStore((state) => state.setYear);
+  const setSemester = useFormStore((state) => state.setSemester);
 
   // Handlers
   const handleVisualization = (e) => {
@@ -193,6 +196,13 @@ const Sidebar = () => {
   };
   const handleYear = (e) => {
     setYear(e.target.value);
+  };
+  const handleSemester = (e) => {
+    setSemester(
+      Object.keys(semesterOptions).find(
+        (key) => semesterOptions[key] === e.target.value
+      )
+    );
   };
 
   return (
@@ -206,8 +216,13 @@ const Sidebar = () => {
           />
           <Select
             title="Selecione um ano"
-            options={Object.values(yearOptions)}
+            options={yearOptions}
             handle={handleYear}
+          />
+          <Select
+            title="Selecione um semestre"
+            options={Object.values(semesterOptions)}
+            handle={handleSemester}
           />
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Select
