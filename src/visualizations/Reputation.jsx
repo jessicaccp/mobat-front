@@ -54,7 +54,7 @@ const Reputation = () => {
           xaxis: { title: "" },
           yaxis: { title: "" },
         }}
-        config={{ locale: "en-us" }}
+        config={{ locale: "pt-br" }}
         useResizeHandler
         responsive
         className="w-full h-full"

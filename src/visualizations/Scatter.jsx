@@ -56,7 +56,7 @@ const Scatter = () => {
           xaxis: { title: columnX },
           yaxis: { title: columnY },
         }}
-        config={{ locale: "en-us" }}
+        config={{ locale: "pt-br" }}
         useResizeHandler
         responsive
         className="w-full h-full"

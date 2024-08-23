@@ -8,7 +8,7 @@ import React from "react";
  * @returns {React.JSX.Element} The main tag, calling all the routes.
  */
 const Main = () => {
-  const errorMessage = "Page not found";
+  const errorMessage = "Página não encontrada";
 
   return (
     <main className="w-full lg:w-2/3 h-1/2 lg:h-full flex items-center justify-center p-8 flex-grow bg-gray-200 flex-col">

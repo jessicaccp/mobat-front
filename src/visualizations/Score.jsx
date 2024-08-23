@@ -64,7 +64,7 @@ const Score = () => {
           yaxis: { title: "MoBAt average score", automargin: true },
         }}
         config={{
-          locale: "en-us",
+          locale: "pt-br",
           scrollZoom: true,
           displaylogo: false,
           responsive: true,

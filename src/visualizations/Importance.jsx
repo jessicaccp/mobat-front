@@ -95,7 +95,7 @@ const Importance = () => {
           yaxis: { title: "Importance", automargin: true },
         }}
         config={{
-          locale: "en-us",
+          locale: "pt-br",
           scrollZoom: true,
           displaylogo: false,
           responsive: true,

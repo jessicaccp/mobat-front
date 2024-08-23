@@ -18,7 +18,7 @@ import React from "react";
  */
 const Home = () => {
   const visualization = useFormStore((state) => state.visualization);
-  const errorMessage = "Visualization not selected";
+  const errorMessage = "Visualização não selecionada";
 
   switch (visualization) {
     case "cluster":

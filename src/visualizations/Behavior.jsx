@@ -286,7 +286,7 @@ const Behavior = () => {
               yaxis6: { domain: [0.825, 1] },
             }}
             config={{
-              locale: "en-us",
+              locale: "pt-br",
               scrollZoom: true,
               displaylogo: false,
               responsive: true,
@@ -336,7 +336,7 @@ const Behavior = () => {
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
-              locale: "en-us",
+              locale: "pt-br",
               scrollZoom: true,
               displaylogo: false,
               responsive: true,
@@ -375,7 +375,7 @@ const Behavior = () => {
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
-              locale: "en-us",
+              locale: "pt-br",
               scrollZoom: true,
               displaylogo: false,
               responsive: true,
@@ -411,7 +411,7 @@ const Behavior = () => {
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
-              locale: "en-us",
+              locale: "pt-br",
               scrollZoom: true,
               displaylogo: false,
               responsive: true,
@@ -436,7 +436,7 @@ const Behavior = () => {
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
-              locale: "en-us",
+              locale: "pt-br",
               scrollZoom: true,
               displaylogo: false,
               responsive: true,
@@ -539,7 +539,7 @@ const Behavior = () => {
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
-              locale: "en-us",
+              locale: "pt-br",
               scrollZoom: true,
               displaylogo: false,
               responsive: true,
@@ -578,7 +578,7 @@ const Behavior = () => {
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
-              locale: "en-us",
+              locale: "pt-br",
               scrollZoom: true,
               displaylogo: false,
               responsive: true,

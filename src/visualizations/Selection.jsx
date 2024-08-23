@@ -171,7 +171,7 @@ const Selection = () => {
           },
         }}
         config={{
-          locale: "en-us",
+          locale: "pt-br",
           scrollZoom: true,
           displaylogo: false,
           responsive: true,

@@ -13,16 +13,16 @@ import { iso31661 } from "iso-3166";
 const Sidebar = () => {
   // Options
   const visualizationOptions = {
-    cluster: "Cluster",
-    scatter: "Scatter plot",
-    behavior: "Behavior graphs",
-    heatmap: "Heatmap of occurrence of IPs per country",
-    importance: "Importance for machine learning",
-    mapping: "Feature mapping",
-    reputation: "Reputation per country",
-    score: "MoBAt average score of IPs with the highest variation",
-    selection: "Feature selection",
-    table: "Model accuracy and training time table",
+    cluster: "Clusters",
+    scatter: "Gráfico de dispersão",
+    behavior: "Gráficos de comportamento",
+    heatmap: "Heatmap de ocorrências de IPs nos países",
+    importance: "Importâncias para Machine Learning",
+    mapping: "Mapeamento de características",
+    reputation: "Reputação por país",
+    score: "Score_Average_MoBAt dos IPs com maior variação",
+    selection: "Seleção de características",
+    table: "Tabela de acurácia e tempo de treinamento de modelos",
   };
 
   const yearOptions = ["2023", "2024"];
@@ -105,7 +105,7 @@ const Sidebar = () => {
       "165.232.70.143",
       "143.198.146.239",
     ]),
-  ].toSorted((a, b) => a.localeCompare(b, "en-us"));
+  ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
 
   // --- REAL
   // const [data, setData] = useState([]);
@@ -125,13 +125,13 @@ const Sidebar = () => {
   // const ipOptions = [...new Set(data.map((item) => item.ip))];
 
   const behaviorOptions = [
-    "Location",
-    "Reports",
-    "Score Average",
-    "Last Report",
-    "Time Period",
-    "IBM Scores",
-    "VirusTotal Stats",
+    "Localização",
+    "Relatórios",
+    "Média de pontuação",
+    "Último relatório",
+    "Período do dia",
+    "Pontuações IBM",
+    "Estatísticas do VirusTotal",
   ];
 
   const modelOptions = [
@@ -151,7 +151,7 @@ const Sidebar = () => {
       (alpha2) =>
         iso31661.filter((country) => country.alpha2 === alpha2)[0].name
     )
-    .toSorted((a, b) => a.localeCompare(b, "en-us"));
+    .toSorted((a, b) => a.localeCompare(b, "pt-br"));
 
   // --- REAL
   // const countryOptions = [...new Set(data.map((item) => item.country))];
@@ -161,7 +161,7 @@ const Sidebar = () => {
     "SelectKBest",
     "Lasso",
     "Mutual Information",
-    "Correlation Matrix",
+    "Matriz de correlação",
   ];
 
   // Setters
@@ -200,18 +200,18 @@ const Sidebar = () => {
       <aside className="w-full max-h-fit lg:w-1/3 lg:h-full p-8 bg-gray-100 gap-4 flex items-center flex-col  lg:justify-center">
         <form className="flex flex-row flex-wrap lg:flex-col gap-4 w-full items-center justify-center">
           <Select
-            title="Select a visualization"
+            title="Selecione uma visualização"
             options={Object.values(visualizationOptions)}
             handle={handleVisualization}
           />
           <Select
-            title="Select a year"
+            title="Selecione um ano"
             options={Object.values(yearOptions)}
             handle={handleYear}
           />
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Select
-              title="Select a feature"
+              title="Selecione uma característica"
               options={numericFeatureOptions}
               handle={(e) => {
                 setClusterFeature(e.target.value);
@@ -220,7 +220,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Input
-              title="Select the number of clusters"
+              title="Selecione o número de clusters"
               handle={(e) => {
                 setClusterNum(e.target.value);
               }}
@@ -230,7 +230,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "scatter" && (
             <Select
-              title="Select a feature for x-axis"
+              title="Selecione uma característica para o eixo x"
               options={numericFeatureOptions}
               handle={(e) => {
                 setScatterX(e.target.value);
@@ -240,7 +240,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "scatter" && (
             <Select
-              title="Select a feature for y-axis"
+              title="Selecione uma característica para o eixo y"
               options={numericFeatureOptions}
               handle={(e) => {
                 setScatterY(e.target.value);
@@ -250,7 +250,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "behavior" && (
             <Select
-              title="Select an IP"
+              title="Selecione um IP"
               options={ipOptions}
               handle={(e) => {
                 setBehaviorIp(e.target.value);
@@ -259,7 +259,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "behavior" && (
             <Select
-              title="Select a behavior"
+              title="Selecione um comportamento"
               options={behaviorOptions}
               handle={(e) => {
                 setBehaviorChart(e.target.value);
@@ -268,7 +268,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "importance" && (
             <Select
-              title="Select a model"
+              title="Selecione um modelo"
               options={modelOptions}
               handle={(e) => {
                 setImportanceModel(e.target.value);
@@ -277,7 +277,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "mapping" && (
             <Select
-              title="Select a feature"
+              title="Selecione uma característica"
               options={featureOptions}
               handle={(e) => {
                 setMappingFeature(e.target.value);
@@ -286,7 +286,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "reputation" && (
             <Select
-              title="Select a country"
+              title="Selecione um país"
               options={countryOptions}
               handle={(e) => {
                 setReputationCountry(e.target.value);
@@ -295,7 +295,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "score" && (
             <Input
-              title="Select the number of IPs"
+              title="Selecione o número de IPs"
               handle={(e) => {
                 setScoreNum(e.target.value);
               }}
@@ -305,7 +305,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "selection" && (
             <Select
-              title="Select a machine learning technique"
+              title="Selecione uma técnica de Machine Learning"
               options={techniqueOptions}
               handle={(e) => {
                 setSelectionTechnique(e.target.value);

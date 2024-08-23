@@ -9,7 +9,7 @@ import useFormStore from "store/useFormStore";
  * @returns {React.JSX.Element} A select tag with the given input props.
  */
 const Select = ({
-  title = "Select an option",
+  title = "Selecione uma opção",
   options = [],
   handle = () => {},
   axis = null,
@@ -24,7 +24,7 @@ const Select = ({
       >
         {[
           title,
-          ...options.toSorted((a, b) => a.localeCompare(b, "en-us")),
+          ...options.toSorted((a, b) => a.localeCompare(b, "pt-br")),
         ].map((option, key) => (
           <option
             key={key}

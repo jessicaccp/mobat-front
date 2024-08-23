@@ -10,7 +10,7 @@
 const Input = ({
   min = 1,
   max = 10,
-  title = "Set a value",
+  title = "Selecione um valor",
   handle = () => {},
 }) => {
   return (

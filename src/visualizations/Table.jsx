@@ -75,7 +75,7 @@ const Table = () => {
           autosize: true,
           title: "Model accuracy and training time table",
         }}
-        config={{ locale: "en-us" }}
+        config={{ locale: "pt-br" }}
         useResizeHandler
         responsive
         className="w-full h-full"
