@@ -170,6 +170,7 @@ const Sidebar = () => {
   const setVisualization = useFormStore((state) => state.setVisualization);
   const setClusterFeature = useFormStore((state) => state.setClusterFeature);
   const setClusterNum = useFormStore((state) => state.setClusterNum);
+  const setClusterIp = useFormStore((state) => state.setClusterIp);
   const setScatterX = useFormStore((state) => state.setScatterX);
   const setScatterY = useFormStore((state) => state.setScatterY);
   const setBehaviorIp = useFormStore((state) => state.setBehaviorIp);
@@ -241,6 +242,15 @@ const Sidebar = () => {
               }}
               min={1}
               max={10}
+            />
+          )}
+          {useFormStore((state) => state.visualization) === "cluster" && (
+            <Input
+              title="Digite o IP"
+              handle={(e) => {
+                setClusterIp(e.target.value);
+              }}
+              type="text"
             />
           )}
           {useFormStore((state) => state.visualization) === "scatter" && (

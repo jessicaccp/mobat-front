@@ -12,11 +12,12 @@ const Input = ({
   max = 10,
   title = "Selecione um valor",
   handle = () => {},
+  type = "number",
 }) => {
   return (
     <>
       <input
-        type="number"
+        type={type}
         min={min}
         max={max}
         placeholder={title}

@@ -1,19 +1,26 @@
+// To-do:
+// - update plot with API data
+// - calculate mean value
+// - fix API request error
+// - add plot strings to const variables
+
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import Error from "layout/Error";
 import Loading from "layout/Loading";
 import api from "services/api";
 import useFormStore from "store/useFormStore";
-import { getRandom } from "tests/utils";
 
 const Cluster = () => {
   // Get user input values from the store
-  const columnCluster = useFormStore((state) => state.cluster.feature);
-  const numCluster = useFormStore((state) => state.cluster.num);
+  const feature = useFormStore((state) => state.cluster.feature);
+  const nClusters = useFormStore((state) => state.cluster.num);
+  const ip = useFormStore((state) => state.cluster.ip);
   const year = useFormStore((state) => state.year);
+  const semester = useFormStore((state) => state.semester);
 
   // Error messages
-  const missingInput = "Característica e/ou número de clusters não informados";
+  const missingInput = "Campos obrigatórios não preenchidos";
   const noData = "Sem dados";
   const fetchError = "Falha ao solicitar dados";
 
@@ -26,12 +33,12 @@ const Cluster = () => {
 
   useEffect(() => {
     setUrl(
-      `clusterizacao/?feature=${columnCluster}t&clusters=${numCluster}&year=${year}&view=json`
+      `clusterizacao/?feature=${feature}t&clusters=${nClusters}&year=${year}&semester=${semester}&ip_address=${ip}&view=json`
     );
-  }, [columnCluster, numCluster, year]);
+  }, [feature, nClusters, ip, year, semester]);
 
   useEffect(() => {
-    if (url && columnCluster && numCluster && year) {
+    if (url && feature && nClusters && year && semester && ip) {
       setLoading(true);
       api
         .get(url)
@@ -44,33 +51,10 @@ const Cluster = () => {
     }
   }, [url]);
 
-  // Set up fake data for testing
-  // Add a trace for every cluster, randomizing x and y values
-  // Sum all the y values to calculate the feature fake mean
-  useEffect(() => {
-    let sum = 0;
-    let size = 10;
-    setData([
-      ...Array(numCluster)
-        .keys()
-        .map((_, number) => {
-          const randomY = getRandom("int", size, 1, 1000);
-          sum += randomY.reduce((a, b) => a + b, 0);
-          return {
-            x: getRandom("int", size, 1, size * numCluster),
-            y: randomY,
-            mode: "markers",
-            type: "scatter",
-            name: `Cluster ${number + 1}`,
-          };
-        }),
-    ]);
-    setMean(sum / (size * numCluster));
-  }, [numCluster, columnCluster]);
-
   // Handle errors
   // In case of missing user input, loading, error or no data
-  if (!(columnCluster && numCluster)) return <Error message={missingInput} />;
+  if (!(feature && nClusters && ip && year && semester))
+    return <Error message={missingInput} />;
   if (error) return <Error message={error?.message || error} />;
   if (!data) return <Error message={noData} />;
   if (loading) return <Loading />;
@@ -80,12 +64,18 @@ const Cluster = () => {
     <>
       <Plot
         divId="chart"
-        data={data}
+        data={{
+          x: [],
+          y: [],
+          mode: "markers",
+          type: "scatter",
+          name: `Cluster`,
+        }}
         layout={{
           autosize: true,
-          title: `${columnCluster} clusters`,
+          title: `${feature} clusters`,
           xaxis: { title: "index" },
-          yaxis: { title: `${columnCluster}` },
+          yaxis: { title: `${feature}` },
           shapes: [
             {
               type: "line",

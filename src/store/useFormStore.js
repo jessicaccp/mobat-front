@@ -3,7 +3,7 @@ import { produce } from "immer";
 
 const useFormStore = create((set) => ({
   visualization: null,
-  cluster: { feature: null, num: null },
+  cluster: { feature: null, num: null, ip: null },
   scatter: { x: null, y: null },
   behavior: { ip: null, chart: null },
   importance: { model: null },
@@ -25,6 +25,12 @@ const useFormStore = create((set) => ({
     set(
       produce((state) => {
         state.cluster.num = Number(num);
+      })
+    ),
+  setClusterIp: (ip) =>
+    set(
+      produce((state) => {
+        state.cluster.ip = String(ip);
       })
     ),
   setScatterX: (x) =>
