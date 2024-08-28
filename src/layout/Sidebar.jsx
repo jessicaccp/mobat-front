@@ -1,3 +1,6 @@
+// to-do:
+// add props variable to full width components on small screen devices
+
 import Select from "components/Select";
 import Input from "components/Input";
 import useFormStore from "store/useFormStore";
@@ -28,6 +31,23 @@ const Sidebar = () => {
   const semesterOptions = { First: "Primeiro", Second: "Segundo" };
 
   const yearOptions = ["2023", "2024"];
+
+  const monthOptions = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
+
+  const dayOptions = [...Array(31).keys()];
 
   const featureOptions = [
     "abuseipdb_is_whitelisted",
@@ -107,7 +127,7 @@ const Sidebar = () => {
       "165.232.70.143",
       "143.198.146.239",
     ]),
-  ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
+  ].toSorted((a, b) => a.toString().localeCompare(b, "pt-br"));
 
   // --- REAL
   // const [data, setData] = useState([]);
@@ -153,7 +173,7 @@ const Sidebar = () => {
       (alpha2) =>
         iso31661.filter((country) => country.alpha2 === alpha2)[0].name
     )
-    .toSorted((a, b) => a.localeCompare(b, "pt-br"));
+    .toSorted((a, b) => a.toString().localeCompare(b, "pt-br"));
 
   // --- REAL
   // const countryOptions = [...new Set(data.map((item) => item.country))];
@@ -208,133 +228,159 @@ const Sidebar = () => {
 
   return (
     <>
-      <aside className="w-full max-h-[1400px] lg:w-1/3 lg:h-full p-8 bg-gray-100 gap-4 flex items-center flex-col lg:justify-center">
-        <form className="flex flex-row flex-wrap lg:flex-col gap-4 w-full items-center justify-center">
+      <aside className="w-full max-h-[1400px] lg:w-1/3 lg:h-full p-4 lg:p-8 bg-gray-100 gap-4 flex items-center flex-col lg:justify-center">
+        <form className="flex flex-row flex-wrap gap-3 lg:gap-4 w-full items-center justify-center">
           <Select
-            title="Selecione uma visualização"
+            title="Visualização"
             options={Object.values(visualizationOptions)}
             handle={handleVisualization}
+            fullWidth={true}
+            required={true}
           />
           <Select
-            title="Selecione um ano"
+            title="Ano"
             options={yearOptions}
             handle={handleYear}
+            required={true}
           />
+          <Select title="Mês" options={monthOptions} handle={handleYear} />
+          <Select title="Dia" options={dayOptions} handle={handleYear} />
           <Select
-            title="Selecione um semestre"
+            title="Semestre"
             options={Object.values(semesterOptions)}
             handle={handleSemester}
+            required={true}
           />
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Select
-              title="Selecione uma característica"
+              title="Característica (cluster)"
               options={numericFeatureOptions}
               handle={(e) => {
                 setClusterFeature(e.target.value);
               }}
+              fullWidth={true}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Input
-              title="Selecione o número de clusters"
+              title="Número de clusters"
               handle={(e) => {
                 setClusterNum(e.target.value);
               }}
               min={1}
               max={10}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Input
-              title="Digite o IP"
+              title="IP (cluster)"
               handle={(e) => {
                 setClusterIp(e.target.value);
               }}
               type="text"
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "scatter" && (
             <Select
-              title="Selecione uma característica para o eixo x"
+              title="Característica para o eixo x"
               options={numericFeatureOptions}
               handle={(e) => {
                 setScatterX(e.target.value);
               }}
               axis={"X"}
+              fullWidth={true}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "scatter" && (
             <Select
-              title="Selecione uma característica para o eixo y"
+              title="Característica para o eixo y"
               options={numericFeatureOptions}
               handle={(e) => {
                 setScatterY(e.target.value);
               }}
               axis={"Y"}
+              fullWidth={true}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "behavior" && (
             <Select
-              title="Selecione um IP"
+              title="IP (comportamento)"
               options={ipOptions}
               handle={(e) => {
                 setBehaviorIp(e.target.value);
               }}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "behavior" && (
             <Select
-              title="Selecione um comportamento"
+              title="Comportamento"
               options={behaviorOptions}
               handle={(e) => {
                 setBehaviorChart(e.target.value);
               }}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "importance" && (
             <Select
-              title="Selecione um modelo"
+              title="Modelo"
               options={modelOptions}
               handle={(e) => {
                 setImportanceModel(e.target.value);
               }}
+              fullWidth={true}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "mapping" && (
             <Select
-              title="Selecione uma característica"
+              title="Característica (mapeamento)"
               options={featureOptions}
               handle={(e) => {
                 setMappingFeature(e.target.value);
               }}
+              fullWidth={true}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "reputation" && (
             <Select
-              title="Selecione um país"
+              title="País"
               options={countryOptions}
               handle={(e) => {
                 setReputationCountry(e.target.value);
               }}
+              fullWidth={true}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "score" && (
             <Input
-              title="Selecione o número de IPs"
+              title="Número de IPs"
               handle={(e) => {
                 setScoreNum(e.target.value);
               }}
               min={1}
               max={10}
+              fullWidth={true}
+              required={true}
             />
           )}
           {useFormStore((state) => state.visualization) === "selection" && (
             <Select
-              title="Selecione uma técnica de Machine Learning"
+              title="Técnica de Machine Learning"
               options={techniqueOptions}
               handle={(e) => {
                 setSelectionTechnique(e.target.value);
               }}
+              fullWidth={true}
+              required={true}
             />
           )}
         </form>

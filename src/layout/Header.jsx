@@ -11,13 +11,13 @@ const Header = () => {
   return (
     <>
       <header className="w-screen bg-gray-300">
-        <div className="container flex flex-col px-8 py-4 items-start mx-auto justify-center">
-          <h1 className="text-2xl">
+        <div className="container flex flex-col px-4 lg:px-8 py-4 items-start mx-auto justify-center">
+          <h1 className="text-xl lg:text-2xl">
             <a href="/" alt={title} className="w-fit">
               {title}
             </a>
           </h1>
-          <div class="text-sm">
+          <div className="text-xs lg:text-sm">
             <a href="/" alt={subtitle} className="w-fit">
               {subtitle}
             </a>

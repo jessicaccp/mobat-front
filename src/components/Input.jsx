@@ -13,7 +13,18 @@ const Input = ({
   title = "Selecione um valor",
   handle = () => {},
   type = "number",
+  fullWidth = false,
+  required = false,
 }) => {
+  const fullWidthClasses =
+    "border-0 border-b rounded-sm w-[47%] lg:w-full text-xs lg:text-sm";
+  const defaultClasses =
+    "border-0 border-b rounded-sm w-[47%] text-xs lg:text-sm";
+  const requiredClasses = "border-blue-500";
+  const classes = `${required ? requiredClasses : ""} ${
+    fullWidth ? fullWidthClasses : defaultClasses
+  }`;
+
   return (
     <>
       <input
@@ -22,7 +33,8 @@ const Input = ({
         max={max}
         placeholder={title}
         onChange={handle}
-        className="border-0 rounded-md w-[22%] lg:w-full min-w-48 text-sm"
+        className={classes}
+        required={required}
       />
     </>
   );
