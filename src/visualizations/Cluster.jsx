@@ -20,8 +20,9 @@ const Cluster = () => {
   const semester = useFormStore((state) => state.semester);
 
   // Error messages
+  const requiredInput = nClusters && feature && ip && year && semester;
   const missingInput = "Campos obrigatórios não preenchidos";
-  const noData = "Sem dados";
+  const noData = "Sem dados para exibição";
   const fetchError = "Falha ao solicitar dados";
 
   // Set initial states
@@ -54,11 +55,10 @@ const Cluster = () => {
 
   // Handle errors
   // In case of missing user input, loading, error or no data
-  if (!(feature && nClusters && ip && year && semester))
-    return <Error message={missingInput} />;
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message={noData} />;
+  if (!requiredInput) return <p>{missingInput}</p>;
   if (loading) return <Loading />;
+  if (!data) return <p>{noData}</p>;
 
   // Render the plot with clusters and aproximated mean data
   return (

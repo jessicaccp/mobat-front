@@ -4,12 +4,19 @@ import Plot from "react-plotly.js";
 import useFormStore from "store/useFormStore";
 import api from "services/api";
 import Error from "layout/Error";
+import Loading from "layout/Loading";
 
 const Heatmap = () => {
   const year = useFormStore((state) => state.year);
   const month = useFormStore((state) => state.month);
   const day = useFormStore((state) => state.day);
   const semester = useFormStore((state) => state.semester);
+
+  // Error messages
+  const requiredInput = year && semester;
+  const missingInput = "Campos obrigatórios não preenchidos";
+  const noData = "Sem dados para exibição";
+  const fetchError = "Falha ao solicitar dados";
 
   const [count, setCount] = useState(null);
   const [url, setUrl] = useState(null);
@@ -59,9 +66,12 @@ const Heatmap = () => {
     }
   }, [data]);
 
-  if (loading) return <p>Loading...</p>;
+  // Handle errors
+  // In case of missing user input, loading, error or no data
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+  if (!requiredInput) return <p>{missingInput}</p>;
+  if (loading) return <Loading />;
+  if (!data) return <p>{noData}</p>;
 
   return (
     <>

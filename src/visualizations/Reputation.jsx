@@ -4,11 +4,17 @@ import { iso31661 } from "iso-3166";
 import useFormStore from "store/useFormStore";
 import api from "services/api";
 import Error from "layout/Error";
+import Loading from "layout/Loading";
 
 const Reputation = () => {
   const country = useFormStore((state) => state.reputation.country);
   const year = useFormStore((state) => state.year);
-  const errorMessage = "Country not selected";
+
+  // Error messages
+  const requiredInput = country && year;
+  const missingInput = "Campos obrigatórios não preenchidos";
+  const noData = "Sem dados para exibição";
+  const fetchError = "Falha ao solicitar dados";
 
   const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
@@ -39,10 +45,12 @@ const Reputation = () => {
     }
   }, [url]);
 
-  if (!country) return <Error message={errorMessage} />;
-  if (loading) return <p>Loading...</p>;
+  // Handle errors
+  // In case of missing user input, loading, error or no data
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+  if (!requiredInput) return <p>{missingInput}</p>;
+  if (loading) return <Loading />;
+  if (!data) return <p>{noData}</p>;
 
   return (
     <>

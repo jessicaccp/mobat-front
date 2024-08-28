@@ -3,10 +3,16 @@ import useFormStore from "store/useFormStore";
 import { useEffect, useState } from "react";
 import api from "services/api";
 import Error from "layout/Error";
+import Loading from "layout/Loading";
 
 const Mapping = () => {
   const columnMap = useFormStore((state) => state.mapping.feature);
-  const errorMessage = "Feature not selected";
+
+  // Error messages
+  const requiredInput = columnMap;
+  const missingInput = "Campos obrigatórios não preenchidos";
+  const noData = "Sem dados para exibição";
+  const fetchError = "Falha ao solicitar dados";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -33,10 +39,12 @@ const Mapping = () => {
   //   }
   // }, [columnMap]);
 
-  if (!columnMap) return <Error message={errorMessage} />;
-  if (loading) return <p>Loading...</p>;
+  // Handle errors
+  // In case of missing user input, loading, error or no data
   if (error) return <Error message={error?.message || error} />;
-  // if (!data) return <Error message="No data" />;
+  if (!requiredInput) return <p>{missingInput}</p>;
+  if (loading) return <Loading />;
+  if (!data) return <p>{noData}</p>;
 
   return (
     <>

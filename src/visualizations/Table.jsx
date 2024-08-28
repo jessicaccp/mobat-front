@@ -3,8 +3,15 @@ import api from "services/api";
 import Plot from "react-plotly.js";
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
+import Loading from "layout/Loading";
 
 const Table = () => {
+  // Error messages
+  const requiredInput = null;
+  const missingInput = "Campos obrigatórios não preenchidos";
+  const noData = "Sem dados para exibição";
+  const fetchError = "Falha ao solicitar dados";
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -44,8 +51,12 @@ const Table = () => {
     }
   }, [data]);
 
-  if (loading) return <p>Loading...</p>;
+  // Handle errors
+  // In case of missing user input, loading, error or no data
   if (error) return <Error message={error?.message || error} />;
+  if (!requiredInput) return <p>{missingInput}</p>;
+  if (loading) return <Loading />;
+  if (!data) return <p>{noData}</p>;
 
   // --- REAL
   // if (!data) return <Error message="No data" />;

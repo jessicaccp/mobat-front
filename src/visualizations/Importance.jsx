@@ -3,11 +3,17 @@ import useFormStore from "store/useFormStore";
 import { useEffect, useState } from "react";
 import api from "services/api";
 import Error from "layout/Error";
+import Loading from "layout/Loading";
 
 const Importance = () => {
   const model = useFormStore((state) => state.importance.model);
   const year = useFormStore((state) => state.year);
-  const errorMessage = "Model not selected";
+
+  // Error messages
+  const requiredInput = model && year;
+  const missingInput = "Campos obrigatórios não preenchidos";
+  const noData = "Sem dados para exibição";
+  const fetchError = "Falha ao solicitar dados";
 
   const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
@@ -70,10 +76,12 @@ const Importance = () => {
     }
   }, [data]);
 
-  if (!model) return <Error message={errorMessage} />;
-  if (loading) return <p>Loading...</p>;
+  // Handle errors
+  // In case of missing user input, loading, error or no data
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+  if (!requiredInput) return <p>{missingInput}</p>;
+  if (loading) return <Loading />;
+  if (!data) return <p>{noData}</p>;
 
   return (
     <>

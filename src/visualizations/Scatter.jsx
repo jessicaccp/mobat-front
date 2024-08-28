@@ -1,3 +1,6 @@
+// To-do:
+// - fix cluster circle size
+
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import Error from "layout/Error";
@@ -19,8 +22,9 @@ const Scatter = () => {
   const ip = useFormStore((state) => state.ip);
 
   // Error messages
-  const missingInput = "Características não informadas";
-  const noData = "Sem dados";
+  const requiredInput = columnX && columnY && semester && year;
+  const missingInput = "Campos obrigatórios não preenchidos";
+  const noData = "Sem dados para exibição";
   const fetchError = "Falha ao solicitar dados";
 
   // Set initial states
@@ -84,10 +88,10 @@ const Scatter = () => {
 
   // Handle errors
   // In case of missing user input, loading, error or no data
-  if (!(columnX && columnY)) return <Error message={missingInput} />;
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message={noData} />;
+  if (!requiredInput) return <p>{missingInput}</p>;
   if (loading) return <Loading />;
+  if (!data) return <p>{noData}</p>;
 
   // console.log(size.sort());
   // Render the scatter plot

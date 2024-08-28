@@ -3,11 +3,17 @@ import api from "services/api";
 import Plot from "react-plotly.js";
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
+import Loading from "layout/Loading";
 
 const Score = () => {
   const numIps = useFormStore((state) => state.score.num);
   const year = useFormStore((state) => state.year);
-  const errorMessage = "Number of IPs not selected";
+
+  // Error messages
+  const requiredInput = numIps && year;
+  const missingInput = "Campos obrigatórios não preenchidos";
+  const noData = "Sem dados para exibição";
+  const fetchError = "Falha ao solicitar dados";
 
   const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
@@ -36,10 +42,12 @@ const Score = () => {
     }
   }, [url]);
 
-  if (!numIps) return <Error message={errorMessage} />;
-  if (loading) return <p>Loading...</p>;
+  // Handle errors
+  // In case of missing user input, loading, error or no data
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+  if (!requiredInput) return <p>{missingInput}</p>;
+  if (loading) return <Loading />;
+  if (!data) return <p>{noData}</p>;
 
   return (
     <>

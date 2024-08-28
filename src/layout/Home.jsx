@@ -11,6 +11,7 @@ import Table from "visualizations/Table";
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 import React from "react";
+import Loading from "layout/Loading";
 
 /**
  * Home component.
@@ -18,7 +19,7 @@ import React from "react";
  */
 const Home = () => {
   const visualization = useFormStore((state) => state.visualization);
-  const errorMessage = "Visualização não selecionada";
+  const errorMessage = "Selecione uma visualização";
 
   switch (visualization) {
     case "cluster":
@@ -62,7 +63,7 @@ const Home = () => {
 
     // Display error message
     default:
-      return <Error message={errorMessage} />;
+      return <p>{errorMessage}</p>;
   }
 };
 

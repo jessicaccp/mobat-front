@@ -1,15 +1,27 @@
+// To-do:
+// - fix behavior options selection
+// - get ip list from api
+// - get plot data from api
+// - fix plot config
+
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 import api from "services/api";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { getRandom, range } from "tests/utils";
+import Loading from "layout/Loading";
 
 const Behavior = () => {
   // Get user input values from the store
   const ip = useFormStore((state) => state.behavior.ip);
   const behavior = useFormStore((state) => state.behavior.chart);
-  const errorMessage = "IP and behavior not selected";
+
+  // Error messages
+  const requiredInput = ip && behavior;
+  const missingInput = "Campos obrigatórios não preenchidos";
+  const noData = "Sem dados para exibição";
+  const fetchError = "Falha ao solicitar dados";
 
   // Set initial states
   const [data, setData] = useState(null);
@@ -204,10 +216,10 @@ const Behavior = () => {
 
   // Handle errors
   // In case of missing user input, loading, error or no data
-  if (!(ip && behavior)) return <Error message={errorMessage} />;
-  if (loading) return <p>Loading...</p>;
   if (error) return <Error message={error?.message || error} />;
-  if (!data) return <Error message="No data" />;
+  if (!requiredInput) return <p>{missingInput}</p>;
+  if (loading) return <Loading />;
+  if (!data) return <p>{noData}</p>;
 
   // Render the plot for the respective behavior
   switch (behavior) {
