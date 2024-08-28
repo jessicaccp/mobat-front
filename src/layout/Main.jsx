@@ -11,7 +11,7 @@ const Main = () => {
   const errorMessage = "Página não encontrada";
 
   return (
-    <main className="w-full lg:w-2/3 h-1/2 lg:h-full flex items-center justify-center lg:p-8 flex-grow bg-white flex-col">
+    <main className="w-full lg:w-2/3 h-1/2 lg:h-full flex items-center justify-center lg:p-8 flex-grow bg-white flex-col max-h-[1400px]">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
