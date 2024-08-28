@@ -1,5 +1,6 @@
 // To-do:
 // - fix number array sorting
+// - add values to day and month titles
 
 import useFormStore from "store/useFormStore";
 
@@ -44,7 +45,7 @@ const Select = ({
             key={key}
             value={option}
             disabled={
-              option === title ||
+              // option === title ||
               (axis === "X" &&
                 option === useFormStore((state) => state.scatter.y)) ||
               (axis === "Y" &&

@@ -190,6 +190,8 @@ const Sidebar = () => {
     "Matriz de correlação",
   ];
 
+  const visualization = useFormStore((state) => state.visualization);
+
   // Setters
   const setVisualization = useFormStore((state) => state.setVisualization);
   const setClusterFeature = useFormStore((state) => state.setClusterFeature);
@@ -212,6 +214,21 @@ const Sidebar = () => {
   const setMonth = useFormStore((state) => state.setMonth);
   const setDay = useFormStore((state) => state.setDay);
   const setSemester = useFormStore((state) => state.setSemester);
+
+  useEffect(() => {
+    setClusterFeature(null);
+    setClusterNum(null);
+    setClusterIp(null);
+    setScatterX(null);
+    setScatterY(null);
+    setBehaviorIp(null);
+    setBehaviorChart(null);
+    setImportanceModel(null);
+    setMappingFeature(null);
+    setReputationCountry(null);
+    setScoreNum(null);
+    setSelectionTechnique(null);
+  }, [visualization]);
 
   // Handlers
   const handleVisualization = (e) => {
