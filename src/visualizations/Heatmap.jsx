@@ -7,51 +7,63 @@ import Error from "layout/Error";
 import Loading from "layout/Loading";
 
 const Heatmap = () => {
-  // Optional input
+  // Required input
   const year = useFormStore((state) => state.year);
+
+  // Optional input
   const semester = useFormStore((state) => state.semester);
   const month = useFormStore((state) => state.month);
   const day = useFormStore((state) => state.day);
   const ip = useFormStore((state) => state.ip);
 
-  // Error messages
-  const requiredInput = year && semester;
+  // Plot strings
+  const plotTitle = "Heatmap de ocorrência de IPs por país";
+  const plotColorbarTitle = "Ocorrência";
+
+  // Error messages and required input
+  const requiredInput = year;
   const missingInput = "Campos obrigatórios não preenchidos";
   const noData = "Sem dados para exibição";
   const fetchError = "Falha ao solicitar dados";
 
+  // States
   const [count, setCount] = useState(null);
+  const [plotLocations, setPlotLocations] = useState(null);
+  const [plotZ, setPlotZ] = useState(null);
+  const [plotText, setPlotText] = useState(null);
   const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Change URL based on user input
   useEffect(() => {
     setUrl(
       `country-score-average/?year=${year}${month ? `&month=${month}` : ``}${
         day ? `&day=${day}` : ``
-      }&semester=${semester}&country=Todos&metric=count&view=json`
+      }${
+        semester ? `&semester=${semester}` : ``
+      }&country=Todos&metric=count&view=json`
     );
-  }, [year]);
+  }, [year, month, day, semester]);
 
+  // Fetch data
   useEffect(() => {
-    if (url && year) {
+    if (url && requiredInput) {
       setLoading(true);
       setError(null);
       api
         .get(url)
-        .then((response) => {
-          if (response.status === 200) return response.data;
-          throw new Error(
-            `Failed to fetch data: ${response.status} ${response.statusText}`
-          );
-        })
-        .then((data) => setData(data))
+        .then((response) => setData(response.data))
         .then(() => setLoading(false))
-        .catch((error) => setError(error));
+        .catch((error) => {
+          setError(fetchError);
+          console.error(error);
+        });
     }
   }, [url]);
 
+  // Format data
   useEffect(() => {
     if (data) {
       const countries = {};
@@ -68,6 +80,19 @@ const Heatmap = () => {
     }
   }, [data]);
 
+  // Set plot data
+  useEffect(() => {
+    if (count) {
+      setPlotLocations(Object.values(count).map((country) => country.iso3));
+      setPlotZ(Object.values(count).map((country) => country.count));
+      setPlotText(Object.values(count).map((country) => country.name));
+    } else {
+      setPlotLocations(null);
+      setPlotZ(null);
+      setPlotText(null);
+    }
+  }, [count]);
+
   // Handle errors
   // In case of missing user input, loading, error or no data
   if (error) return <Error message={error?.message || error} />;
@@ -75,6 +100,7 @@ const Heatmap = () => {
   if (loading) return <Loading />;
   if (!data) return <p>{noData}</p>;
 
+  // Plot heatmap
   return (
     <>
       <Plot
@@ -83,25 +109,19 @@ const Heatmap = () => {
           {
             type: "choropleth",
             locationmode: "ISO-3",
-            locations: count
-              ? Object.values(count).map((country) => country.iso3)
-              : null,
-            z: count
-              ? Object.values(count).map((country) => country.count)
-              : null,
-            text: count
-              ? Object.values(count).map((country) => country.name)
-              : null,
+            locations: plotLocations,
+            z: plotZ,
+            text: plotText,
             autocolorscale: true,
             colorbar: {
-              title: "Occurrence",
+              title: plotColorbarTitle,
             },
           },
         ]}
         layout={{
           autosize: true,
           modebar: { orientation: "v", remove: ["lasso", "select"] },
-          title: "Heatmap of occurrence of IPs per country",
+          title: plotTitle,
           geo: {
             projection: {
               type: "robinson",
