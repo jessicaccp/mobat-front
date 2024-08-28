@@ -1,5 +1,9 @@
-// to-do:
-// add props variable to full width components on small screen devices
+// To-do:
+// - change all options to a dictionary
+// - add handle functions to every component
+// - give titles a null value
+// - set when component is required
+// - remove duplicate components
 
 import Select from "components/Select";
 import Input from "components/Input";
@@ -14,9 +18,48 @@ import { iso31661 } from "iso-3166";
  * @returns {React.JSX.Element} The aside tag, containing all the inputs and form components for filtering the data.
  */
 const Sidebar = () => {
+  const visualization = useFormStore((state) => state.visualization);
+  const visualizationTitle = "Visualização";
+  const year = useFormStore((state) => state.year);
+  const yearTitle = "Ano";
+  const semester = useFormStore((state) => state.semester);
+  const semesterTitle = "Semestre";
+  const month = useFormStore((state) => state.month);
+  const monthTitle = "Mês";
+  const day = useFormStore((state) => state.day);
+  const dayTitle = "Dia";
+  const ip = useFormStore((state) => state.ip);
+  const ipTitle = "IP";
+  const feature = useFormStore((state) => state.feature);
+  const featureTitle = "Característica";
+  // const clusterFeature = useFormStore((state) => state.clusterFeature);
+  // const clusterFeatureTitle = "Característica";
+  const clusterNum = useFormStore((state) => state.clusterNum);
+  const clusterNumTitle = "Número de clusters";
+  // const clusterIp = useFormStore((state) => state.clusterIp);
+  // const clusterIpTitle = "IP";
+  const scatterX = useFormStore((state) => state.scatterX);
+  const scatterXTitle = "Característica para o eixo x";
+  const scatterY = useFormStore((state) => state.scatterY);
+  const scatterYTitle = "Característica para o eixo y";
+  // const behaviorIp = useFormStore((state) => state.behaviorIp);
+  // const behaviorIpTitle = "IP";
+  const behaviorChart = useFormStore((state) => state.behaviorChart);
+  const behaviorChartTitle = "Comportamento";
+  const importanceModel = useFormStore((state) => state.importanceModel);
+  const importanceModelTitle = "Modelo";
+  // const mappingFeature = useFormStore((state) => state.mappingFeature);
+  // const mappingFeatureTitle = "Característica";
+  const reputationCountry = useFormStore((state) => state.reputationCountry);
+  const reputationCountryTitle = "País";
+  const scoreNum = useFormStore((state) => state.scoreNum);
+  const scoreNumTitle = "Número de IPs";
+  const selectionTechnique = useFormStore((state) => state.selectionTechnique);
+  const selectionTechniqueTitle = "Técnica de Machine Learning";
+
   // Options
   const visualizationOptions = {
-    cluster: "Clusters",
+    cluster: "Cluster",
     scatter: "Gráfico de dispersão",
     behavior: "Gráficos de comportamento",
     heatmap: "Heatmap de ocorrências de IPs nos países",
@@ -28,9 +71,12 @@ const Sidebar = () => {
     table: "Tabela de acurácia e tempo de treinamento de modelos",
   };
 
-  const semesterOptions = { First: "Primeiro", Second: "Segundo" };
+  const semesterOptions = {
+    First: "Primeiro",
+    Second: "Segundo",
+  };
 
-  const yearOptions = ["2023", "2024"];
+  const yearOptions = [2023, 2024];
 
   const monthOptions = [
     "Janeiro",
@@ -47,11 +93,7 @@ const Sidebar = () => {
     "Dezembro",
   ];
 
-  const dayOptions = [
-    ...Array(31)
-      .keys()
-      .map((day) => Number(day + 1)),
-  ];
+  const dayOptions = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
   const featureOptions = [
     "abuseipdb_is_whitelisted",
@@ -97,58 +139,40 @@ const Sidebar = () => {
     "score_average_Mobat",
   ];
 
-  // --- TESTE
-  const ipOptions = [
-    ...new Set([
-      "190.123.237.28",
-      "162.243.132.15",
-      "43.156.75.234",
-      "109.161.120.156",
-      "189.90.181.225",
-      "80.151.31.87",
-      "222.12.38.178",
-      "94.102.61.4",
-      "223.236.89.2",
-      "185.231.59.165",
-      "20.151.171.161",
-      "80.94.95.203",
-      "218.92.0.51",
-      "84.78.93.70",
-      "122.160.115.28",
-      "182.70.252.174",
-      "141.98.11.55",
-      "84.78.93.70",
-      "141.98.11.67",
-      "125.99.241.130",
-      "103.143.171.228",
-      "185.69.155.107",
-      "141.98.11.55",
-      "45.95.147.200",
-      "182.70.252.174",
-      "84.78.93.70",
-      "45.95.147.200",
-      "138.91.3.70",
-      "165.232.70.143",
-      "143.198.146.239",
-    ]),
-  ].toSorted((a, b) => a.toString().localeCompare(b, "pt-br"));
+  const [url, setUrl] = useState(null);
+  useEffect(() => {
+    setUrl(
+      `dados-banco/?column_choice=IP&year=${year}${
+        month ? `&month=${month}` : ``
+      }${day ? `&day=${day}` : ``}${semester ? `&semester=${semester}` : ``}${
+        ip ? `&ip_address=${ip}` : ``
+      }&view=json`
+    );
+  }, [year, month, day, semester, ip]);
 
-  // --- REAL
-  // const [data, setData] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
-  // useEffect(() => {
-  //   setLoading(true);
-  //   fetch(api)
-  //     .then((response) => {
-  //       if (response.ok) return response.json();
-  //       throw new Error(`Failed to fetch data: ${response}`);
-  //     })
-  //     .then((data) => setData(data))
-  //     .then(() => setLoading(false))
-  //     .catch((error) => setError(error));
-  // }, []);
-  // const ipOptions = [...new Set(data.map((item) => item.ip))];
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (url && year) {
+      setLoading(true);
+      api
+        .get(url)
+        .then((response) => response.data)
+        .then((data) => setData(data))
+        .then(() => setLoading(false))
+        .catch((error) => {
+          setError(error);
+          console.error(error);
+        });
+    }
+  }, [url]);
+
+  const ipOptions = [...new Set(data.map((item) => item.IP))].toSorted((a, b) =>
+    a.toString().localeCompare(b, "pt-br", { numeric: true })
+  );
+  console.log(data, ipOptions);
 
   const behaviorOptions = [
     "Localização",
@@ -190,8 +214,6 @@ const Sidebar = () => {
     "Matriz de correlação",
   ];
 
-  const visualization = useFormStore((state) => state.visualization);
-
   // Setters
   const setVisualization = useFormStore((state) => state.setVisualization);
   const setClusterFeature = useFormStore((state) => state.setClusterFeature);
@@ -231,35 +253,51 @@ const Sidebar = () => {
   }, [visualization]);
 
   // Handlers
-  const handleVisualization = (e) => {
+  const handleVisualization = (event) => {
     setVisualization(
       Object.keys(visualizationOptions).find(
-        (key) => visualizationOptions[key] === e.target.value
+        (key) => visualizationOptions[key] === event.target.value
       )
     );
   };
-  const handleYear = (e) => {
-    setYear(e.target.value);
+
+  const handleYear = (event) => {
+    setYear(event.target.value);
   };
-  const handleMonth = (e) => {
-    setMonth(e.target.value);
-  };
-  const handleDay = (e) => {
-    setDay(e.target.value);
-  };
-  const handleSemester = (e) => {
+
+  const handleSemester = (event) => {
     setSemester(
       Object.keys(semesterOptions).find(
-        (key) => semesterOptions[key] === e.target.value
+        (key) => semesterOptions[key] === event.target.value
       )
     );
   };
+
+  const handleMonth = (event) => {
+    setMonth(event.target.value);
+  };
+
+  const handleDay = (event) => {
+    setDay(e.target.value);
+  };
+
+  const handleIp = (event) => {};
+
+  const handleClusterFeature = (event) => {};
+  const handleClusterNum = (event) => {};
+  const handleScatterX = (event) => {};
+  const handleScatterY = (event) => {};
+  const handleBehaviorType = (event) => {};
+  const handleImportanceModel = (event) => {};
+  const handleMappingFeature = (event) => {};
+  const handleReputationCountry = (event) => {};
+  const handleScoreNum = (event) => {};
+  const handleSelectionTechnique = (event) => {};
 
   return (
     <>
       <aside className="w-full max-h-[1400px] lg:w-1/3 lg:h-full p-4 lg:p-8 bg-gray-100 gap-4 flex items-center flex-col lg:justify-center">
         <form className="grid grid-cols-2 gap-4 w-full grid-flow-row">
-          {/* <form className="flex flex-row flex-wrap gap-3 lg:gap-4 w-full items-center justify-center"> */}
           <Select
             title="Visualização"
             options={Object.values(visualizationOptions)}
@@ -281,6 +319,7 @@ const Sidebar = () => {
           />
           <Select title="Mês" options={monthOptions} handle={handleMonth} />
           <Select title="Dia" options={dayOptions} handle={handleDay} />
+          <Select title="IP" options={ipOptions} handle={handleDay} />
 
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Select
@@ -301,16 +340,6 @@ const Sidebar = () => {
               }}
               min={1}
               max={10}
-              required={true}
-            />
-          )}
-          {useFormStore((state) => state.visualization) === "cluster" && (
-            <Input
-              title="IP"
-              handle={(e) => {
-                setClusterIp(e.target.value);
-              }}
-              type="text"
               required={true}
             />
           )}
@@ -340,16 +369,6 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "behavior" && (
             <Select
-              title="IP"
-              options={ipOptions}
-              handle={(e) => {
-                setBehaviorIp(e.target.value);
-              }}
-              required={true}
-            />
-          )}
-          {useFormStore((state) => state.visualization) === "behavior" && (
-            <Select
               title="Comportamento"
               options={behaviorOptions}
               handle={(e) => {
@@ -364,17 +383,6 @@ const Sidebar = () => {
               options={modelOptions}
               handle={(e) => {
                 setImportanceModel(e.target.value);
-              }}
-              fullWidth={true}
-              required={true}
-            />
-          )}
-          {useFormStore((state) => state.visualization) === "mapping" && (
-            <Select
-              title="Característica"
-              options={featureOptions}
-              handle={(e) => {
-                setMappingFeature(e.target.value);
               }}
               fullWidth={true}
               required={true}

@@ -37,15 +37,11 @@ const Select = ({
         disabled={options.length === 0}
         required={required}
       >
-        {[
-          title,
-          ...options.toSorted((a, b) => a.toString().localeCompare(b, "pt-br")),
-        ].map((option, key) => (
+        {[title, ...options].map((option, key) => (
           <option
             key={key}
             value={option}
             disabled={
-              // option === title ||
               (axis === "X" &&
                 option === useFormStore((state) => state.scatter.y)) ||
               (axis === "Y" &&
