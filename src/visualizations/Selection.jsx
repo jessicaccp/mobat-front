@@ -1,13 +1,23 @@
+// To-do:
+// - fix technique value
+
 import { useEffect, useState } from "react";
-import api from "services/api";
 import Plot from "react-plotly.js";
-import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 import Loading from "layout/Loading";
+import api from "services/api";
+import useFormStore from "store/useFormStore";
 
 const Selection = () => {
+  // Required input
   const technique = useFormStore((state) => state.selection.technique);
+
+  // Optional input
   const year = useFormStore((state) => state.year);
+  const semester = useFormStore((state) => state.semester);
+  const month = useFormStore((state) => state.month);
+  const day = useFormStore((state) => state.day);
+  const ip = useFormStore((state) => state.ip);
 
   // Error messages
   const requiredInput = technique && year;

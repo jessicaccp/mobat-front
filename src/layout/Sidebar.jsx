@@ -47,7 +47,11 @@ const Sidebar = () => {
     "Dezembro",
   ];
 
-  const dayOptions = [...Array(31).keys()];
+  const dayOptions = [
+    ...Array(31)
+      .keys()
+      .map((day) => Number(day + 1)),
+  ];
 
   const featureOptions = [
     "abuseipdb_is_whitelisted",
@@ -252,14 +256,15 @@ const Sidebar = () => {
             handle={handleYear}
             required={true}
           />
-          <Select title="Mês" options={monthOptions} handle={handleMonth} />
-          <Select title="Dia" options={dayOptions} handle={handleDay} />
           <Select
             title="Semestre"
             options={Object.values(semesterOptions)}
             handle={handleSemester}
             required={true}
           />
+          <Select title="Mês" options={monthOptions} handle={handleMonth} />
+          <Select title="Dia" options={dayOptions} handle={handleDay} />
+
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Select
               title="Característica"

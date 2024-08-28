@@ -1,42 +1,64 @@
+// To-do:
+// - add url
+// - add api data to plot
+
 import { useEffect, useState } from "react";
-import api from "services/api";
 import Plot from "react-plotly.js";
-import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 import Loading from "layout/Loading";
+import api from "services/api";
+import useFormStore from "store/useFormStore";
 
 const Table = () => {
+  // Required input
+  const year = useFormStore((state) => state.year);
+
+  // Optional input
+  const semester = useFormStore((state) => state.semester);
+  const month = useFormStore((state) => state.month);
+  const day = useFormStore((state) => state.day);
+  const ip = useFormStore((state) => state.ip);
+
+  // Plot strings
+  const plotTitle = "Tabela de acurácia e tempo de treinamento de modelos";
+
   // Error messages
-  const requiredInput = null;
+  const requiredInput = year;
   const missingInput = "Campos obrigatórios não preenchidos";
   const noData = "Sem dados para exibição";
   const fetchError = "Falha ao solicitar dados";
 
+  const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // --- TEST
   useEffect(() => {
-    setData();
+    setUrl(``);
+  }, [year]);
+
+  useEffect(() => {
+    if (url && requiredInput) {
+      setLoading(true);
+      setError(null);
+      api
+        .get(url)
+        .then((response) => setData(response.data))
+        .then(() => setLoading(false))
+        .catch((error) => {
+          setError(fetchError);
+          console.error(error);
+        });
+    }
   }, []);
 
-  // --- REAL
-  // useEffect(() => {
-  //   setLoading(true);
-  //   setError(null);
-  //   fetch(api)
-  //     .then((response) => {
-  //       if (response.ok) return response.json();
-  //       throw new Error(`Failed to fetch data: ${response}`);
-  //     })
-  //     .then((data) => setData(data))
-  //     .then(() => setLoading(false))
-  //     .catch((error) => setError(error));
-  // }, []);
-
   const [values, setValues] = useState(null);
-  const labels = ["Model", "Selection technique", "MSE", "Training time"];
+  const labels = [
+    "Modelo",
+    "Técnica de seleção",
+    "MSE",
+    "Tempo de treinamento",
+  ];
 
   // Extracts the cell values from the data
   useEffect(() => {
@@ -58,9 +80,7 @@ const Table = () => {
   if (loading) return <Loading />;
   if (!data) return <p>{noData}</p>;
 
-  // --- REAL
-  // if (!data) return <Error message="No data" />;
-
+  // Plot table
   return (
     <>
       <Plot
@@ -85,7 +105,7 @@ const Table = () => {
         ]}
         layout={{
           autosize: true,
-          title: "Model accuracy and training time table",
+          title: plotTitle,
         }}
         config={{ locale: "pt-br" }}
         useResizeHandler

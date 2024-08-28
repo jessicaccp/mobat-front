@@ -17,6 +17,13 @@ const Behavior = () => {
   const ip = useFormStore((state) => state.behavior.ip);
   const behavior = useFormStore((state) => state.behavior.chart);
 
+  // Optional input
+  const year = useFormStore((state) => state.year);
+  const semester = useFormStore((state) => state.semester);
+  const month = useFormStore((state) => state.month);
+  const day = useFormStore((state) => state.day);
+  // const ip = useFormStore((state) => state.ip);
+
   // Error messages
   const requiredInput = ip && behavior;
   const missingInput = "Campos obrigatórios não preenchidos";

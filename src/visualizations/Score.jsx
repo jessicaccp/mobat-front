@@ -7,7 +7,13 @@ import Loading from "layout/Loading";
 
 const Score = () => {
   const numIps = useFormStore((state) => state.score.num);
+
+  // Optional input
   const year = useFormStore((state) => state.year);
+  const semester = useFormStore((state) => state.semester);
+  const month = useFormStore((state) => state.month);
+  const day = useFormStore((state) => state.day);
+  const ip = useFormStore((state) => state.ip);
 
   // Error messages
   const requiredInput = numIps && year;

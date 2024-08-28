@@ -16,8 +16,13 @@ const Cluster = () => {
   const feature = useFormStore((state) => state.cluster.feature);
   const nClusters = useFormStore((state) => state.cluster.num);
   const ip = useFormStore((state) => state.cluster.ip);
+
+  // Optional input
   const year = useFormStore((state) => state.year);
   const semester = useFormStore((state) => state.semester);
+  const month = useFormStore((state) => state.month);
+  const day = useFormStore((state) => state.day);
+  // const ip = useFormStore((state) => state.ip);
 
   // Error messages
   const requiredInput = nClusters && feature && ip && year && semester;

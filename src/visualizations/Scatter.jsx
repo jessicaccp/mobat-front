@@ -13,10 +13,10 @@ const Scatter = () => {
   // Required
   const columnX = useFormStore((state) => state.scatter.x);
   const columnY = useFormStore((state) => state.scatter.y);
+
+  // Optional input
   const year = useFormStore((state) => state.year);
   const semester = useFormStore((state) => state.semester);
-
-  // Optional
   const month = useFormStore((state) => state.month);
   const day = useFormStore((state) => state.day);
   const ip = useFormStore((state) => state.ip);
