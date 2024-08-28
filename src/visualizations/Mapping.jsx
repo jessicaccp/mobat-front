@@ -51,7 +51,7 @@ const Mapping = () => {
         config={{ locale: "pt-br" }}
         useResizeHandler
         responsive
-        className="w-full h-full"
+        className="w-auto h-full"
       />
     </>
   );
