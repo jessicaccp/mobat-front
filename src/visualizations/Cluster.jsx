@@ -101,7 +101,7 @@ const Cluster = () => {
         config={{ locale: "pt-br" }}
         useResizeHandler
         responsive
-        className="w-auto h-full"
+        className="w-full h-full"
       />
     </>
   );

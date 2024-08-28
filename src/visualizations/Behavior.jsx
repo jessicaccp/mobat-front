@@ -293,7 +293,7 @@ const Behavior = () => {
               responsive: true,
             }}
             useResizeHandler
-            className="w-auto h-full"
+            className="w-full h-full"
           />
         </>
       );
@@ -343,7 +343,7 @@ const Behavior = () => {
               responsive: true,
             }}
             useResizeHandler
-            className="w-auto h-full"
+            className="w-full h-full"
           />
         </>
       );
@@ -382,7 +382,7 @@ const Behavior = () => {
               responsive: true,
             }}
             useResizeHandler
-            className="w-auto h-full"
+            className="w-full h-full"
           />
         </>
       );
@@ -418,7 +418,7 @@ const Behavior = () => {
               responsive: true,
             }}
             useResizeHandler
-            className="w-auto h-full"
+            className="w-full h-full"
           />
         </>
       );
@@ -443,7 +443,7 @@ const Behavior = () => {
               responsive: true,
             }}
             useResizeHandler
-            className="w-auto h-full"
+            className="w-full h-full"
           />
         </>
       );
@@ -546,7 +546,7 @@ const Behavior = () => {
               responsive: true,
             }}
             useResizeHandler
-            className="w-auto h-full"
+            className="w-full h-full"
           />
         </>
       );
@@ -585,7 +585,7 @@ const Behavior = () => {
               responsive: true,
             }}
             useResizeHandler
-            className="w-auto h-full"
+            className="w-full h-full"
           />
         </>
       );

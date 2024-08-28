@@ -7,10 +7,16 @@ import useFormStore from "store/useFormStore";
 
 const Scatter = () => {
   // Get user input values from the store
+  // Required
   const columnX = useFormStore((state) => state.scatter.x);
   const columnY = useFormStore((state) => state.scatter.y);
   const year = useFormStore((state) => state.year);
   const semester = useFormStore((state) => state.semester);
+
+  // Optional
+  const month = useFormStore((state) => state.month);
+  const day = useFormStore((state) => state.day);
+  const ip = useFormStore((state) => state.ip);
 
   // Error messages
   const missingInput = "Características não informadas";
@@ -31,13 +37,17 @@ const Scatter = () => {
   // Set url
   useEffect(() => {
     setUrl(
-      `/mapeamento-features/?action=Map%20Feature%20by%20Feature&feature_choice=${columnX}&feature_to_count=${columnY}&year=${year}&semester=${semester}&view=json`
+      `mapeamento-features/?action=Map%20Feature%20by%20Feature&feature_choice=${columnX}&feature_to_count=${columnY}&year=${year}${
+        month ? `&month=${month}` : ``
+      }${day ? `&day=${day}` : ``}&semester=${semester}${
+        ip ? `&specific_ip=${ip}` : ``
+      }&view=json`
     );
-  }, [columnX, columnY, semester, year]);
+  }, [columnX, columnY, semester, year, month, day, semester]);
 
   // Fetch data
   useEffect(() => {
-    if (url && columnX && columnY && year) {
+    if (url && columnX && columnY && semester && year) {
       setLoading(true);
       setError(null);
       api
@@ -45,6 +55,9 @@ const Scatter = () => {
         .then((response) => setData(response.data))
         .catch((error) => {
           setError(fetchError);
+          setX([]);
+          setY([]);
+          setSize([]);
           console.error(error);
         });
     }
@@ -73,8 +86,8 @@ const Scatter = () => {
   // In case of missing user input, loading, error or no data
   if (!(columnX && columnY)) return <Error message={missingInput} />;
   if (error) return <Error message={error?.message || error} />;
-  if (loading) return <Loading />;
   if (!data) return <Error message={noData} />;
+  if (loading) return <Loading />;
 
   // console.log(size.sort());
   // Render the scatter plot
@@ -104,7 +117,7 @@ const Scatter = () => {
         config={{ locale: "pt-br" }}
         useResizeHandler
         responsive
-        className="w-auto h-full"
+        className="w-full h-full"
       />
     </>
   );

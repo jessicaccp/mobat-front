@@ -15,6 +15,7 @@ const useFormStore = create((set) => ({
   month: null,
   day: null,
   semester: null,
+  ip: null,
 
   setVisualization: (visualization) => set({ visualization }),
   setClusterFeature: (feature) =>
@@ -93,6 +94,7 @@ const useFormStore = create((set) => ({
   setMonth: (month) => set({ month }),
   setDay: (day) => set({ day }),
   setSemester: (semester) => set({ semester }),
+  setIp: (ip) => set({ ip }),
 }));
 
 export default useFormStore;

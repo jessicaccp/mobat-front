@@ -102,7 +102,7 @@ const Importance = () => {
           responsive: true,
         }}
         useResizeHandler
-        className="w-auto h-full"
+        className="w-full h-full"
       />
     </>
   );

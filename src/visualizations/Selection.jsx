@@ -178,7 +178,7 @@ const Selection = () => {
           responsive: true,
         }}
         useResizeHandler
-        className="w-auto h-full"
+        className="w-full h-full"
       />
     </>
   );
