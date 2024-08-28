@@ -39,6 +39,7 @@ const Cluster = () => {
 
   useEffect(() => {
     if (url && feature && nClusters && year && semester && ip) {
+      setError(null);
       setLoading(true);
       api
         .get(url)

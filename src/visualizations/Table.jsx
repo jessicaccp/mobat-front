@@ -17,6 +17,7 @@ const Table = () => {
   // --- REAL
   // useEffect(() => {
   //   setLoading(true);
+  //   setError(null);
   //   fetch(api)
   //     .then((response) => {
   //       if (response.ok) return response.json();

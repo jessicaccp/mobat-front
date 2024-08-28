@@ -48,6 +48,7 @@ const Importance = () => {
 
   useEffect(() => {
     if (url && model && year) {
+      setError(null);
       setLoading(true);
       api
         .get(url)

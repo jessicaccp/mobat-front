@@ -12,6 +12,8 @@ const useFormStore = create((set) => ({
   score: { num: null },
   selection: { technique: null },
   year: null,
+  month: null,
+  day: null,
   semester: null,
 
   setVisualization: (visualization) => set({ visualization }),
@@ -88,6 +90,8 @@ const useFormStore = create((set) => ({
       })
     ),
   setYear: (year) => set({ year }),
+  setMonth: (month) => set({ month }),
+  setDay: (day) => set({ day }),
   setSemester: (semester) => set({ semester }),
 }));
 

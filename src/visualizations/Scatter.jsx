@@ -39,6 +39,7 @@ const Scatter = () => {
   useEffect(() => {
     if (url && columnX && columnY && year) {
       setLoading(true);
+      setError(null);
       api
         .get(url)
         .then((response) => setData(response.data))

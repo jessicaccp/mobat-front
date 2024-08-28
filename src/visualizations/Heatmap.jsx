@@ -7,6 +7,9 @@ import Error from "layout/Error";
 
 const Heatmap = () => {
   const year = useFormStore((state) => state.year);
+  const month = useFormStore((state) => state.month);
+  const day = useFormStore((state) => state.day);
+  const semester = useFormStore((state) => state.semester);
 
   const [count, setCount] = useState(null);
   const [url, setUrl] = useState(null);
@@ -16,13 +19,16 @@ const Heatmap = () => {
 
   useEffect(() => {
     setUrl(
-      `country-score-average/?year=${year}&country=Todos&metric=count&view=json`
+      `country-score-average/?year=${year}${month ? `&month=${month}` : ``}${
+        day ? `&day=${day}` : ``
+      }&semester=${semester}&country=Todos&metric=count&view=json`
     );
   }, [year]);
 
   useEffect(() => {
     if (url && year) {
       setLoading(true);
+      setError(null);
       api
         .get(url)
         .then((response) => {

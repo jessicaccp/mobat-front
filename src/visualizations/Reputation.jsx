@@ -24,6 +24,7 @@ const Reputation = () => {
   useEffect(() => {
     if (url && country && year) {
       setLoading(true);
+      setError(null);
       api
         .get(url)
         .then((response) => {

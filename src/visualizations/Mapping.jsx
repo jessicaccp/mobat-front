@@ -21,6 +21,7 @@ const Mapping = () => {
   // useEffect(() => {
   //   if (columnMap) {
   //     setLoading(true);
+  //     setError(null);
   //     fetch(api)
   //       .then((response) => {
   //         if (response.ok) return response.json();

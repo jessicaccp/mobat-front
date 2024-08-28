@@ -55,6 +55,7 @@ const Selection = () => {
   useEffect(() => {
     if (url && technique && year) {
       setLoading(true);
+      setError(null);
       api
         .get(url)
         .then((response) => {

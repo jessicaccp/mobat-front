@@ -21,6 +21,7 @@ const Score = () => {
   useEffect(() => {
     if (url && numIps && year) {
       setLoading(true);
+      setError(null);
       api
         .get(url)
         .then((response) => {

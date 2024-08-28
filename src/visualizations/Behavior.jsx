@@ -20,6 +20,7 @@ const Behavior = () => {
   // Fetch data from the api
   // useEffect(() => {
   //   if (ip && behavior) {
+  //     setError(null);
   //     setLoading(true);
   //     fetch(api)
   //       .then((response) => {

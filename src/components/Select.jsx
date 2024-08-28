@@ -19,7 +19,7 @@ const Select = ({
   const fullWidthClasses =
     "border-0 border-b rounded-sm w-[47%] lg:w-full text-xs lg:text-sm";
   const defaultClasses =
-    "border-0 border-b rounded-sm w-[47%] lg:w-[47.75%] text-xs lg:text-sm";
+    "border-0 border-b rounded-sm w-[47%] lg:w-[47%] text-xs lg:text-sm";
   const requiredClasses = "border-blue-500";
   const classes = `${required ? requiredClasses : ""} ${
     fullWidth ? fullWidthClasses : defaultClasses

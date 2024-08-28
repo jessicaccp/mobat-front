@@ -205,6 +205,8 @@ const Sidebar = () => {
     (state) => state.setSelectionTechnique
   );
   const setYear = useFormStore((state) => state.setYear);
+  const setMonth = useFormStore((state) => state.setMonth);
+  const setDay = useFormStore((state) => state.setDay);
   const setSemester = useFormStore((state) => state.setSemester);
 
   // Handlers
@@ -217,6 +219,12 @@ const Sidebar = () => {
   };
   const handleYear = (e) => {
     setYear(e.target.value);
+  };
+  const handleMonth = (e) => {
+    setMonth(e.target.value);
+  };
+  const handleDay = (e) => {
+    setDay(e.target.value);
   };
   const handleSemester = (e) => {
     setSemester(
@@ -243,8 +251,8 @@ const Sidebar = () => {
             handle={handleYear}
             required={true}
           />
-          <Select title="Mês" options={monthOptions} handle={handleYear} />
-          <Select title="Dia" options={dayOptions} handle={handleYear} />
+          <Select title="Mês" options={monthOptions} handle={handleMonth} />
+          <Select title="Dia" options={dayOptions} handle={handleDay} />
           <Select
             title="Semestre"
             options={Object.values(semesterOptions)}
