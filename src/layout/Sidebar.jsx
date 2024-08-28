@@ -237,7 +237,8 @@ const Sidebar = () => {
   return (
     <>
       <aside className="w-full max-h-[1400px] lg:w-1/3 lg:h-full p-4 lg:p-8 bg-gray-100 gap-4 flex items-center flex-col lg:justify-center">
-        <form className="flex flex-row flex-wrap gap-3 lg:gap-4 w-full items-center justify-center">
+        <form className="grid grid-cols-2 gap-4 w-full grid-flow-row">
+          {/* <form className="flex flex-row flex-wrap gap-3 lg:gap-4 w-full items-center justify-center"> */}
           <Select
             title="Visualização"
             options={Object.values(visualizationOptions)}
@@ -261,7 +262,7 @@ const Sidebar = () => {
           />
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Select
-              title="Característica (cluster)"
+              title="Característica"
               options={numericFeatureOptions}
               handle={(e) => {
                 setClusterFeature(e.target.value);
@@ -283,7 +284,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "cluster" && (
             <Input
-              title="IP (cluster)"
+              title="IP"
               handle={(e) => {
                 setClusterIp(e.target.value);
               }}
@@ -317,7 +318,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "behavior" && (
             <Select
-              title="IP (comportamento)"
+              title="IP"
               options={ipOptions}
               handle={(e) => {
                 setBehaviorIp(e.target.value);
@@ -348,7 +349,7 @@ const Sidebar = () => {
           )}
           {useFormStore((state) => state.visualization) === "mapping" && (
             <Select
-              title="Característica (mapeamento)"
+              title="Característica"
               options={featureOptions}
               handle={(e) => {
                 setMappingFeature(e.target.value);

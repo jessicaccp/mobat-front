@@ -17,10 +17,9 @@ const Input = ({
   required = false,
 }) => {
   const fullWidthClasses =
-    "border-0 border-b rounded-sm w-[47%] lg:w-full text-xs lg:text-sm";
-  const defaultClasses =
-    "border-0 border-b rounded-sm w-[47%] lg:w-[47%] text-xs lg:text-sm";
-  const requiredClasses = "border-blue-500";
+    "border-0 border-b rounded-sm text-xs md:text-sm col-span-2";
+  const defaultClasses = "border-0 border-b rounded-sm  text-xs md:text-sm";
+  const requiredClasses = "border-red-500";
   const classes = `${required ? requiredClasses : ""} ${
     fullWidth ? fullWidthClasses : defaultClasses
   }`;
