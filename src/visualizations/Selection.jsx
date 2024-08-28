@@ -1,5 +1,6 @@
 // To-do:
 // - fix technique value
+// - add api data for correlation matrix
 
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
@@ -11,13 +12,13 @@ import useFormStore from "store/useFormStore";
 const Selection = () => {
   // Required input
   const technique = useFormStore((state) => state.selection.technique);
+  const year = useFormStore((state) => state.year);
 
   // Optional input
-  const year = useFormStore((state) => state.year);
   const semester = useFormStore((state) => state.semester);
   const month = useFormStore((state) => state.month);
   const day = useFormStore((state) => state.day);
-  const ip = useFormStore((state) => state.ip);
+  // const ip = useFormStore((state) => state.ip);
 
   // Error messages
   const requiredInput = technique && year;
@@ -59,30 +60,31 @@ const Selection = () => {
     SelectKBest: "select_kbest",
     Lasso: "lasso",
     "Mutual Information": "mutual_info",
-    "Correlation Matrix": "correlation",
+    "Matriz de correlação": "correlation",
   };
 
   useEffect(() => {
     setUrl(
-      `feature-selection/?technique=${techniques[technique]}&year=${year}&view=json`
+      `feature-selection/?technique=${techniques[technique]}&year=${year}${
+        month ? `&month=${month}` : ``
+      }${day ? `&day=${day}` : ``}${
+        semester ? `&semester=${semester}` : ``
+      }&view=json`
     );
   }, [technique, year]);
 
   useEffect(() => {
-    if (url && technique && year) {
+    if (url && requiredInput) {
       setLoading(true);
       setError(null);
       api
         .get(url)
-        .then((response) => {
-          if (response.status === 200) return response.data;
-          throw new Error(
-            `Failed to fetch data: ${response.status} ${response.statusText}`
-          );
-        })
-        .then((data) => setData(data))
+        .then((response) => setData(response.data))
         .then(() => setLoading(false))
-        .catch((error) => setError(error));
+        .catch((error) => {
+          setError(fetchError);
+          console.error(error);
+        });
     }
   }, [url]);
 
@@ -103,7 +105,7 @@ const Selection = () => {
           const top5 = Object.entries(data)
             .toSorted((a, b) => b[1] - a[1])
             .slice(0, 5);
-          setPlotTitle("SelectKBest - Top 5 features");
+          setPlotTitle("SelectKBest - Top 5 de características");
           setPlotX(top5.map((item) => item[0]));
           setPlotY(top5.map((item) => item[1].toFixed(2)));
           setPlotZ(null);
@@ -113,7 +115,7 @@ const Selection = () => {
           break;
 
         case "Lasso":
-          setPlotTitle("Lasso coefficients");
+          setPlotTitle("Lasso coeficientes");
           setPlotX(Object.keys(data));
           setPlotY(Object.values(data).map((x) => x.toFixed(2)));
           setPlotZ(null);
@@ -133,7 +135,7 @@ const Selection = () => {
           break;
 
         case "Correlation Matrix":
-          setPlotTitle("Correlation matrix");
+          setPlotTitle("Matriz de correlação");
           setPlotX(labels);
           setPlotY(labels);
           setPlotZ(labels.map((label) => Object.values(data[label])));
