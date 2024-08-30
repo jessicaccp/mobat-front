@@ -3,8 +3,8 @@ import Sidebar from "layout/Sidebar";
 import Main from "layout/Main";
 
 /**
- * Main component of the application.
- * @returns {React.JSX.Element} The layout components.
+ * The application.
+ * @returns {React.JSX.Element} All the layout components.
  */
 const App = () => {
   return (
