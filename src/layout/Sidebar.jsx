@@ -1,19 +1,13 @@
-// To-do:
-// - change all options to a dictionary
-// - set when component is required
-// - get country names from country data
-
 import Select from "components/Select";
 import Input from "components/Input";
+import Loading from "layout/Loading";
+import api from "services/api";
 import useFormStore from "store/useFormStore";
 import { useEffect, useState } from "react";
-import api from "services/api";
-import { data1, data2, data3 } from "tests/data";
-import Loading from "./Loading";
 
 /**
- * Sidebar component of the application.
- * @returns {React.JSX.Element} The aside tag, containing all the inputs and form components for filtering the data.
+ * Sidebar component of the application. It filters the data to be displayed in the main content.
+ * @returns {React.JSX.Element} The aside tag, containing a form with all the inputs for filtering the data.
  */
 const Sidebar = () => {
   // Stored values
@@ -166,8 +160,14 @@ const Sidebar = () => {
     12: "Dezembro",
   };
 
-  // Options for day select
-  const dayOptions = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  // Number of days for each month
+  const dayByMonth = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+  // Options for day select based on month
+  const dayOptions = Array.from(
+    { length: dayByMonth[month - 1] },
+    (_, i) => i + 1
+  );
 
   // Variable states for the API request of IP list
   // based on required year and optional month, day and semester
@@ -175,6 +175,8 @@ const Sidebar = () => {
   const [ipData, setIpData] = useState([]);
   const [ipLoading, setIpLoading] = useState(false);
   const [ipError, setIpError] = useState(null);
+
+  // Set the IP URL based on the values
   useEffect(() => {
     setIpUrl(
       `dados-banco/?column_choice=IP&year=${year}${
@@ -184,6 +186,8 @@ const Sidebar = () => {
       }&view=json`
     );
   }, [year, month, day, semester]);
+
+  // Request the IP data from the API
   useEffect(() => {
     if (ipUrl && year) {
       setIpLoading(true);
@@ -285,21 +289,14 @@ const Sidebar = () => {
     "ElasticNet",
   ];
 
-  // const countryOptions = [
-  //   ...new Set([...data1, ...data2, ...data3].map((item) => item[3])),
-  // ]
-  //   .map(
-  //     (alpha2) =>
-  //       iso31661.filter((country) => country.alpha2 === alpha2)[0].name
-  //   )
-  //   .toSorted((a, b) => a.toString().localeCompare(b, "pt-br"));
-
   // Variable states for the API request of country list
   // based on required year and optional month, day, semester and ip
   const [countryUrl, setCountryUrl] = useState(null);
   const [countryData, setCountryData] = useState([]);
   const [countryLoading, setCountryLoading] = useState(false);
   const [countryError, setCountryError] = useState(null);
+
+  // Set the country URL based on the values
   useEffect(() => {
     setCountryUrl(
       `dados-banco/?column_choice=abuseipdb_country_code&year=${year}${
@@ -309,6 +306,8 @@ const Sidebar = () => {
       }&view=json`
     );
   }, [year, month, day, semester, ip]);
+
+  // Request the country data from the API
   useEffect(() => {
     if (countryUrl && year) {
       setCountryLoading(true);
@@ -397,6 +396,7 @@ const Sidebar = () => {
     "Matriz de correlação",
   ];
 
+  // Reset some values when visualization changes
   useEffect(() => {
     setFeature(null);
     setClusterNum(null);
@@ -409,22 +409,7 @@ const Sidebar = () => {
     setSelectionTechnique(null);
   }, [visualization]);
 
-  //   console.log(`visualization ${visualization}
-  // year ${year}
-  // semester ${semester}
-  // month ${month}
-  // day ${day}
-  // ip ${ip}
-  // feature ${feature}
-  // clusterNum ${clusterNum}
-  // scatterX ${scatterX}
-  // scatterY ${scatterY}
-  // behaviorChart ${behaviorChart}
-  // importanceModel ${importanceModel}
-  // reputationCountry ${reputationCountry}
-  // scoreNum ${scoreNum}
-  // selectionTechnique ${selectionTechnique}`);
-
+  // Render the sidebar based on the visualization selected
   return (
     <>
       <aside className="w-full max-h-[1400px] lg:w-1/3 lg:h-full p-4 lg:p-8 bg-gray-100 gap-4 flex items-center flex-col lg:justify-center">
