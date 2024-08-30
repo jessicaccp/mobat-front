@@ -3,11 +3,10 @@ import { produce } from "immer";
 
 const useFormStore = create((set) => ({
   visualization: null,
-  cluster: { feature: null, num: null, ip: null },
+  cluster: { num: null },
   scatter: { x: null, y: null },
-  behavior: { ip: null, chart: null },
+  behavior: { chart: null },
   importance: { model: null },
-  mapping: { feature: null },
   reputation: { country: null },
   score: { num: null },
   selection: { technique: null },
@@ -16,24 +15,13 @@ const useFormStore = create((set) => ({
   day: null,
   semester: null,
   ip: null,
+  feature: null,
 
   setVisualization: (visualization) => set({ visualization }),
-  setClusterFeature: (feature) =>
-    set(
-      produce((state) => {
-        state.cluster.feature = feature;
-      })
-    ),
   setClusterNum: (num) =>
     set(
       produce((state) => {
         state.cluster.num = Number(num);
-      })
-    ),
-  setClusterIp: (ip) =>
-    set(
-      produce((state) => {
-        state.cluster.ip = String(ip);
       })
     ),
   setScatterX: (x) =>
@@ -48,12 +36,6 @@ const useFormStore = create((set) => ({
         state.scatter.y = y;
       })
     ),
-  setBehaviorIp: (ip) =>
-    set(
-      produce((state) => {
-        state.behavior.ip = ip;
-      })
-    ),
   setBehaviorChart: (chart) =>
     set(
       produce((state) => {
@@ -64,12 +46,6 @@ const useFormStore = create((set) => ({
     set(
       produce((state) => {
         state.importance.model = model;
-      })
-    ),
-  setMappingFeature: (feature) =>
-    set(
-      produce((state) => {
-        state.mapping.feature = feature;
       })
     ),
   setReputationCountry: (country) =>
@@ -95,6 +71,7 @@ const useFormStore = create((set) => ({
   setDay: (day) => set({ day }),
   setSemester: (semester) => set({ semester }),
   setIp: (ip) => set({ ip }),
+  setFeature: (feature) => set({ feature }),
 }));
 
 export default useFormStore;

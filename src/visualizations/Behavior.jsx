@@ -14,7 +14,7 @@ import Loading from "layout/Loading";
 
 const Behavior = () => {
   // Get user input values from the store
-  const ip = useFormStore((state) => state.behavior.ip);
+  const ip = useFormStore((state) => state.ip);
   const behavior = useFormStore((state) => state.behavior.chart);
 
   // Optional input

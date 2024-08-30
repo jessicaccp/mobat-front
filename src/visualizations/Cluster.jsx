@@ -13,9 +13,9 @@ import useFormStore from "store/useFormStore";
 
 const Cluster = () => {
   // Get user input values from the store
-  const feature = useFormStore((state) => state.cluster.feature);
+  const feature = useFormStore((state) => state.feature);
   const nClusters = useFormStore((state) => state.cluster.num);
-  const ip = useFormStore((state) => state.cluster.ip);
+  const ip = useFormStore((state) => state.ip);
 
   // Optional input
   const year = useFormStore((state) => state.year);

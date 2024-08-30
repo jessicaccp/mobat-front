@@ -6,7 +6,7 @@ import Error from "layout/Error";
 import Loading from "layout/Loading";
 
 const Mapping = () => {
-  const columnMap = useFormStore((state) => state.mapping.feature);
+  const columnMap = useFormStore((state) => state.feature);
 
   // Optional input
   const year = useFormStore((state) => state.year);

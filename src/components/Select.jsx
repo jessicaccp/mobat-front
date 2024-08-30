@@ -17,21 +17,22 @@ const Select = ({
   options = [],
   handle = () => {},
   axis = null,
-  fullWidth = false,
+  colspan = 1,
   required = false,
+  defaultValue = "",
 }) => {
-  const fullWidthClasses =
-    "border-0 border-b rounded-sm text-xs md:text-sm col-span-2";
-  const defaultClasses = "border-0 border-b rounded-sm text-xs md:text-sm";
+  const colspanClasses = { 1: "col-span-1", 2: "col-span-2", 3: "col-span-3" };
   const requiredClasses = "border-red-500";
-  const classes = `${required ? requiredClasses : ""} ${
-    fullWidth ? fullWidthClasses : defaultClasses
+  const notRequiredClasses = "border-white";
+  const defaultClasses = "border-0 border-r rounded-sm text-xs md:text-sm";
+  const classes = `${defaultClasses} ${colspanClasses[colspan]} ${
+    required ? requiredClasses : notRequiredClasses
   }`;
 
   return (
     <>
       <select
-        defaultValue={title}
+        defaultValue={defaultValue || title}
         onChange={handle}
         className={classes}
         disabled={options.length === 0}
@@ -40,7 +41,7 @@ const Select = ({
         {[title, ...options].map((option, key) => (
           <option
             key={key}
-            value={option}
+            value={option === title ? "" : option}
             disabled={
               (axis === "X" &&
                 option === useFormStore((state) => state.scatter.y)) ||
