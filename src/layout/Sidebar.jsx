@@ -409,7 +409,7 @@ const Sidebar = () => {
     setSelectionTechnique(null);
   }, [visualization]);
 
-  // Render the sidebar based on the visualization selected
+  // Render the sidebar form with inputs based on the visualization selected
   return (
     <>
       <aside className="w-full max-h-[1400px] lg:w-1/3 lg:h-full p-4 lg:p-8 bg-gray-100 gap-4 flex items-center flex-col lg:justify-center">

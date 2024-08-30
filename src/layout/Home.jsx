@@ -1,37 +1,32 @@
-import Cluster from "visualizations/Cluster";
+import useFormStore from "store/useFormStore";
 import Behavior from "visualizations/Behavior";
-import Scatter from "visualizations/Scatter";
+import Cluster from "visualizations/Cluster";
 import Heatmap from "visualizations/Heatmap";
 import Importance from "visualizations/Importance";
 import Mapping from "visualizations/Mapping";
 import Reputation from "visualizations/Reputation";
+import Scatter from "visualizations/Scatter";
 import Score from "visualizations/Score";
 import Selection from "visualizations/Selection";
 import Table from "visualizations/Table";
-import useFormStore from "store/useFormStore";
-import Error from "layout/Error";
-import React from "react";
-import Loading from "layout/Loading";
 
 /**
- * Home component.
- * @returns {React.JSX.Element} The chart for the visualization selected by the user.
+ * Home component. It links the visualization selected by the user to the corresponding component.
+ * @returns {React.JSX.Element} The component for the visualization selected.
  */
 const Home = () => {
   const visualization = useFormStore((state) => state.visualization);
   const errorMessage = "Selecione uma visualização";
 
+  // Call the corresponding visualization component
   switch (visualization) {
-    case "cluster":
-      return <Cluster />;
-
-    // Gráfico de dispersão
-    case "scatter":
-      return <Scatter />;
-
     // Gráficos de comportamento
     case "behavior":
       return <Behavior />;
+
+    // Clusters
+    case "cluster":
+      return <Cluster />;
 
     // Heatmap de ocorrência dos IPs nos países
     case "heatmap":
@@ -48,6 +43,10 @@ const Home = () => {
     // Reputação por país
     case "reputation":
       return <Reputation />;
+
+    // Gráfico de dispersão
+    case "scatter":
+      return <Scatter />;
 
     // Score average MoBAt dos IPs com maior variação
     case "score":
