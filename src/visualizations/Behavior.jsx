@@ -1,224 +1,268 @@
 // To-do:
-// - fix behavior options selection
-// - get ip list from api
 // - get plot data from api
 // - fix plot config
+// - add submit button or fix data fetching
 
 import useFormStore from "store/useFormStore";
 import Error from "layout/Error";
 import api from "services/api";
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
-import { getRandom, range } from "tests/utils";
 import Loading from "layout/Loading";
 
 const Behavior = () => {
   // Get user input values from the store
+  const year = useFormStore((state) => state.year);
   const ip = useFormStore((state) => state.ip);
   const behavior = useFormStore((state) => state.behavior.chart);
 
   // Optional input
-  const year = useFormStore((state) => state.year);
   const semester = useFormStore((state) => state.semester);
   const month = useFormStore((state) => state.month);
   const day = useFormStore((state) => state.day);
 
   // Error messages
-  const requiredInput = ip && behavior;
+  const requiredInput = ip && behavior && year;
   const missingInput = "Campos obrigatórios não preenchidos";
   const noData = "Sem dados para exibição";
   const fetchError = "Falha ao solicitar dados";
 
   // Set initial states
+  const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
   const [mean, setMean] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch data from the api
-  // useEffect(() => {
-  //   if (ip && behavior) {
-  //     setError(null);
-  //     setLoading(true);
-  //     fetch(api)
-  //       .then((response) => {
-  //         if (response.ok) return response.json();
-  //         throw new Error(`Failed to fetch data: ${response}`);
-  //       })
-  //       .then((data) => setData(data))
-  //       .then(() => setLoading(false))
-  //       .catch((error) => setError(error));
-  //   }
-  // }, [ip, behavior]);
+  // set url
+  useEffect(() => {
+    setUrl(
+      `dados-banco/?column_choice=all&year=${year}${
+        month ? `&month=${month}` : ``
+      }${day ? `&day=${day}` : ``}${
+        semester ? `&semester=${semester}` : ``
+      }&ip_address=${ip}&view=json`
+    );
+  }, [year, ip, month, day, semester]);
+
+  // get data from api
+  useEffect(() => {
+    console.log(requiredInput);
+    if (requiredInput) {
+      setLoading(true);
+      setError(null);
+      api
+        .get(url)
+        .then((response) => setData(response.data))
+        .then(() => setLoading(false))
+        .catch((error) => {
+          setError(fetchError);
+          console.error(error);
+        });
+    }
+  }, [url]);
+
+  // calculate mean
+  useEffect(() => {}, [data]);
+
+  switch (behavior) {
+    case "location":
+      // abuseipdb_country_code
+      // abuseipdb_isp
+      // abuseipdb_domain
+      // virustotal_as_owner
+      // virustotal_asn
+      // ALIENVAULT_asn
+      break;
+    case "reports":
+      // abuseipdb_total_reports
+      // abuseipdb_num_distinct_users
+      break;
+    case "scoreAverage":
+      break;
+    case "lastReport":
+      break;
+    case "timePeriod":
+      break;
+    case "ibmScores":
+      // IBM_score
+      // IBM_average_history_Score
+      // IBM_most_common_score
+      break;
+    case "virusTotalStats":
+      break;
+    default:
+      return <Error message="Tipo de comportamento inválido" />;
+  }
 
   // Set up fake data (x and y) for testing
-  useEffect(() => {
-    const size = 10;
-    setData({
-      location: {
-        abuseIPDB: {
-          country: {
-            x: range(1, size),
-            y: getRandom("string", size, 1, 10),
-          },
-          isp: {
-            x: range(1, size),
-            y: getRandom("string", size, 1, 10),
-          },
-          domain: {
-            x: range(1, size),
-            y: getRandom("string", size, 1, 10),
-          },
-        },
-        virusTotal: {
-          asOwner: {
-            x: range(1, size),
-            y: getRandom("string", size, 1, 10),
-          },
-          asn: {
-            x: range(1, size),
-            y: getRandom("string", size, 1, 10),
-          },
-        },
-        alienVault: {
-          asn: {
-            x: range(1, size),
-            y: getRandom("string", size, 1, 10),
-          },
-        },
-      },
-      reports: {
-        abuseIPDB: {
-          totalReports: {
-            x: range(1, size),
-            y: getRandom("float", size, 1, 10),
-            mean: null,
-            min: null,
-            max: null,
-          },
-          numDistinctUsers: {
-            x: range(1, size),
-            y: getRandom("float", size, 1, 10),
-            mean: null,
-            min: null,
-            max: null,
-          },
-        },
-      },
-      scoreAverage: {
-        x: range(1, size),
-        y: getRandom("string", size, 1, 10),
-        mean: null,
-        min: null,
-        max: null,
-      },
-      lastReport: {
-        x: range(1, size),
-        y: getRandom("float", size, 1, 10),
-      },
-      timePeriod: {
-        x: ["Morning", "Afternoon", "Night"],
-        y: getRandom("int", 3, 1, 100),
-      },
-      ibmScores: {
-        default: {
-          x: range(1, size),
-          y: getRandom("float", size, 1, 10),
-          mean: null,
-          min: null,
-          max: null,
-        },
-        history: {
-          x: range(1, size),
-          y: getRandom("float", size, 1, 10),
-          mean: null,
-          min: null,
-          max: null,
-        },
-        common: {
-          x: range(1, size),
-          y: getRandom("float", size, 1, 10),
-          mean: null,
-          min: null,
-          max: null,
-        },
-      },
-      virusTotalStats: {
-        x: range(1, size),
-        y: getRandom("float", size, 1, 10),
-        mean: null,
-        min: null,
-        max: null,
-      },
-    });
-    setMean();
-  }, [ip]);
+  // useEffect(() => {
+  //   const size = 10;
+  //   setData({
+  //     location: {
+  //       abuseIPDB: {
+  //         country: {
+  //           x: range(1, size),
+  //           y: getRandom("string", size, 1, 10),
+  //         },
+  //         isp: {
+  //           x: range(1, size),
+  //           y: getRandom("string", size, 1, 10),
+  //         },
+  //         domain: {
+  //           x: range(1, size),
+  //           y: getRandom("string", size, 1, 10),
+  //         },
+  //       },
+  //       virusTotal: {
+  //         asOwner: {
+  //           x: range(1, size),
+  //           y: getRandom("string", size, 1, 10),
+  //         },
+  //         asn: {
+  //           x: range(1, size),
+  //           y: getRandom("string", size, 1, 10),
+  //         },
+  //       },
+  //       alienVault: {
+  //         asn: {
+  //           x: range(1, size),
+  //           y: getRandom("string", size, 1, 10),
+  //         },
+  //       },
+  //     },
+  //     reports: {
+  //       abuseIPDB: {
+  //         totalReports: {
+  //           x: range(1, size),
+  //           y: getRandom("float", size, 1, 10),
+  //           mean: null,
+  //           min: null,
+  //           max: null,
+  //         },
+  //         numDistinctUsers: {
+  //           x: range(1, size),
+  //           y: getRandom("float", size, 1, 10),
+  //           mean: null,
+  //           min: null,
+  //           max: null,
+  //         },
+  //       },
+  //     },
+  //     scoreAverage: {
+  //       x: range(1, size),
+  //       y: getRandom("string", size, 1, 10),
+  //       mean: null,
+  //       min: null,
+  //       max: null,
+  //     },
+  //     lastReport: {
+  //       x: range(1, size),
+  //       y: getRandom("float", size, 1, 10),
+  //     },
+  //     timePeriod: {
+  //       x: ["Morning", "Afternoon", "Night"],
+  //       y: getRandom("int", 3, 1, 100),
+  //     },
+  //     ibmScores: {
+  //       default: {
+  //         x: range(1, size),
+  //         y: getRandom("float", size, 1, 10),
+  //         mean: null,
+  //         min: null,
+  //         max: null,
+  //       },
+  //       history: {
+  //         x: range(1, size),
+  //         y: getRandom("float", size, 1, 10),
+  //         mean: null,
+  //         min: null,
+  //         max: null,
+  //       },
+  //       common: {
+  //         x: range(1, size),
+  //         y: getRandom("float", size, 1, 10),
+  //         mean: null,
+  //         min: null,
+  //         max: null,
+  //       },
+  //     },
+  //     virusTotalStats: {
+  //       x: range(1, size),
+  //       y: getRandom("float", size, 1, 10),
+  //       mean: null,
+  //       min: null,
+  //       max: null,
+  //     },
+  //   });
+  //   setMean();
+  // }, [ip]);
 
   // Set up more fake data (mean, min, max) to testing
-  useEffect(() => {
-    if (data && data?.location.abuseIPDB.country.x) {
-      let completeData = data;
-      completeData.reports.abuseIPDB.totalReports.mean =
-        completeData.reports.abuseIPDB.totalReports.y.reduce((a, b) => a + b) /
-        completeData.reports.abuseIPDB.totalReports.y.length;
-      completeData.reports.abuseIPDB.totalReports.min = Math.min(
-        ...completeData.reports.abuseIPDB.totalReports.y
-      );
-      completeData.reports.abuseIPDB.totalReports.max = Math.max(
-        ...completeData.reports.abuseIPDB.totalReports.y
-      );
-      completeData.reports.abuseIPDB.numDistinctUsers.mean =
-        completeData.reports.abuseIPDB.numDistinctUsers.y.reduce(
-          (a, b) => a + b
-        ) / completeData.reports.abuseIPDB.numDistinctUsers.y.length;
-      completeData.reports.abuseIPDB.numDistinctUsers.min = Math.min(
-        ...completeData.reports.abuseIPDB.numDistinctUsers.y
-      );
-      completeData.reports.abuseIPDB.numDistinctUsers.max = Math.max(
-        ...completeData.reports.abuseIPDB.numDistinctUsers.y
-      );
-      completeData.scoreAverage.mean =
-        completeData.scoreAverage.y.reduce((a, b) => a + b) /
-        completeData.scoreAverage.y.length;
-      completeData.scoreAverage.min = Math.min(...completeData.scoreAverage.y);
-      completeData.scoreAverage.max = Math.max(...completeData.scoreAverage.y);
-      completeData.ibmScores.default.mean = (
-        completeData.ibmScores.default.y.reduce(
-          (a, b) => Number(a) + Number(b)
-        ) / completeData.ibmScores.default.y.length
-      ).toString();
-      completeData.ibmScores.default.min = Math.min(
-        ...completeData.ibmScores.default.y
-      );
-      completeData.ibmScores.default.max = Math.max(
-        ...completeData.ibmScores.default.y
-      );
-      completeData.ibmScores.history.mean =
-        completeData.ibmScores.history.y.reduce((a, b) => a + b) /
-        completeData.ibmScores.history.y.length;
-      completeData.ibmScores.history.min = Math.min(
-        ...completeData.ibmScores.history.y
-      );
-      completeData.ibmScores.history.max = Math.max(
-        ...completeData.ibmScores.history.y
-      );
-      completeData.ibmScores.common.mean =
-        completeData.ibmScores.common.y.reduce((a, b) => a + b) /
-        completeData.ibmScores.common.y.length;
-      completeData.ibmScores.common.min = Math.min(
-        ...completeData.ibmScores.common.y
-      );
-      completeData.ibmScores.common.max = Math.max(
-        ...completeData.ibmScores.common.y
-      );
-      completeData.virusTotal.mean = completeData.virusTotal.y.reduce(
-        (a, b) => a + b / completeData.virusTotal.y.length
-      );
-      completeData.virusTotal.min = Math.min(...completeData.virusTotal.y);
-      completeData.virusTotal.max = Math.max(...completeData.virusTotal.y);
-      setData(completeData);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (data && data?.location.abuseIPDB.country.x) {
+  //     let completeData = data;
+  //     completeData.reports.abuseIPDB.totalReports.mean =
+  //       completeData.reports.abuseIPDB.totalReports.y.reduce((a, b) => a + b) /
+  //       completeData.reports.abuseIPDB.totalReports.y.length;
+  //     completeData.reports.abuseIPDB.totalReports.min = Math.min(
+  //       ...completeData.reports.abuseIPDB.totalReports.y
+  //     );
+  //     completeData.reports.abuseIPDB.totalReports.max = Math.max(
+  //       ...completeData.reports.abuseIPDB.totalReports.y
+  //     );
+  //     completeData.reports.abuseIPDB.numDistinctUsers.mean =
+  //       completeData.reports.abuseIPDB.numDistinctUsers.y.reduce(
+  //         (a, b) => a + b
+  //       ) / completeData.reports.abuseIPDB.numDistinctUsers.y.length;
+  //     completeData.reports.abuseIPDB.numDistinctUsers.min = Math.min(
+  //       ...completeData.reports.abuseIPDB.numDistinctUsers.y
+  //     );
+  //     completeData.reports.abuseIPDB.numDistinctUsers.max = Math.max(
+  //       ...completeData.reports.abuseIPDB.numDistinctUsers.y
+  //     );
+  //     completeData.scoreAverage.mean =
+  //       completeData.scoreAverage.y.reduce((a, b) => a + b) /
+  //       completeData.scoreAverage.y.length;
+  //     completeData.scoreAverage.min = Math.min(...completeData.scoreAverage.y);
+  //     completeData.scoreAverage.max = Math.max(...completeData.scoreAverage.y);
+  //     completeData.ibmScores.default.mean = (
+  //       completeData.ibmScores.default.y.reduce(
+  //         (a, b) => Number(a) + Number(b)
+  //       ) / completeData.ibmScores.default.y.length
+  //     ).toString();
+  //     completeData.ibmScores.default.min = Math.min(
+  //       ...completeData.ibmScores.default.y
+  //     );
+  //     completeData.ibmScores.default.max = Math.max(
+  //       ...completeData.ibmScores.default.y
+  //     );
+  //     completeData.ibmScores.history.mean =
+  //       completeData.ibmScores.history.y.reduce((a, b) => a + b) /
+  //       completeData.ibmScores.history.y.length;
+  //     completeData.ibmScores.history.min = Math.min(
+  //       ...completeData.ibmScores.history.y
+  //     );
+  //     completeData.ibmScores.history.max = Math.max(
+  //       ...completeData.ibmScores.history.y
+  //     );
+  //     completeData.ibmScores.common.mean =
+  //       completeData.ibmScores.common.y.reduce((a, b) => a + b) /
+  //       completeData.ibmScores.common.y.length;
+  //     completeData.ibmScores.common.min = Math.min(
+  //       ...completeData.ibmScores.common.y
+  //     );
+  //     completeData.ibmScores.common.max = Math.max(
+  //       ...completeData.ibmScores.common.y
+  //     );
+  //     completeData.virusTotal.mean = completeData.virusTotal.y.reduce(
+  //       (a, b) => a + b / completeData.virusTotal.y.length
+  //     );
+  //     completeData.virusTotal.min = Math.min(...completeData.virusTotal.y);
+  //     completeData.virusTotal.max = Math.max(...completeData.virusTotal.y);
+  //     setData(completeData);
+  //   }
+  // }, []);
 
   // Handle errors
   // In case of missing user input, loading, error or no data

@@ -106,7 +106,10 @@ const Sidebar = () => {
     setScatterY(event.target.value || null);
   };
   const handleBehaviorChart = (event) => {
-    setBehaviorChart(event.target.value || null);
+    const behavior = Object.keys(behaviorOptions).find(
+      (key) => behaviorOptions[key] === event.target.value
+    );
+    setBehaviorChart(behavior || null);
   };
   const handleImportanceModel = (event) => {
     setImportanceModel(event.target.value || null);
@@ -269,15 +272,15 @@ const Sidebar = () => {
   ];
 
   // Options for behavior chart select
-  const behaviorOptions = [
-    "Localização",
-    "Relatórios",
-    "Média de pontuação",
-    "Último relatório",
-    "Período do dia",
-    "Pontuações IBM",
-    "Estatísticas do VirusTotal",
-  ];
+  const behaviorOptions = {
+    location: "Localização",
+    reports: "Relatórios",
+    scoreAverage: "Média de pontuação",
+    lastReport: "Último relatório",
+    timePeriod: "Período do dia",
+    ibmScores: "Pontuações IBM",
+    virusTotalStats: "Estatísticas do VirusTotal",
+  };
 
   // Options for importance model select
   const modelOptions = [
@@ -509,7 +512,7 @@ const Sidebar = () => {
           {visualization === "behavior" && (
             <Select
               title={behaviorChartTitle}
-              options={behaviorOptions}
+              options={Object.values(behaviorOptions)}
               handle={handleBehaviorChart}
               required={["behavior"].includes(visualization)}
               defaultValue={behaviorChart || behaviorChartTitle}
