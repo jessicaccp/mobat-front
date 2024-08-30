@@ -1,8 +1,19 @@
 import { create } from "zustand";
 import { produce } from "immer";
 
+/**
+ * Create a store using Zustand to manage the form state.
+ * @returns {Object} The form store object.
+ */
 const useFormStore = create((set) => ({
+  // Initial state
   visualization: null,
+  year: null,
+  semester: null,
+  month: null,
+  day: null,
+  ip: null,
+  feature: null,
   cluster: { num: null },
   scatter: { x: null, y: null },
   behavior: { chart: null },
@@ -10,14 +21,15 @@ const useFormStore = create((set) => ({
   reputation: { country: null },
   score: { num: null },
   selection: { technique: null },
-  year: null,
-  month: null,
-  day: null,
-  semester: null,
-  ip: null,
-  feature: null,
 
+  // Setters
   setVisualization: (visualization) => set({ visualization }),
+  setYear: (year) => set({ year }),
+  setSemester: (semester) => set({ semester }),
+  setMonth: (month) => set({ month }),
+  setDay: (day) => set({ day }),
+  setIp: (ip) => set({ ip }),
+  setFeature: (feature) => set({ feature }),
   setClusterNum: (num) =>
     set(
       produce((state) => {
@@ -66,12 +78,6 @@ const useFormStore = create((set) => ({
         state.selection.technique = technique;
       })
     ),
-  setYear: (year) => set({ year }),
-  setMonth: (month) => set({ month }),
-  setDay: (day) => set({ day }),
-  setSemester: (semester) => set({ semester }),
-  setIp: (ip) => set({ ip }),
-  setFeature: (feature) => set({ feature }),
 }));
 
 export default useFormStore;
