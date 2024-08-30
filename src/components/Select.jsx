@@ -1,14 +1,14 @@
-// To-do:
-// - add name or id
-
 import useFormStore from "store/useFormStore";
 
 /**
  * Select component.
- * @param {Object} props - Input properties for the component.
- * @param {String} props.title - The select's default value
- * @param {Array} props.options - The select's options values
- * @param {Function} props.handle - The select's onChange event handler
+ * @param {String} props.title - The select's default value.
+ * @param {Array} props.options - The select's options values.
+ * @param {Function} props.handle - The select's onChange event handler.
+ * @param {String} props.axis - The select's axis value.
+ * @param {Number} props.colspan - The select's column span.
+ * @param {Boolean} props.required - The select's required status.
+ * @param {String} props.defaultValue - The select's default value.
  * @returns {React.JSX.Element} A select tag with the given input props.
  */
 const Select = ({
@@ -20,6 +20,7 @@ const Select = ({
   required = false,
   defaultValue = "",
 }) => {
+  // Define the select classes
   const colspanClasses = { 1: "col-span-1", 2: "col-span-2", 3: "col-span-3" };
   const requiredClasses = "border-red-500";
   const notRequiredClasses = "border-white";
@@ -28,6 +29,7 @@ const Select = ({
     required ? requiredClasses : notRequiredClasses
   }`;
 
+  // Return the select element
   return (
     <>
       <select
