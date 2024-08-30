@@ -22,7 +22,6 @@ const Behavior = () => {
   const semester = useFormStore((state) => state.semester);
   const month = useFormStore((state) => state.month);
   const day = useFormStore((state) => state.day);
-  // const ip = useFormStore((state) => state.ip);
 
   // Error messages
   const requiredInput = ip && behavior;

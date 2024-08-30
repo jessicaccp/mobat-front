@@ -420,7 +420,6 @@ const Sidebar = () => {
             handle={handleVisualization}
             colspan={2}
             required={true}
-            default={!visualization}
             defaultValue={visualization || visualizationTitle}
           />
           <Select
@@ -429,7 +428,6 @@ const Sidebar = () => {
             handle={handleYear}
             colspan={1}
             required={true}
-            default={!year}
             defaultValue={year || yearTitle}
           />
           <Select
@@ -437,8 +435,7 @@ const Sidebar = () => {
             options={Object.values(semesterOptions)}
             handle={handleSemester}
             colspan={1}
-            required={true}
-            default={!semester}
+            required={[].includes(visualization)}
             defaultValue={semester || semesterTitle}
           />
           <Select
@@ -463,6 +460,7 @@ const Sidebar = () => {
               options={ipOptions}
               handle={handleIp}
               colspan={ipVisualizations.includes(visualization) ? 1 : 2}
+              required={["behavior", "cluster"].includes(visualization)}
               defaultValue={ip || ipTitle}
             />
           )}
@@ -471,9 +469,8 @@ const Sidebar = () => {
               title={clusterNumTitle}
               handle={handleClusterNum}
               min={1}
-              max={10}
-              required={true}
-              default={!clusterNum}
+              max={100}
+              required={["cluster"].includes(visualization)}
               defaultValue={clusterNum || clusterNumTitle}
             />
           )}
@@ -483,8 +480,7 @@ const Sidebar = () => {
               options={featureOptions}
               handle={handleFeature}
               colspan={2}
-              required={true}
-              default={!feature}
+              required={["cluster", "mapping"].includes(visualization)}
               defaultValue={feature || featureTitle}
             />
           )}
@@ -495,8 +491,7 @@ const Sidebar = () => {
               handle={handleScatterX}
               axis={"X"}
               colspan={2}
-              required={true}
-              default={!scatterX}
+              required={["scatter"].includes(visualization)}
               defaultValue={scatterX || scatterXTitle}
             />
           )}
@@ -507,8 +502,7 @@ const Sidebar = () => {
               handle={handleScatterY}
               axis={"Y"}
               colspan={2}
-              required={true}
-              default={!scatterY}
+              required={["scatter"].includes(visualization)}
               defaultValue={scatterY || scatterYTitle}
             />
           )}
@@ -517,8 +511,7 @@ const Sidebar = () => {
               title={behaviorChartTitle}
               options={behaviorOptions}
               handle={handleBehaviorChart}
-              required={true}
-              default={!behaviorChart}
+              required={["behavior"].includes(visualization)}
               defaultValue={behaviorChart || behaviorChartTitle}
             />
           )}
@@ -528,8 +521,7 @@ const Sidebar = () => {
               options={modelOptions}
               handle={handleImportanceModel}
               colspan={1}
-              required={true}
-              default={!importanceModel}
+              required={["importance"].includes(visualization)}
               defaultValue={importanceModel || importanceModelTitle}
             />
           )}
@@ -542,8 +534,7 @@ const Sidebar = () => {
                 options={countryOptions}
                 handle={handleReputationCountry}
                 colspan={1}
-                required={true}
-                default={!reputationCountry}
+                required={["reputation"].includes(visualization)}
                 defaultValue={reputationCountry || reputationCountryTitle}
               />
             )
@@ -555,8 +546,7 @@ const Sidebar = () => {
               min={1}
               max={10}
               colspan={1}
-              required={true}
-              default={!scoreNum}
+              required={["score"].includes(visualization)}
               defaultValue={scoreNum || scoreNumTitle}
             />
           )}
@@ -566,8 +556,7 @@ const Sidebar = () => {
               options={techniqueOptions}
               handle={handleSelectionTechnique}
               colspan={1}
-              required={true}
-              default={!selectionTechnique}
+              required={["selection"].includes(visualization)}
               defaultValue={selectionTechnique || selectionTechniqueTitle}
             />
           )}

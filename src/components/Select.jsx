@@ -1,5 +1,4 @@
 // To-do:
-// - add values to day and month titles
 // - add name or id
 
 import useFormStore from "store/useFormStore";
@@ -32,6 +31,11 @@ const Select = ({
   return (
     <>
       <select
+        id={title
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLocaleLowerCase()
+          .replaceAll(" ", "-")}
         defaultValue={defaultValue || title}
         onChange={handle}
         className={classes}

@@ -30,6 +30,11 @@ const Input = ({
   return (
     <>
       <input
+        id={title
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLocaleLowerCase()
+          .replaceAll(" ", "-")}
         type={type}
         min={min}
         max={max}
