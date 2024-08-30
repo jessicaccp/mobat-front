@@ -204,6 +204,16 @@ const Sidebar = () => {
     (a, b) => a.toString().localeCompare(b, "pt-br", { numeric: true })
   );
 
+  // Visualizations that change IP select colspan from 2 to 1
+  const ipVisualizations = [
+    "cluster",
+    "behavior",
+    "importance",
+    "reputation",
+    "score",
+    "selection",
+  ];
+
   // Visualizations that require feature value
   const featureVisualizations = ["cluster", "mapping"];
 
@@ -313,6 +323,8 @@ const Sidebar = () => {
         });
     }
   }, [countryUrl]);
+
+  // There is no support for LU, RO, AT, BE, LV
   const countryNames = {
     US: "Estados Unidos",
     CN: "China",
@@ -353,7 +365,7 @@ const Sidebar = () => {
     EC: "Equador",
     BZ: "Belize",
     SN: "Senegal",
-    None: "None",
+    None: "Nenhum",
     IE: "Irlanda",
     FI: "Finlândia",
     ZA: "África do Sul",
@@ -361,19 +373,20 @@ const Sidebar = () => {
     PH: "Filipinas",
     CR: "Costa Rica",
     CH: "Suíça",
-    // LV: "Letônia",
-    // BE: "Bélgica",
-    // MD: "Moldávia",
   };
+
+  // Options for country select
   const countryOptions = [
     ...new Set(
-      countryData.map((item) =>
-        Object.keys(countryNames).includes(item.abuseipdb_country_code)
-          ? countryNames[item.abuseipdb_country_code]
-          : ""
-      )
+      countryData
+        .filter(
+          (item) =>
+            Object.keys(countryNames).includes(item.abuseipdb_country_code) &&
+            item.abuseipdb_country_code !== "None"
+        )
+        .map((item) => countryNames[item.abuseipdb_country_code])
     ),
-  ];
+  ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
 
   // Options for selection technique select
   const techniqueOptions = [
@@ -382,16 +395,6 @@ const Sidebar = () => {
     "Lasso",
     "Mutual Information",
     "Matriz de correlação",
-  ];
-
-  // Visualizations that change IP select colspan from 2 to 1
-  const ipVisualizations = [
-    "cluster",
-    "behavior",
-    "importance",
-    "reputation",
-    "score",
-    "selection",
   ];
 
   useEffect(() => {
