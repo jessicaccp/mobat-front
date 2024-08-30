@@ -406,6 +406,22 @@ const Sidebar = () => {
     setSelectionTechnique(null);
   }, [visualization]);
 
+  //   console.log(`visualization ${visualization}
+  // year ${year}
+  // semester ${semester}
+  // month ${month}
+  // day ${day}
+  // ip ${ip}
+  // feature ${feature}
+  // clusterNum ${clusterNum}
+  // scatterX ${scatterX}
+  // scatterY ${scatterY}
+  // behaviorChart ${behaviorChart}
+  // importanceModel ${importanceModel}
+  // reputationCountry ${reputationCountry}
+  // scoreNum ${scoreNum}
+  // selectionTechnique ${selectionTechnique}`);
+
   return (
     <>
       <aside className="w-full max-h-[1400px] lg:w-1/3 lg:h-full p-4 lg:p-8 bg-gray-100 gap-4 flex items-center flex-col lg:justify-center">

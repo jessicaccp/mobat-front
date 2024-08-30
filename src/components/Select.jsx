@@ -1,6 +1,6 @@
 // To-do:
-// - fix number array sorting
 // - add values to day and month titles
+// - add name or id
 
 import useFormStore from "store/useFormStore";
 

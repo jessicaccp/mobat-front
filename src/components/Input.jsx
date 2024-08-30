@@ -1,3 +1,6 @@
+// To-do:
+// - add name or id
+
 /**
  * Input component.
  * @param {Object} props - Input properties for the component.
