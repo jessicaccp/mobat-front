@@ -122,7 +122,6 @@ const Selection = () => {
           break;
 
         case "correlation":
-          console.log(data);
           setPlotTitle("Correlation matrix");
           setPlotX(labels);
           setPlotY(labels);

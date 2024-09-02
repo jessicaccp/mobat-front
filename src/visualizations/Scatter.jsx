@@ -1,5 +1,6 @@
 // To-do:
 // - fix cluster circle size
+// - show size when hover
 
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
@@ -47,11 +48,11 @@ const Scatter = () => {
         ip ? `&specific_ip=${ip}` : ``
       }&view=json`
     );
-  }, [columnX, columnY, semester, year, month, day, semester]);
+  }, [columnX, columnY, year, month, day, semester, ip]);
 
   // Fetch data
   useEffect(() => {
-    if (url && columnX && columnY && semester && year) {
+    if (url && requiredInput) {
       setLoading(true);
       setError(null);
       api
@@ -69,15 +70,21 @@ const Scatter = () => {
 
   useEffect(() => {
     if (data) {
+      let x = [];
+      let y = [];
+      let size = [];
       Object.values(data).forEach((item) => {
         Object.keys(item).forEach((key) => {
           if (key !== columnX && item[key] !== 0) {
-            setX((old) => [...old, Number(item[columnX])]);
-            setY((old) => [...old, Number(key)]);
-            setSize((old) => [...old, Number(item[key])]);
+            x.push(Number(item[columnX]));
+            y.push(Number(key));
+            size.push(Number(item[key]));
           }
         });
       });
+      setX(x);
+      setY(y);
+      setSize(size);
     } else {
       setX([]);
       setY([]);
@@ -91,9 +98,8 @@ const Scatter = () => {
   if (error) return <Error message={error?.message || error} />;
   if (!requiredInput) return <p>{missingInput}</p>;
   if (loading) return <Loading />;
-  if (!data) return <p>{noData}</p>;
+  if (!data || data.length === 0) return <p>{noData}</p>;
 
-  // console.log(size.sort());
   // Render the scatter plot
   return (
     <>
@@ -110,6 +116,7 @@ const Scatter = () => {
               sizeref: 0.1,
               sizemode: "area",
             },
+            text: size,
           },
         ]}
         layout={{

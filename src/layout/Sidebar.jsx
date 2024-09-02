@@ -456,7 +456,7 @@ const Sidebar = () => {
             options={Object.values(semesterOptions)}
             handle={handleSemester}
             colspan={1}
-            required={[].includes(visualization)}
+            required={["scatter"].includes(visualization)}
             defaultValue={semester || semesterTitle}
           />
           <Select
