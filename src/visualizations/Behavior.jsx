@@ -339,9 +339,9 @@ const Behavior = () => {
             layout={{
               autosize: true,
               title: `${ip} IP behavior in relation to location`,
-              xaxis: { title: "Records over time" },
+              xaxis: { title: "Records over time", automargin: true },
               modebar: { orientation: "v", remove: ["lasso", "select"] },
-              yaxis: { domain: [0, 0.165], title: "Value" },
+              yaxis: { domain: [0, 0.165], title: "Value", automargin: true },
               yaxis2: { domain: [0.165, 0.33] },
               yaxis3: { domain: [0.33, 0.495] },
               yaxis4: { domain: [0.495, 0.66] },
@@ -394,8 +394,8 @@ const Behavior = () => {
             layout={{
               autosize: true,
               title: `${ip} IP behavior in relation to the total number of reports and different users`,
-              xaxis: { title: "Records over time" },
-              yaxis: { title: "Value" },
+              xaxis: { title: "Records over time", automargin: true },
+              yaxis: { title: "Value", automargin: true },
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
@@ -433,8 +433,8 @@ const Behavior = () => {
             layout={{
               autosize: true,
               title: `${ip} IP behavior in relation to the Mobat Average Score`,
-              xaxis: { title: "Records over time" },
-              yaxis: { title: "Mobat Average Score" },
+              xaxis: { title: "Records over time", automargin: true },
+              yaxis: { title: "Mobat Average Score", automargin: true },
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
@@ -469,8 +469,8 @@ const Behavior = () => {
             layout={{
               autosize: true,
               title: `${ip} IP behavior in relation to the latest AbuseIPDB report`,
-              xaxis: { title: "Records over time" },
-              yaxis: { title: "Timestamp (USA)" },
+              xaxis: { title: "Records over time", automargin: true },
+              yaxis: { title: "Timestamp (USA)", automargin: true },
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
@@ -494,8 +494,8 @@ const Behavior = () => {
             layout={{
               autosize: true,
               title: `Day periods with the most occurrence of ${ip} IP reports `,
-              xaxis: { title: "Day period" },
-              yaxis: { title: "Occurrences" },
+              xaxis: { title: "Day period", automargin: true },
+              yaxis: { title: "Occurrences", automargin: true },
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
@@ -597,8 +597,12 @@ const Behavior = () => {
 
               autosize: true,
               title: `${ip} IP behavior in relation to IBM scores`,
-              xaxis: { title: "Records over time", anchor: "x1" },
-              yaxis: { title: "Value" },
+              xaxis: {
+                title: "Records over time",
+                anchor: "x1",
+                automargin: true,
+              },
+              yaxis: { title: "Value", automargin: true },
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{
@@ -636,8 +640,8 @@ const Behavior = () => {
             layout={{
               autosize: true,
               title: `${ip} IP behavior in relation to VirusTotal statistics`,
-              xaxis: { title: "Records over time" },
-              yaxis: { title: "Value" },
+              xaxis: { title: "Records over time", automargin: true },
+              yaxis: { title: "Value", automargin: true },
               modebar: { orientation: "v", remove: ["lasso", "select"] },
             }}
             config={{

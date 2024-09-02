@@ -61,12 +61,16 @@ const Mapping = () => {
         layout={{
           autosize: true,
           title: "Mapeamento das Features",
-          xaxis: { title: "" },
-          yaxis: { title: "" },
+          xaxis: { title: "", automargin: true },
+          yaxis: { title: "", automargin: true },
         }}
-        config={{ locale: "pt-br" }}
+        config={{
+          locale: "pt-br",
+          scrollZoom: true,
+          displaylogo: false,
+          responsive: true,
+        }}
         useResizeHandler
-        responsive
         className="w-full h-full"
       />
     </>

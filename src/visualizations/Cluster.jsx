@@ -79,8 +79,8 @@ const Cluster = () => {
         layout={{
           autosize: true,
           title: `${feature} clusters`,
-          xaxis: { title: "index" },
-          yaxis: { title: `${feature}` },
+          xaxis: { title: "index", automargin: true },
+          yaxis: { title: `${feature}`, automargin: true },
           shapes: [
             {
               type: "line",
@@ -102,9 +102,13 @@ const Cluster = () => {
             },
           ],
         }}
-        config={{ locale: "pt-br" }}
+        config={{
+          locale: "pt-br",
+          scrollZoom: true,
+          displaylogo: false,
+          responsive: true,
+        }}
         useResizeHandler
-        responsive
         className="w-full h-full"
       />
     </>

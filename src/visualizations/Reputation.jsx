@@ -29,25 +29,28 @@ const Reputation = () => {
 
   useEffect(() => {
     setUrl(
-      `country-score-average/?year=${year}&country=${country}&metric=average&view=json`
+      `country-score-average/?year=${year}${month ? `&month=${month}` : ``}${
+        day ? `&day=${day}` : ``
+      }${semester ? `&semester=${semester}` : ``}&country=${
+        country || `Todos`
+      }&metric=average&view=json`
     );
-  }, [country, year]);
+  }, [country, year, month, day, semester]);
 
   useEffect(() => {
-    if (url && country && year) {
+    if (url && requiredInput) {
       setLoading(true);
       setError(null);
       api
         .get(url)
-        .then((response) => {
-          if (response.status === 200) return response.data;
-          throw new Error(
-            `Failed to fetch data: ${response.status} ${response.statusText}`
-          );
-        })
-        .then((data) => setData(data))
-        .then(() => setLoading(false))
-        .catch((error) => setError(error));
+        .then((response) => setData(response.data))
+        .catch((error) => {
+          setError(fetchError);
+          setX([]);
+          setY([]);
+          setSize([]);
+          console.error(error);
+        });
     }
   }, [url]);
 
@@ -66,12 +69,16 @@ const Reputation = () => {
         layout={{
           autosize: true,
           title: "Reputação por País",
-          xaxis: { title: "" },
-          yaxis: { title: "" },
+          xaxis: { title: "", automargin: true },
+          yaxis: { title: "", automargin: true },
         }}
-        config={{ locale: "pt-br" }}
+        config={{
+          locale: "pt-br",
+          scrollZoom: true,
+          displaylogo: false,
+          responsive: true,
+        }}
         useResizeHandler
-        responsive
         className="w-full h-full"
       />
     </>

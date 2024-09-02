@@ -114,6 +114,11 @@ const Scatter = () => {
               size: size,
               sizeref: 0.1,
               sizemode: "area",
+              opacity: 0.5,
+              line: {
+                color: "black",
+                width: 0,
+              },
             },
             text: size,
           },
@@ -121,12 +126,17 @@ const Scatter = () => {
         layout={{
           autosize: true,
           title: "Gráfico de Dispersão",
-          xaxis: { title: columnX },
-          yaxis: { title: columnY },
+          modebar: { orientation: "v", remove: ["lasso", "select"] },
+          xaxis: { title: columnX, automargin: true },
+          yaxis: { title: columnY, automargin: true },
         }}
-        config={{ locale: "pt-br" }}
+        config={{
+          locale: "pt-br",
+          scrollZoom: true,
+          displaylogo: false,
+          responsive: true,
+        }}
         useResizeHandler
-        responsive
         className="w-full h-full"
       />
     </>
