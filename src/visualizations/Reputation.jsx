@@ -1,3 +1,6 @@
+// To-do:
+// - fix plot when country is selected
+
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import { iso31661 } from "iso-3166";
