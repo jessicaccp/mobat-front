@@ -1,5 +1,5 @@
 // To-do:
-// - remove ip input when visualization is selection
+// - remove ip input when visualization is selection and score
 
 import Select from "components/Select";
 import Input from "components/Input";
@@ -217,8 +217,20 @@ const Sidebar = () => {
     (a, b) => a.toString().localeCompare(b, "pt-br", { numeric: true })
   );
 
-  // Visualizations that change IP select colspan from 2 to 1
+  // Visualizations that have an IP option
   const ipVisualizations = [
+    "behavior",
+    "cluster",
+    "heatmap",
+    "importance",
+    "mapping",
+    "reputation",
+    "scatter",
+    "table",
+  ];
+
+  // Visualizations that change IP select colspan from 2 to 1
+  const ipColspan = [
     "cluster",
     "behavior",
     "importance",
@@ -464,14 +476,16 @@ const Sidebar = () => {
           {ipLoading ? (
             <Loading />
           ) : (
-            <Select
-              title={ipTitle}
-              options={ipOptions}
-              handle={handleIp}
-              colspan={ipVisualizations.includes(visualization) ? 1 : 2}
-              required={["behavior", "cluster"].includes(visualization)}
-              defaultValue={ip || ipTitle}
-            />
+            ipVisualizations.includes(visualization) && (
+              <Select
+                title={ipTitle}
+                options={ipOptions}
+                handle={handleIp}
+                colspan={ipColspan.includes(visualization) ? 1 : 2}
+                required={["behavior", "cluster"].includes(visualization)}
+                defaultValue={ip || ipTitle}
+              />
+            )
           )}
           {visualization === "cluster" && (
             <Input
@@ -554,7 +568,7 @@ const Sidebar = () => {
               handle={handleScoreNum}
               min={1}
               max={10}
-              colspan={1}
+              colspan={2}
               required={["score"].includes(visualization)}
               defaultValue={scoreNum || scoreNumTitle}
             />
@@ -564,7 +578,7 @@ const Sidebar = () => {
               title={selectionTechniqueTitle}
               options={Object.values(techniqueOptions)}
               handle={handleSelectionTechnique}
-              colspan={1}
+              colspan={2}
               required={["selection"].includes(visualization)}
               defaultValue={selectionTechnique || selectionTechniqueTitle}
             />

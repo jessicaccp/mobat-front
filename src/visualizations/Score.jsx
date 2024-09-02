@@ -13,7 +13,6 @@ const Score = () => {
   const semester = useFormStore((state) => state.semester);
   const month = useFormStore((state) => state.month);
   const day = useFormStore((state) => state.day);
-  const ip = useFormStore((state) => state.ip);
 
   // Error messages
   const requiredInput = numIps && year;
@@ -27,24 +26,27 @@ const Score = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setUrl(`top-ips-score-average/?num_ips=${numIps}&year=${year}&view=json`);
-  }, [numIps, year]);
+    setUrl(
+      `top-ips-score-average/?num_ips=${numIps}&year=${year}${
+        month ? `&month=${month}` : ``
+      }${day ? `&day=${day}` : ``}${
+        semester ? `&semester=${semester}` : ``
+      }&view=json`
+    );
+  }, [numIps, year, month, day, semester]);
 
   useEffect(() => {
-    if (url && numIps && year) {
+    if (url && requiredInput) {
       setLoading(true);
       setError(null);
       api
         .get(url)
-        .then((response) => {
-          if (response.status === 200) return response.data;
-          throw new Error(
-            `Failed to fetch data: ${response.status} ${response.statusText}`
-          );
-        })
-        .then((data) => setData(data))
+        .then((response) => setData(response.data))
         .then(() => setLoading(false))
-        .catch((error) => setError(error));
+        .catch((error) => {
+          setError(fetchError);
+          console.error(error);
+        });
     }
   }, [url]);
 
@@ -65,6 +67,7 @@ const Score = () => {
                 x: [key + 1, key + 1],
                 y: [item.MinScore.toFixed(2), item.MaxScore.toFixed(2)],
                 type: "scatter",
+                showlegend: true,
                 mode: "lines+markers",
                 name: item.IP,
                 text: `Score variation: ${item.ScoreVariation.toFixed(2)}`,
