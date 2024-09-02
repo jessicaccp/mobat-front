@@ -98,7 +98,7 @@ const Heatmap = () => {
   if (error) return <Error message={error?.message || error} />;
   if (!requiredInput) return <p>{missingInput}</p>;
   if (loading) return <Loading />;
-  if (!data) return <p>{noData}</p>;
+  if (!data || data.length === 0) return <p>{noData}</p>;
 
   // Plot heatmap
   return (

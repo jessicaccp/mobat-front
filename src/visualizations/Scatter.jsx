@@ -31,7 +31,6 @@ const Scatter = () => {
   // Set initial states
   const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
-  const [formattedData, setFormattedData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
