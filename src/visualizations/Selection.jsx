@@ -1,7 +1,3 @@
-// To-do:
-// - fix technique value
-// - add api data for correlation matrix
-
 import { useEffect, useState } from "react";
 import Plot from "react-plotly.js";
 import Error from "layout/Error";
@@ -55,23 +51,15 @@ const Selection = () => {
     "score_average_Mobat",
   ];
 
-  const techniques = {
-    "Variance Threshold": "variance_threshold",
-    SelectKBest: "select_kbest",
-    Lasso: "lasso",
-    "Mutual Information": "mutual_info",
-    "Matriz de correlação": "correlation",
-  };
-
   useEffect(() => {
     setUrl(
-      `feature-selection/?technique=${techniques[technique]}&year=${year}${
+      `feature-selection/?technique=${technique}&year=${year}${
         month ? `&month=${month}` : ``
       }${day ? `&day=${day}` : ``}${
         semester ? `&semester=${semester}` : ``
       }&view=json`
     );
-  }, [technique, year]);
+  }, [technique, year, month, day, semester]);
 
   useEffect(() => {
     if (url && requiredInput) {
@@ -91,7 +79,7 @@ const Selection = () => {
   useEffect(() => {
     if (data) {
       switch (technique) {
-        case "Variance Threshold":
+        case "variance_threshold":
           setPlotTitle("Variance threshold");
           setPlotX(Object.keys(data));
           setPlotY(Object.values(data).map((x) => x.toFixed(2)));
@@ -101,7 +89,7 @@ const Selection = () => {
           setPlotYAxis("Score");
           break;
 
-        case "SelectKBest":
+        case "select_kbest":
           const top5 = Object.entries(data)
             .toSorted((a, b) => b[1] - a[1])
             .slice(0, 5);
@@ -114,8 +102,8 @@ const Selection = () => {
           setPlotYAxis("Score");
           break;
 
-        case "Lasso":
-          setPlotTitle("Lasso coeficientes");
+        case "lasso":
+          setPlotTitle("Lasso coefficients");
           setPlotX(Object.keys(data));
           setPlotY(Object.values(data).map((x) => x.toFixed(2)));
           setPlotZ(null);
@@ -124,7 +112,7 @@ const Selection = () => {
           setPlotYAxis("Score");
           break;
 
-        case "Mutual Information":
+        case "mutual_info":
           setPlotTitle("Mutual information");
           setPlotX(Object.keys(data));
           setPlotY(Object.values(data).map((x) => x.toFixed(2)));
@@ -134,8 +122,9 @@ const Selection = () => {
           setPlotYAxis("Score");
           break;
 
-        case "Correlation Matrix":
-          setPlotTitle("Matriz de correlação");
+        case "correlation":
+          console.log(data);
+          setPlotTitle("Correlation matrix");
           setPlotX(labels);
           setPlotY(labels);
           setPlotZ(labels.map((label) => Object.values(data[label])));

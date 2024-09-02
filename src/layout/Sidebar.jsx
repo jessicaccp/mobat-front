@@ -1,3 +1,6 @@
+// To-do:
+// - remove ip input when visualization is selection
+
 import Select from "components/Select";
 import Input from "components/Input";
 import Loading from "layout/Loading";
@@ -121,7 +124,10 @@ const Sidebar = () => {
     setScoreNum(event.target.value || null);
   };
   const handleSelectionTechnique = (event) => {
-    setSelectionTechnique(event.target.value || null);
+    const technique = Object.keys(techniqueOptions).find(
+      (key) => techniqueOptions[key] === event.target.value
+    );
+    setSelectionTechnique(technique || null);
   };
 
   // Options for visualization select
@@ -391,13 +397,13 @@ const Sidebar = () => {
   ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
 
   // Options for selection technique select
-  const techniqueOptions = [
-    "Variance Threshold",
-    "SelectKBest",
-    "Lasso",
-    "Mutual Information",
-    "Matriz de correlação",
-  ];
+  const techniqueOptions = {
+    variance_threshold: "Variance Threshold",
+    select_kbest: "SelectKBest",
+    lasso: "Lasso",
+    mutual_info: "Mutual Information",
+    correlation: "Matriz de correlação",
+  };
 
   // Reset some values when visualization changes
   useEffect(() => {
@@ -556,7 +562,7 @@ const Sidebar = () => {
           {visualization === "selection" && (
             <Select
               title={selectionTechniqueTitle}
-              options={techniqueOptions}
+              options={Object.values(techniqueOptions)}
               handle={handleSelectionTechnique}
               colspan={1}
               required={["selection"].includes(visualization)}
