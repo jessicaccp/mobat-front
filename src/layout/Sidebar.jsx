@@ -119,6 +119,7 @@ const Sidebar = () => {
   };
   const handleReputationCountry = (event) => {
     setReputationCountry(event.target.value || null);
+    console.log(event.target.value);
   };
   const handleScoreNum = (event) => {
     setScoreNum(event.target.value || null);
@@ -224,7 +225,6 @@ const Sidebar = () => {
     "heatmap",
     "importance",
     "mapping",
-    "reputation",
     "scatter",
     "table",
   ];
@@ -396,7 +396,7 @@ const Sidebar = () => {
   };
 
   // Options for country select
-  const countryOptions = [
+  const countriesSorted = [
     ...new Set(
       countryData
         .filter(
@@ -407,6 +407,7 @@ const Sidebar = () => {
         .map((item) => countryNames[item.abuseipdb_country_code])
     ),
   ].toSorted((a, b) => a.localeCompare(b, "pt-br"));
+  const countryOptions = ["Todos", ...countriesSorted];
 
   // Options for selection technique select
   const techniqueOptions = {
@@ -556,7 +557,7 @@ const Sidebar = () => {
                 title={reputationCountryTitle}
                 options={countryOptions}
                 handle={handleReputationCountry}
-                colspan={1}
+                colspan={2}
                 required={["reputation"].includes(visualization)}
                 defaultValue={reputationCountry || reputationCountryTitle}
               />

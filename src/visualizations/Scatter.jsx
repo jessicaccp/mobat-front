@@ -57,6 +57,7 @@ const Scatter = () => {
       api
         .get(url)
         .then((response) => setData(response.data))
+        .then(() => setLoading(false))
         .catch((error) => {
           setError(fetchError);
           setX([]);

@@ -14,7 +14,6 @@ const Reputation = () => {
   const semester = useFormStore((state) => state.semester);
   const month = useFormStore((state) => state.month);
   const day = useFormStore((state) => state.day);
-  const ip = useFormStore((state) => state.ip);
 
   // Error messages
   const requiredInput = country && year;
@@ -24,6 +23,7 @@ const Reputation = () => {
 
   const [url, setUrl] = useState(null);
   const [data, setData] = useState(null);
+  const [mean, setMean] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -44,11 +44,9 @@ const Reputation = () => {
       api
         .get(url)
         .then((response) => setData(response.data))
+        .then(() => setLoading(false))
         .catch((error) => {
           setError(fetchError);
-          setX([]);
-          setY([]);
-          setSize([]);
           console.error(error);
         });
     }
@@ -65,12 +63,63 @@ const Reputation = () => {
     <>
       <Plot
         divId="chart"
-        data={[{}]}
+        data={[
+          {
+            x: Object.entries(data)
+              .filter((x) => x[0] !== "Média das médias dos países")
+              .toSorted((a, b) => b[1] - a[1])
+              .map((x) => x[0]),
+            y: Object.entries(data)
+              .filter((x) => x[0] !== "Média das médias dos países")
+              .toSorted((a, b) => b[1] - a[1])
+              .map((x) => x[1].toFixed(2)),
+            text: Object.entries(data)
+              .toSorted((a, b) => b[1] - a[1])
+              .map((x) => x[1].toFixed(2))
+              .map(String),
+            type: "bar",
+            textposition: "outside",
+          },
+        ]}
         layout={{
           autosize: true,
-          title: "Reputação por País",
-          xaxis: { title: "", automargin: true },
-          yaxis: { title: "", automargin: true },
+          title: "Reputação por país",
+          modebar: { orientation: "v", remove: ["lasso", "select"] },
+          xaxis: {
+            title: "País",
+            automargin: true,
+          },
+          yaxis: {
+            title: "Média do Score Average MoBAt",
+            automargin: true,
+          },
+          shapes: [
+            {
+              type: "line",
+              xref: "paper",
+              x0: 0,
+              x1: 1,
+              y0: data["Média das médias dos países"],
+              y1: data["Média das médias dos países"],
+              line: {
+                color: "red",
+                width: 2,
+                dash: "dot",
+              },
+              label: {
+                text: `Média das médias dos países: ${data[
+                  "Média das médias dos países"
+                ].toFixed(2)}`,
+                textposition: "end",
+                font: {
+                  color: "red",
+                  size: 10,
+                  shadow: "1px 1px white",
+                  weight: 1000,
+                },
+              },
+            },
+          ],
         }}
         config={{
           locale: "pt-br",
