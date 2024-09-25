@@ -1,28 +1,38 @@
 #!/bin/bash
 
-# check if there is the back-end directory,
-# if not, clone the github repository,
-# then proceed to pull the latest changes,
-# install the dependencies and run the server
-cd ..
-if [ ! -d "mobat_tool" ]; then
-  git clone git@github.com:jessicaccp/mobat_tool.git
+# create logs folder if none
+if [ ! -d "logs" ]; then
+  mkdir logs
 fi
+LOGS_DIR=`pwd`/logs
+
+# backend
+## update the backend submodule to the latest version
+if [ ! -d "mobat_tool" ]; then
+  git submodule update --init --recursive
+else
+  git submodule update --recursive --remote
+fi
+
+## install the dependencies using python 3.12
 cd mobat_tool
-git pull
-python -m pip install --upgrade pip
+python -m pip install --upgrade pip virtualenv
 if [ ! -d "venv" ]; then
-  python -m pip install virtualenv
-  python -m virtualenv venv
+  python -m virtualenv -p python3.12 venv
 fi
 source venv/bin/activate
 python -m pip install -r requirements.txt
-nohup python -u manage.py runserver 8000 > back.out 2> back.err &
 
-# get back to the front-end directory,
-# pull the latest changes,
-# install the dependencies and run the server
-cd ../mobat-front
+## run the django server
+nohup python -u manage.py runserver 8000 > $LOGS_DIR/back.out 2> $LOGS_DIR/back.err &
+
+# frontend
+## get latest changes
+cd ..
 git pull
+
+## install the dependencies
 npm install
-nohup npm run dev -- --port 5173 > front.out 2> front.err &
+
+## run the react server
+nohup npm run dev -- --port 8001 > $LOGS_DIR/front.out 2> $LOGS_DIR/front.err &
